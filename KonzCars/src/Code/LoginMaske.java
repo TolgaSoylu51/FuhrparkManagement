@@ -99,7 +99,7 @@ public class LoginMaske extends JFrame {
 				}
 			}
 		});
-		btnAnmelden.setBounds(171, 127, 89, 23);
+		btnAnmelden.setBounds(171, 127, 89, 24);
 
 		getContentPane().add(btnAnmelden);
 	}

@@ -86,7 +86,7 @@ public class LoginMaske extends JFrame {
 					pst.setString(2, tfPasswort.getText());
 					rs = pst.executeQuery();
 					if (rs.next()) {
-						Hauptmenue s = new Hauptmenue();
+						MitarbeiterAnlegen s = new MitarbeiterAnlegen();
 						s.setVisible(true);
 						setVisible(false);
 					} else {

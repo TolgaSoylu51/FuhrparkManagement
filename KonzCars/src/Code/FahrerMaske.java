@@ -133,11 +133,11 @@ public class FahrerMaske extends JFrame {
 		lblNLNr.setBounds(72, 227, 155, 14);
 		contentPane.add(lblNLNr);
 
-		JCheckBox chckbxPruefung1 = new JCheckBox("erste Pr�fung");
+		JCheckBox chckbxPruefung1 = new JCheckBox("erste Prüfung");
 		chckbxPruefung1.setBounds(72, 321, 174, 23);
 		contentPane.add(chckbxPruefung1);
 
-		JCheckBox chckbxPruefung2 = new JCheckBox("zweite Pr�fung");
+		JCheckBox chckbxPruefung2 = new JCheckBox("zweite Prüfung");
 		chckbxPruefung2.setBounds(72, 381, 174, 23);
 		contentPane.add(chckbxPruefung2);
 
@@ -167,9 +167,8 @@ public class FahrerMaske extends JFrame {
 				try {
 					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 					con = DriverManager.getConnection(
-							"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
-							"KonzCars", "KonzCars");
-					String query = "insert into MitarbeiterTest (ID, Personalnummer,AktivKZ,Name,Vorname,FirmaNr,NL_Nr,Fahrerlaubnis,Erstpr�fung,Pr�fungszeitpunkt1,Kommentar1,Zweitpr�fung,Pr�fungszeitpunkt2,Kommentar2) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							url);
+					String query = "insert into MitarbeiterTest (ID, Personalnummer,AktivKZ,Name,Vorname,FirmaNr,NL_Nr,Fahrerlaubnis,Erstprüfung,Prüfungszeitpunkt1,Kommentar1,Zweitprüfung,Prüfungszeitpunkt2,Kommentar2) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					PreparedStatement pst = con.prepareStatement(query);
 					pst.setString(1, "");
 					pst.setString(2, tfPersonalnummer.getText());
@@ -228,7 +227,7 @@ public class FahrerMaske extends JFrame {
 			}
 		});
 
-		JButton btnReset = new JButton("Zur�cksetzen");
+		JButton btnReset = new JButton("Zurücksetzen");
 		btnReset.setBounds(265, 466, 122, 23);
 		contentPane.add(btnReset);
 
@@ -242,7 +241,7 @@ public class FahrerMaske extends JFrame {
 			}
 		});
 		btnZurück.setIcon(
-				new ImageIcon("C:\\Users\\Tolga.Soylu\\OneDrive - KHW Konzmann GmbH\\Desktop\\back-icon (1).png"));
+				new ImageIcon(""));
 		btnZurück.setBounds(0, 0, 38, 23);
 		contentPane.add(btnZurück);
 
@@ -292,8 +291,8 @@ public class FahrerMaske extends JFrame {
 			while (rs.next()) {
 				fahrer = new Fahrer(rs.getInt("ID"), rs.getInt("Personalnummer"), rs.getString("AktivKZ"),
 						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getString("NL_Nr"),
-						rs.getString("Fahrerlaubnis"), rs.getString("Erstpr�fung"), rs.getString("Pr�fungszeitpunkt1"),
-						rs.getString("Kommentar1"), rs.getString("Zweitpr�fung"), rs.getString("Pr�fungszeitpunkt2"),
+						rs.getString("Fahrerlaubnis"), rs.getString("Erstprüfung"), rs.getString("Prüfungszeitpunkt1"),
+						rs.getString("Kommentar1"), rs.getString("Zweitprüfung"), rs.getString("Prüfungszeitpunkt2"),
 						rs.getString("Kommentar2"));
 				fahrerliste.add(fahrer);
 			}

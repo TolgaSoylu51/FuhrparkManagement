@@ -133,11 +133,11 @@ public class FahrerMaske extends JFrame {
 		lblNLNr.setBounds(72, 227, 155, 14);
 		contentPane.add(lblNLNr);
 
-		JCheckBox chckbxPruefung1 = new JCheckBox("erste Prüfung");
+		JCheckBox chckbxPruefung1 = new JCheckBox("erste Prï¿½fung");
 		chckbxPruefung1.setBounds(72, 321, 174, 23);
 		contentPane.add(chckbxPruefung1);
 
-		JCheckBox chckbxPruefung2 = new JCheckBox("zweite Prüfung");
+		JCheckBox chckbxPruefung2 = new JCheckBox("zweite Prï¿½fung");
 		chckbxPruefung2.setBounds(72, 381, 174, 23);
 		contentPane.add(chckbxPruefung2);
 
@@ -169,7 +169,7 @@ public class FahrerMaske extends JFrame {
 					con = DriverManager.getConnection(
 							"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 							"KonzCars", "KonzCars");
-					String query = "insert into MitarbeiterTest (ID, Personalnummer,AktivKZ,Name,Vorname,FirmaNr,NL_Nr,Fahrerlaubnis,Erstprüfung,Prüfungszeitpunkt1,Kommentar1,Zweitprüfung,Prüfungszeitpunkt2,Kommentar2) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					String query = "insert into MitarbeiterTest (ID, Personalnummer,AktivKZ,Name,Vorname,FirmaNr,NL_Nr,Fahrerlaubnis,Erstprï¿½fung,Prï¿½fungszeitpunkt1,Kommentar1,Zweitprï¿½fung,Prï¿½fungszeitpunkt2,Kommentar2) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					PreparedStatement pst = con.prepareStatement(query);
 					pst.setString(1, "");
 					pst.setString(2, tfPersonalnummer.getText());
@@ -228,23 +228,23 @@ public class FahrerMaske extends JFrame {
 			}
 		});
 
-		JButton btnReset = new JButton("Zurücksetzen");
+		JButton btnReset = new JButton("Zurï¿½cksetzen");
 		btnReset.setBounds(265, 466, 122, 23);
 		contentPane.add(btnReset);
 
-		JButton btnZurück = new JButton("");
-		btnZurück.setBackground(Color.WHITE);
-		btnZurück.addActionListener(new ActionListener() {
+		JButton btnZurÃ¼ck = new JButton("");
+		btnZurÃ¼ck.setBackground(Color.WHITE);
+		btnZurÃ¼ck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Hauptmenue frame = new Hauptmenue();
 				frame.setVisible(true);
 				setVisible(false);
 			}
 		});
-		btnZurück.setIcon(
+		btnZurÃ¼ck.setIcon(
 				new ImageIcon("C:\\Users\\Tolga.Soylu\\OneDrive - KHW Konzmann GmbH\\Desktop\\back-icon (1).png"));
-		btnZurück.setBounds(0, 0, 38, 23);
-		contentPane.add(btnZurück);
+		btnZurÃ¼ck.setBounds(0, 0, 38, 23);
+		contentPane.add(btnZurÃ¼ck);
 
 		tableFahrer = new JTable();
 		tableFahrer.setColumnSelectionAllowed(true);
@@ -292,8 +292,8 @@ public class FahrerMaske extends JFrame {
 			while (rs.next()) {
 				fahrer = new Fahrer(rs.getInt("ID"), rs.getInt("Personalnummer"), rs.getString("AktivKZ"),
 						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getString("NL_Nr"),
-						rs.getString("Fahrerlaubnis"), rs.getString("Erstprüfung"), rs.getString("Prüfungszeitpunkt1"),
-						rs.getString("Kommentar1"), rs.getString("Zweitprüfung"), rs.getString("Prüfungszeitpunkt2"),
+						rs.getString("Fahrerlaubnis"), rs.getString("Erstprï¿½fung"), rs.getString("Prï¿½fungszeitpunkt1"),
+						rs.getString("Kommentar1"), rs.getString("Zweitprï¿½fung"), rs.getString("Prï¿½fungszeitpunkt2"),
 						rs.getString("Kommentar2"));
 				fahrerliste.add(fahrer);
 			}
@@ -319,11 +319,11 @@ public class FahrerMaske extends JFrame {
 			row[5]=fahrer.get(i).getFirmaNr();
 			row[6]=fahrer.get(i).getNL_Nr();
 			row[7]=fahrer.get(i).getFahrerlaubnis();
-			row[8]=fahrer.get(i).getErstprüfung();
-			row[9]=fahrer.get(i).getPrüfungszeitpunkt1();
+			row[8]=fahrer.get(i).getErstprÃ¼fung();
+			row[9]=fahrer.get(i).getPrÃ¼fungszeitpunkt1();
 			row[10]=fahrer.get(i).getKommentar1();
-			row[11]=fahrer.get(i).getZweitprüfung();
-			row[12]=fahrer.get(i).getPrüfungszeitpunkt2();
+			row[11]=fahrer.get(i).getZweitprÃ¼fung();
+			row[12]=fahrer.get(i).getPrÃ¼fungszeitpunkt2();
 			row[13]=fahrer.get(i).getKommentar2();
 			model.addRow(row);
 		}

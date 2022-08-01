@@ -6,11 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Tolga.Soylu/Downloads/UCanAccess-5.0.1.bin/UCanAccess-5.0.1.bin/ucanaccess-5.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tolga.Soylu/Downloads/UCanAccess-5.0.1.bin/UCanAccess-5.0.1.bin/lib/commons-lang3-3.8.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tolga.Soylu/Downloads/UCanAccess-5.0.1.bin/UCanAccess-5.0.1.bin/lib/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tolga.Soylu/Downloads/UCanAccess-5.0.1.bin/UCanAccess-5.0.1.bin/lib/hsqldb-2.5.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tolga.Soylu/Downloads/UCanAccess-5.0.1.bin/UCanAccess-5.0.1.bin/lib/jackcess-3.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/DRIVERS/sqljdbc_10.2/deu/mssql-jdbc-10.2.1.jre17.jar"/>
+	<classpathentry kind="lib" path="src/lib/mssql-jdbc-10.2.1.jre17.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

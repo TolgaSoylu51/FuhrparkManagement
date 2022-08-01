@@ -90,7 +90,7 @@ public class LoginMaske extends JFrame {
 						s.setVisible(true);
 						setVisible(false);
 					} else {
-						JOptionPane.showMessageDialog(null, "Username und Passwort stimmen nicht überein");
+						JOptionPane.showMessageDialog(null, "Username und Passwort stimmen nicht ï¿½berein");
 					}
 				}
 
@@ -99,7 +99,7 @@ public class LoginMaske extends JFrame {
 				}
 			}
 		});
-		btnAnmelden.setBounds(171, 127, 89, 24);
+		btnAnmelden.setBounds(171, 127, 89, 25);
 
 		getContentPane().add(btnAnmelden);
 	}

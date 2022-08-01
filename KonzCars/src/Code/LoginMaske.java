@@ -1,17 +1,11 @@
 package Code;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,6 +17,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class LoginMaske extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected static final JLabel UserName = null;
 	protected static final JLabel Passwort = null;
 	private JTextField tfUserName;
@@ -90,7 +88,7 @@ public class LoginMaske extends JFrame {
 						s.setVisible(true);
 						setVisible(false);
 					} else {
-						JOptionPane.showMessageDialog(null, "Username und Passwort stimmen nicht �berein");
+						JOptionPane.showMessageDialog(null, "Username und Passwort stimmen nicht überein");
 					}
 				}
 

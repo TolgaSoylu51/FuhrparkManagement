@@ -1,36 +1,36 @@
 package Code;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.sql.*;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JCheckBox;
-import javax.swing.JSeparator;
-import java.awt.Color;
-import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
 import javax.swing.JTable;
-import javax.swing.JMenuBar;
-import javax.swing.JScrollPane;
+
+import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class FahrerMaske extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField tfPersonalnummer;
 	private JTextField tfVorname;
@@ -68,100 +68,101 @@ public class FahrerMaske extends JFrame {
 	 */
 	public FahrerMaske() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1286, 767);
+		setBounds(100, 100, 1306, 681);
 		contentPane = new JPanel();
+		contentPane.setForeground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JButton btnSave = new JButton("Anlegen");
 
-		btnSave.setBounds(72, 466, 122, 23);
+		btnSave.setBounds(20, 466, 180, 23);
 		contentPane.add(btnSave);
 
 		tfPersonalnummer = new JTextField();
-		tfPersonalnummer.setBounds(233, 69, 169, 20);
+		tfPersonalnummer.setBounds(181, 69, 209, 20);
 		contentPane.add(tfPersonalnummer);
 		tfPersonalnummer.setColumns(10);
 
 		tfVorname = new JTextField();
 		tfVorname.setColumns(10);
-		tfVorname.setBounds(233, 100, 169, 20);
+		tfVorname.setBounds(181, 100, 209, 20);
 		contentPane.add(tfVorname);
 
 		tfNachname = new JTextField();
 		tfNachname.setColumns(10);
-		tfNachname.setBounds(233, 131, 169, 20);
+		tfNachname.setBounds(181, 131, 209, 20);
 		contentPane.add(tfNachname);
 
 		tfAktivKz = new JTextField();
 		tfAktivKz.setColumns(10);
-		tfAktivKz.setBounds(233, 162, 169, 20);
+		tfAktivKz.setBounds(181, 162, 209, 20);
 		contentPane.add(tfAktivKz);
 
 		tfFirmaNr = new JTextField();
 		tfFirmaNr.setColumns(10);
-		tfFirmaNr.setBounds(233, 193, 169, 20);
+		tfFirmaNr.setBounds(181, 193, 209, 20);
 		contentPane.add(tfFirmaNr);
 
 		tfNlNr = new JTextField();
 		tfNlNr.setColumns(10);
-		tfNlNr.setBounds(233, 224, 169, 20);
+		tfNlNr.setBounds(181, 224, 209, 20);
 		contentPane.add(tfNlNr);
 
 		JLabel lblPersonalnummer = new JLabel("Personalnummer");
-		lblPersonalnummer.setBounds(72, 72, 110, 14);
+		lblPersonalnummer.setBounds(20, 72, 422151, 14);
 		contentPane.add(lblPersonalnummer);
 
 		JLabel lblVorname = new JLabel("Vorname");
-		lblVorname.setBounds(72, 103, 89, 14);
+		lblVorname.setBounds(20, 103, 151, 14);
 		contentPane.add(lblVorname);
 
 		JLabel lblNachname = new JLabel("Nachname");
-		lblNachname.setBounds(72, 135, 89, 14);
+		lblNachname.setBounds(20, 135, 151, 14);
 		contentPane.add(lblNachname);
 
 		JLabel lblAktivKZ = new JLabel("Aktiv KZ");
-		lblAktivKZ.setBounds(72, 165, 89, 14);
+		lblAktivKZ.setBounds(20, 165, 151, 14);
 		contentPane.add(lblAktivKZ);
 
 		JLabel lblFirmaNr = new JLabel("FirmaNr");
-		lblFirmaNr.setBounds(72, 196, 89, 14);
+		lblFirmaNr.setBounds(20, 196, 151, 14);
 		contentPane.add(lblFirmaNr);
 
 		JLabel lblNLNr = new JLabel("Niederlassungsnummer");
-		lblNLNr.setBounds(72, 227, 155, 14);
+		lblNLNr.setBounds(20, 227, 1514, 0);
 		contentPane.add(lblNLNr);
 
 		JCheckBox chckbxPruefung1 = new JCheckBox("erste Prüfung");
-		chckbxPruefung1.setBounds(72, 321, 174, 23);
+		chckbxPruefung1.setBounds(20, 324, 20, 20);
 		contentPane.add(chckbxPruefung1);
 
 		JCheckBox chckbxPruefung2 = new JCheckBox("zweite Prüfung");
-		chckbxPruefung2.setBounds(72, 381, 174, 23);
+		chckbxPruefung2.setBounds(20, 384, 20, 20);
 		contentPane.add(chckbxPruefung2);
 
 		tfKommentar1 = new JTextField();
-		tfKommentar1.setBounds(72, 351, 314, 23);
+		tfKommentar1.setBounds(20, 351, 370, 23);
 		contentPane.add(tfKommentar1);
 		tfKommentar1.setColumns(10);
 
 		tfKommentar2 = new JTextField();
-		tfKommentar2.setBounds(72, 411, 314, 23);
+		tfKommentar2.setBounds(20, 411, 370, 23);
 		contentPane.add(tfKommentar2);
 		tfKommentar2.setColumns(10);
 
 		JCheckBox chckbxFahrerlaubnis = new JCheckBox("Fahrerlaubnis");
-		chckbxFahrerlaubnis.setBounds(72, 272, 174, 23);
+		chckbxFahrerlaubnis.setBounds(20, 280, 20, 20);
 		contentPane.add(chckbxFahrerlaubnis);
 
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setForeground(Color.BLACK);
-		separator.setBackground(Color.BLACK);
-		separator.setBounds(440, 0, 2, 537);
+		separator.setForeground(Color.GRAY);
+		separator.setBackground(Color.WHITE);
+		separator.setBounds(420, 20, 2, 537);
 		contentPane.add(separator);
-
+		
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -228,7 +229,7 @@ public class FahrerMaske extends JFrame {
 		});
 
 		JButton btnReset = new JButton("Zurücksetzen");
-		btnReset.setBounds(265, 466, 122, 23);
+		btnReset.setBounds(210, 466, 180, 23);
 		contentPane.add(btnReset);
 
 		JButton btnZurück = new JButton("");
@@ -242,10 +243,11 @@ public class FahrerMaske extends JFrame {
 		});
 		btnZurück.setIcon(
 				new ImageIcon(""));
-		btnZurück.setBounds(0, 0, 38, 23);
+		btnZurück.setBounds(0, 0, 40, 20);
 		contentPane.add(btnZurück);
 
 		tableFahrer = new JTable();
+		tableFahrer.setCellSelectionEnabled(true);
 		tableFahrer.setColumnSelectionAllowed(true);
 		tableFahrer.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -254,8 +256,20 @@ public class FahrerMaske extends JFrame {
 				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
 			}
 		));
-		tableFahrer.setBounds(448, 49, 822, 395);
+		tableFahrer.setBounds(450, 30, 820, 520);
 		contentPane.add(tableFahrer);
+		
+		JLabel lblFahrerlaubnis = new JLabel("Fahrerlaubnis");
+		lblFahrerlaubnis.setBounds(60, 284, 151, 14);
+		contentPane.add(lblFahrerlaubnis);
+		
+		JLabel lblErstePrfung = new JLabel("erste Prüfung");
+		lblErstePrfung.setBounds(60, 328, 151, 14);
+		contentPane.add(lblErstePrfung);
+		
+		JLabel lblZweitePrfung = new JLabel("zweite Prüfung");
+		lblZweitePrfung.setBounds(60, 388, 151, 14);
+		contentPane.add(lblZweitePrfung);
 
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -284,7 +298,7 @@ public class FahrerMaske extends JFrame {
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
 			String query1 = "Select * from MitarbeiterTest";
-			java.sql.Statement st = con.createStatement();
+			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			Fahrer fahrer;
 

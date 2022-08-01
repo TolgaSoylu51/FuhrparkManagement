@@ -2,16 +2,20 @@ package Code;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.sql.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -20,8 +24,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JSeparator;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
+import javax.swing.JTable;
+import javax.swing.JMenuBar;
+import javax.swing.JScrollPane;
 
-public class MitarbeiterAnlegen extends JFrame {
+public class FahrerMaske extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField tfPersonalnummer;
@@ -33,9 +41,10 @@ public class MitarbeiterAnlegen extends JFrame {
 	private JTextField tfKommentar1;
 	private JTextField tfKommentar2;
 
-	Connection con = null;
+	static Connection con = null;
 	ResultSet rs = null;
 	PreparedStatement pst = null;
+	private static JTable tableFahrer;
 
 	/**
 	 * Launch the application.
@@ -44,21 +53,22 @@ public class MitarbeiterAnlegen extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MitarbeiterAnlegen frame = new MitarbeiterAnlegen();
+					FahrerMaske frame = new FahrerMaske();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+		show_fahrer();
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public MitarbeiterAnlegen() {
+	public FahrerMaske() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 944, 576);
+		setBounds(100, 100, 1286, 767);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -182,26 +192,28 @@ public class MitarbeiterAnlegen extends JFrame {
 					boolean pruefung1 = false;
 					if (chckbxPruefung1.isSelected()) {
 						pruefung1 = true;
-					}	
-					if (pruefung1) {	
-						pst.setString(9, "1");;
+					}
+					if (pruefung1) {
+						pst.setString(9, "1");
+						;
 					} else {
 						pst.setString(9, "0");
 					}
-					
+
 					pst.setString(10, "");
 					pst.setString(11, tfKommentar1.getText());
 
 					boolean pruefung2 = false;
 					if (chckbxPruefung2.isSelected()) {
 						pruefung2 = true;
-					}	
-					if (pruefung2) {	
-						pst.setString(12, "1");;
+					}
+					if (pruefung2) {
+						pst.setString(12, "1");
+						;
 					} else {
 						pst.setString(12, "0");
 					}
-				
+
 					pst.setString(13, "");
 					pst.setString(14, tfKommentar2.getText());
 
@@ -215,10 +227,37 @@ public class MitarbeiterAnlegen extends JFrame {
 				}
 			}
 		});
-		
+
 		JButton btnReset = new JButton("Zurücksetzen");
 		btnReset.setBounds(265, 466, 122, 23);
 		contentPane.add(btnReset);
+
+		JButton btnZurück = new JButton("");
+		btnZurück.setBackground(Color.WHITE);
+		btnZurück.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Hauptmenue frame = new Hauptmenue();
+				frame.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnZurück.setIcon(
+				new ImageIcon("C:\\Users\\Tolga.Soylu\\OneDrive - KHW Konzmann GmbH\\Desktop\\back-icon (1).png"));
+		btnZurück.setBounds(0, 0, 38, 23);
+		contentPane.add(btnZurück);
+
+		tableFahrer = new JTable();
+		tableFahrer.setColumnSelectionAllowed(true);
+		tableFahrer.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		tableFahrer.setBounds(448, 49, 822, 395);
+		contentPane.add(tableFahrer);
+
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tfPersonalnummer.setText("");
@@ -229,12 +268,64 @@ public class MitarbeiterAnlegen extends JFrame {
 				tfNlNr.setText("");
 				tfKommentar1.setText("");
 				tfKommentar2.setText("");
-				chckbxFahrerlaubnis .setSelected(false);
-				chckbxPruefung1 .setSelected(false);
-				chckbxPruefung2 .setSelected(false);
+				chckbxFahrerlaubnis.setSelected(false);
+				chckbxPruefung1.setSelected(false);
+				chckbxPruefung2.setSelected(false);
 				tfPersonalnummer.setText("");
 				tfPersonalnummer.setText("");
 			}
 		});
+	}
+
+	public static ArrayList<Fahrer> fahrer() {
+		ArrayList<Fahrer> fahrerliste = new ArrayList<>();
+
+		try {
+			con = DriverManager.getConnection(
+					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
+					"KonzCars", "KonzCars");
+			String query1 = "Select * from MitarbeiterTest";
+			java.sql.Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query1);
+			Fahrer fahrer;
+
+			while (rs.next()) {
+				fahrer = new Fahrer(rs.getInt("ID"), rs.getInt("Personalnummer"), rs.getString("AktivKZ"),
+						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getString("NL_Nr"),
+						rs.getString("Fahrerlaubnis"), rs.getString("Erstprüfung"), rs.getString("Prüfungszeitpunkt1"),
+						rs.getString("Kommentar1"), rs.getString("Zweitprüfung"), rs.getString("Prüfungszeitpunkt2"),
+						rs.getString("Kommentar2"));
+				fahrerliste.add(fahrer);
+			}
+		}
+
+		catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, e1);
+		}
+
+		return fahrerliste;
+	}
+	
+	public static void show_fahrer() {
+		ArrayList<Fahrer> fahrer = fahrer();
+		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
+		Object[] row = new Object[14];
+		for (int i = 0; i < fahrer.size(); i++) {
+			row[0]=fahrer.get(i).getID();
+			row[1]=fahrer.get(i).getPersonalnummer();
+			row[2]=fahrer.get(i).getAktivKZ();
+			row[3]=fahrer.get(i).getName();
+			row[4]=fahrer.get(i).getVorname();
+			row[5]=fahrer.get(i).getFirmaNr();
+			row[6]=fahrer.get(i).getNL_Nr();
+			row[7]=fahrer.get(i).getFahrerlaubnis();
+			row[8]=fahrer.get(i).getErstprüfung();
+			row[9]=fahrer.get(i).getPrüfungszeitpunkt1();
+			row[10]=fahrer.get(i).getKommentar1();
+			row[11]=fahrer.get(i).getZweitprüfung();
+			row[12]=fahrer.get(i).getPrüfungszeitpunkt2();
+			row[13]=fahrer.get(i).getKommentar2();
+			model.addRow(row);
+		}
 	}
 }

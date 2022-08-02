@@ -1,6 +1,5 @@
 package Code;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -14,6 +13,10 @@ import java.awt.event.ActionEvent;
 
 public class Hauptmenue extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**
@@ -30,6 +33,8 @@ public class Hauptmenue extends JFrame {
 				}
 			}
 		});
+
+		
 	}
 
 	/**
@@ -75,5 +80,4 @@ public class Hauptmenue extends JFrame {
 		btnNewButton_4.setBounds(492, 323, 261, 42);
 		contentPane.add(btnNewButton_4);
 	}
-
 }

@@ -9,16 +9,16 @@ public class Fahrer {
 	private String FirmaNr;
 	private String NL_Nr;
 	private String Fahrerlaubnis;
-	private String Erstprüfung;
-	private String Prüfungszeitpunkt1;
+	private String ErstprÃ¼fung;
+	private String PrÃ¼fungszeitpunkt1;
 	private String Kommentar1;
-	private String Zweitprüfung;
-	private String Prüfungszeitpunkt2;
+	private String ZweitprÃ¼fung;
+	private String PrÃ¼fungszeitpunkt2;
 	private String Kommentar2;
 	
 	public Fahrer(int iD, int personalnummer, String aktivKZ, String name, String vorname, String firmaNr, String nL_Nr,
-			String fahrerlaubnis, String erstprüfung, String prüfungszeitpunkt1, String kommentar1, String zweitprüfung,
-			String prüfungszeitpunkt2, String kommentar2) {
+			String fahrerlaubnis, String erstprÃ¼fung, String prÃ¼fungszeitpunkt1, String kommentar1, String zweitprÃ¼fung,
+			String prÃ¼fungszeitpunkt2, String kommentar2) {
 		super();
 		ID = iD;
 		Personalnummer = personalnummer;
@@ -28,11 +28,11 @@ public class Fahrer {
 		FirmaNr = firmaNr;
 		NL_Nr = nL_Nr;
 		Fahrerlaubnis = fahrerlaubnis;
-		Erstprüfung = erstprüfung;
-		Prüfungszeitpunkt1 = prüfungszeitpunkt1;
+		ErstprÃ¼fung = erstprÃ¼fung;
+		PrÃ¼fungszeitpunkt1 = prÃ¼fungszeitpunkt1;
 		Kommentar1 = kommentar1;
-		Zweitprüfung = zweitprüfung;
-		Prüfungszeitpunkt2 = prüfungszeitpunkt2;
+		ZweitprÃ¼fung = zweitprÃ¼fung;
+		PrÃ¼fungszeitpunkt2 = prÃ¼fungszeitpunkt2;
 		Kommentar2 = kommentar2;
 	}
 
@@ -100,20 +100,20 @@ public class Fahrer {
 		Fahrerlaubnis = fahrerlaubnis;
 	}
 
-	public String getErstprüfung() {
-		return Erstprüfung;
+	public String getErstprÃ¼fung() {
+		return ErstprÃ¼fung;
 	}
 
-	public void setErstprüfung(String erstprüfung) {
-		Erstprüfung = erstprüfung;
+	public void setErstprÃ¼fung(String erstprÃ¼fung) {
+		ErstprÃ¼fung = erstprÃ¼fung;
 	}
 
-	public String getPrüfungszeitpunkt1() {
-		return Prüfungszeitpunkt1;
+	public String getPrÃ¼fungszeitpunkt1() {
+		return PrÃ¼fungszeitpunkt1;
 	}
 
-	public void setPrüfungszeitpunkt1(String prüfungszeitpunkt1) {
-		Prüfungszeitpunkt1 = prüfungszeitpunkt1;
+	public void setPrÃ¼fungszeitpunkt1(String prÃ¼fungszeitpunkt1) {
+		PrÃ¼fungszeitpunkt1 = prÃ¼fungszeitpunkt1;
 	}
 
 	public String getKommentar1() {
@@ -124,20 +124,20 @@ public class Fahrer {
 		Kommentar1 = kommentar1;
 	}
 
-	public String getZweitprüfung() {
-		return Zweitprüfung;
+	public String getZweitprÃ¼fung() {
+		return ZweitprÃ¼fung;
 	}
 
-	public void setZweitprüfung(String zweitprüfung) {
-		Zweitprüfung = zweitprüfung;
+	public void setZweitprÃ¼fung(String zweitprÃ¼fung) {
+		ZweitprÃ¼fung = zweitprÃ¼fung;
 	}
 
-	public String getPrüfungszeitpunkt2() {
-		return Prüfungszeitpunkt2;
+	public String getPrÃ¼fungszeitpunkt2() {
+		return PrÃ¼fungszeitpunkt2;
 	}
 
-	public void setPrüfungszeitpunkt2(String prüfungszeitpunkt2) {
-		Prüfungszeitpunkt2 = prüfungszeitpunkt2;
+	public void setPrÃ¼fungszeitpunkt2(String prÃ¼fungszeitpunkt2) {
+		PrÃ¼fungszeitpunkt2 = prÃ¼fungszeitpunkt2;
 	}
 
 	public String getKommentar2() {

@@ -60,7 +60,6 @@ public class FahrerMaske extends JFrame {
 				}
 			}
 		});
-		show_fahrer();
 	}
 
 	/**
@@ -257,6 +256,8 @@ public class FahrerMaske extends JFrame {
 		));
 		tableFahrer.setBounds(448, 49, 822, 395);
 		contentPane.add(tableFahrer);
+		
+		show_fahrer();
 
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

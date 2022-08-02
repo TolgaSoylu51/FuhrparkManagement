@@ -64,7 +64,6 @@ public class FahrerMaske extends JFrame {
 				}
 			}
 		});
-		show_fahrer();
 	}
 
 	/**
@@ -166,13 +165,12 @@ public class FahrerMaske extends JFrame {
 		separator.setBackground(Color.WHITE);
 		separator.setBounds(420, 20, 2, 537);
 		contentPane.add(separator);
-		
+
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
-					con = DriverManager.getConnection(
-							url);
+					con = DriverManager.getConnection(url);
 					String query = "insert into MitarbeiterTest (ID, Personalnummer,AktivKZ,Name,Vorname,FirmaNr,NL_Nr,Fahrerlaubnis,Erstprüfung,Prüfungszeitpunkt1,Kommentar1,Zweitprüfung,Prüfungszeitpunkt2,Kommentar2) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					PreparedStatement pst = con.prepareStatement(query);
 					pst.setString(1, "");
@@ -223,12 +221,15 @@ public class FahrerMaske extends JFrame {
 
 					pst.executeUpdate();
 
+					show_hinzugefuegten_fahrer();
+
 					JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 				}
 
 				catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, e1);
 				}
+
 			}
 		});
 
@@ -245,35 +246,31 @@ public class FahrerMaske extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnZurück.setIcon(
-				new ImageIcon(""));
+		btnZurück.setIcon(new ImageIcon(""));
 		btnZurück.setBounds(0, 0, 40, 20);
 		contentPane.add(btnZurück);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(450, 30, 1220, 510);
 		contentPane.add(scrollPane);
 
 		tableFahrer = new JTable();
-		tableFahrer.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		tableFahrer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(tableFahrer);
 		tableFahrer.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tableFahrer.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"ID", "Personalnummer", "AktivKZ", "Name", "Vorname", "FirmaNr", "NL_Nr", "Fahrerlaubnis", "Erstpr\u00FCfung", "Pr\u00FCfungszeitpunkt1", "Kommentar1", "Zweitpr\u00FCfung", "Pr\u00FCfungszeitpunkt2", "Kommentar2"
-			}
-		));
-		
+		tableFahrer.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "ID", "Personalnummer", "AktivKZ", "Name", "Vorname", "FirmaNr", "NL_Nr",
+						"Fahrerlaubnis", "Erstpr\u00FCfung", "Pr\u00FCfungszeitpunkt1", "Kommentar1",
+						"Zweitpr\u00FCfung", "Pr\u00FCfungszeitpunkt2", "Kommentar2" }));
+
 		JLabel lblFahrerlaubnis = new JLabel("Fahrerlaubnis");
 		lblFahrerlaubnis.setBounds(60, 284, 151, 14);
 		contentPane.add(lblFahrerlaubnis);
-		
+
 		JLabel lblErstePrfung = new JLabel("erste Prüfung");
 		lblErstePrfung.setBounds(60, 328, 151, 14);
 		contentPane.add(lblErstePrfung);
-		
+
 		JLabel lblZweitePrfung = new JLabel("zweite Prüfung");
 		lblZweitePrfung.setBounds(60, 388, 151, 14);
 		contentPane.add(lblZweitePrfung);
@@ -295,6 +292,8 @@ public class FahrerMaske extends JFrame {
 				tfPersonalnummer.setText("");
 			}
 		});
+		
+		show_fahrer();
 	}
 
 	public static ArrayList<Fahrer> fahrer() {
@@ -324,28 +323,55 @@ public class FahrerMaske extends JFrame {
 
 		return fahrerliste;
 	}
-	
+
 	public static void show_fahrer() {
-		ArrayList<Fahrer> fahrer = fahrer();
 		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
-		
-		Object[] row = new Object[14];	
+		ArrayList<Fahrer> fahrer = fahrer();
+		Object[] row = new Object[14];
 		for (int i = 0; i < fahrer.size(); i++) {
-			row[0]=fahrer.get(i).getID();
-			row[1]=fahrer.get(i).getPersonalnummer();
-			row[2]=fahrer.get(i).getAktivKZ();
-			row[3]=fahrer.get(i).getName();
-			row[4]=fahrer.get(i).getVorname();
-			row[5]=fahrer.get(i).getFirmaNr();
-			row[6]=fahrer.get(i).getNL_Nr();
-			row[7]=fahrer.get(i).getFahrerlaubnis();
-			row[8]=fahrer.get(i).getErstprüfung();
-			row[9]=fahrer.get(i).getPrüfungszeitpunkt1();
-			row[10]=fahrer.get(i).getKommentar1();
-			row[11]=fahrer.get(i).getZweitprüfung();
-			row[12]=fahrer.get(i).getPrüfungszeitpunkt2();
-			row[13]=fahrer.get(i).getKommentar2();
+			row[0] = fahrer.get(i).getID();
+			row[1] = fahrer.get(i).getPersonalnummer();
+			row[2] = fahrer.get(i).getAktivKZ();
+			row[3] = fahrer.get(i).getName();
+			row[4] = fahrer.get(i).getVorname();
+			row[5] = fahrer.get(i).getFirmaNr();
+			row[6] = fahrer.get(i).getNL_Nr();
+			row[7] = fahrer.get(i).getFahrerlaubnis();
+			row[8] = fahrer.get(i).getErstprüfung();
+			row[9] = fahrer.get(i).getPrüfungszeitpunkt1();
+			row[10] = fahrer.get(i).getKommentar1();
+			row[11] = fahrer.get(i).getZweitprüfung();
+			row[12] = fahrer.get(i).getPrüfungszeitpunkt2();
+			row[13] = fahrer.get(i).getKommentar2();
 			model.addRow(row);
 		}
+	}
+
+	public static void show_hinzugefuegten_fahrer() {
+		try {
+			DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
+			ArrayList<Fahrer> fahrer = fahrer();
+			Object[] row = new Object[14];
+			for (int i = fahrer.size() - 1; i <= fahrer.size(); i++) {
+				row[0] = fahrer.get(i).getID();
+				row[1] = fahrer.get(i).getPersonalnummer();
+				row[2] = fahrer.get(i).getAktivKZ();
+				row[3] = fahrer.get(i).getName();
+				row[4] = fahrer.get(i).getVorname();
+				row[5] = fahrer.get(i).getFirmaNr();
+				row[6] = fahrer.get(i).getNL_Nr();
+				row[7] = fahrer.get(i).getFahrerlaubnis();
+				row[8] = fahrer.get(i).getErstprüfung();
+				row[9] = fahrer.get(i).getPrüfungszeitpunkt1();
+				row[10] = fahrer.get(i).getKommentar1();
+				row[11] = fahrer.get(i).getZweitprüfung();
+				row[12] = fahrer.get(i).getPrüfungszeitpunkt2();
+				row[13] = fahrer.get(i).getKommentar2();
+				model.addRow(row);
+			}
+		} catch (IndexOutOfBoundsException e) {
+			//JOptionPane.showMessageDialog(null, e);
+		}
+		;
 	}
 }

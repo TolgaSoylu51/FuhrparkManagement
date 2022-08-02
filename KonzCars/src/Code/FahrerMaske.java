@@ -3,6 +3,7 @@ package Code;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -12,7 +13,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -27,6 +27,7 @@ import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
+import javax.swing.ListSelectionModel;
 
 public class FahrerMaske extends JFrame {
 
@@ -71,7 +72,7 @@ public class FahrerMaske extends JFrame {
 	 */
 	public FahrerMaske() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1306, 681);
+		setBounds(100, 100, 1710, 681);
 		contentPane = new JPanel();
 		contentPane.setForeground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -248,20 +249,22 @@ public class FahrerMaske extends JFrame {
 				new ImageIcon(""));
 		btnZurück.setBounds(0, 0, 40, 20);
 		contentPane.add(btnZurück);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(450, 30, 1220, 510);
+		contentPane.add(scrollPane);
 
 		tableFahrer = new JTable();
+		tableFahrer.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		scrollPane.setViewportView(tableFahrer);
 		tableFahrer.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tableFahrer.setCellSelectionEnabled(true);
-		tableFahrer.setColumnSelectionAllowed(true);
 		tableFahrer.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"ID",  "Personalnummer", "AktivKZ", "Name", "Vorname", "FirmaNr", "NL_Nr", "Fahrerlaubnis", "Erstprüfung", "Prüfungszeitpunkt1", "Kommentar1", "Zweitprüfung", "Prüfungszeitpunkt2", "Kommentar2",
+				"ID", "Personalnummer", "AktivKZ", "Name", "Vorname", "FirmaNr", "NL_Nr", "Fahrerlaubnis", "Erstpr\u00FCfung", "Pr\u00FCfungszeitpunkt1", "Kommentar1", "Zweitpr\u00FCfung", "Pr\u00FCfungszeitpunkt2", "Kommentar2"
 			}
 		));
-		tableFahrer.setBounds(450, 30, 820, 510);
-		contentPane.add(tableFahrer);
 		
 		JLabel lblFahrerlaubnis = new JLabel("Fahrerlaubnis");
 		lblFahrerlaubnis.setBounds(60, 284, 151, 14);

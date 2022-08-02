@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -23,7 +24,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JTable;
 
 import java.awt.Color;
+
 import javax.swing.ImageIcon;
+import javax.swing.border.LineBorder;
 
 public class FahrerMaske extends JFrame {
 
@@ -247,16 +250,17 @@ public class FahrerMaske extends JFrame {
 		contentPane.add(btnZurück);
 
 		tableFahrer = new JTable();
+		tableFahrer.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tableFahrer.setCellSelectionEnabled(true);
 		tableFahrer.setColumnSelectionAllowed(true);
 		tableFahrer.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
+				"ID",  "Personalnummer", "AktivKZ", "Name", "Vorname", "FirmaNr", "NL_Nr", "Fahrerlaubnis", "Erstprüfung", "Prüfungszeitpunkt1", "Kommentar1", "Zweitprüfung", "Prüfungszeitpunkt2", "Kommentar2",
 			}
 		));
-		tableFahrer.setBounds(450, 30, 820, 520);
+		tableFahrer.setBounds(450, 30, 820, 510);
 		contentPane.add(tableFahrer);
 		
 		JLabel lblFahrerlaubnis = new JLabel("Fahrerlaubnis");
@@ -301,7 +305,6 @@ public class FahrerMaske extends JFrame {
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			Fahrer fahrer;
-
 			while (rs.next()) {
 				fahrer = new Fahrer(rs.getInt("ID"), rs.getInt("Personalnummer"), rs.getString("AktivKZ"),
 						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getString("NL_Nr"),
@@ -322,7 +325,8 @@ public class FahrerMaske extends JFrame {
 	public static void show_fahrer() {
 		ArrayList<Fahrer> fahrer = fahrer();
 		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
-		Object[] row = new Object[14];
+		
+		Object[] row = new Object[14];	
 		for (int i = 0; i < fahrer.size(); i++) {
 			row[0]=fahrer.get(i).getID();
 			row[1]=fahrer.get(i).getPersonalnummer();

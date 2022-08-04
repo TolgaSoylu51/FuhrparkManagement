@@ -83,7 +83,7 @@ public class FahrerBearbeitenMaske extends JFrame {
 
 		JButton btnSave = new JButton("Speichern");
 
-		btnSave.setBounds(210, 465, 180, 23);
+		btnSave.setBounds(20, 485, 180, 23);
 		contentPane.add(btnSave);
 
 		tfPersonalnummer = new JTextField();

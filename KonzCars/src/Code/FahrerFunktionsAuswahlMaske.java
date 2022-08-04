@@ -65,7 +65,7 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnNewButton.setBounds(88, 68, 157, 47);
+		btnNewButton.setBounds(88, 50, 157, 47);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Fahrer bearbeiten");
@@ -76,7 +76,15 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnNewButton_1.setBounds(88, 126, 157, 47);
+		btnNewButton_1.setBounds(88, 108, 157, 47);
 		contentPane.add(btnNewButton_1);
+		
+		JButton btnNewButton_1_1 = new JButton("Fahrer löschen");
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_1_1.setBounds(88, 166, 157, 47);
+		contentPane.add(btnNewButton_1_1);
 	}
 }

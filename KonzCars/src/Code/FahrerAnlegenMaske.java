@@ -29,7 +29,7 @@ import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
 import javax.swing.ListSelectionModel;
 
-public class FahrerMaske extends JFrame {
+public class FahrerAnlegenMaske extends JFrame {
 
 	/**
 	 * 
@@ -57,7 +57,7 @@ public class FahrerMaske extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FahrerMaske frame = new FahrerMaske();
+					FahrerAnlegenMaske frame = new FahrerAnlegenMaske();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -69,7 +69,7 @@ public class FahrerMaske extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FahrerMaske() {
+	public FahrerAnlegenMaske() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1710, 681);
 		contentPane = new JPanel();
@@ -246,7 +246,7 @@ public class FahrerMaske extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnZurück.setIcon(new ImageIcon(""));
+		btnZurück.setIcon(new ImageIcon("C:\\Users\\Tolga.Soylu\\OneDrive - KHW Konzmann GmbH\\Desktop\\back-icon (1).png"));
 		btnZurück.setBounds(0, 0, 40, 20);
 		contentPane.add(btnZurück);
 

@@ -53,10 +53,10 @@ public class Hauptmenue extends JFrame {
 		lblWillkommen.setBounds(158, 11, 515, 89);
 		contentPane.add(lblWillkommen);
 		
-		JButton btnNewButton = new JButton("Fahrer anlegen");
+		JButton btnNewButton = new JButton("Fahrerdaten verwalten");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrerMaske frame = new FahrerMaske();
+				FahrerFunktionsAuswahlMaske frame = new FahrerFunktionsAuswahlMaske();
 				frame.setVisible(true);
 				setVisible(false);
 			}
@@ -64,7 +64,11 @@ public class Hauptmenue extends JFrame {
 		btnNewButton.setBounds(492, 121, 261, 40);
 		contentPane.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("New button");
+		JButton btnNewButton_1 = new JButton("Neu");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnNewButton_1.setBounds(492, 172, 261, 40);
 		contentPane.add(btnNewButton_1);
 		

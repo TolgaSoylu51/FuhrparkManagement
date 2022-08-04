@@ -72,7 +72,11 @@ public class Hauptmenue extends JFrame {
 		btnNewButton_1.setBounds(492, 172, 261, 40);
 		contentPane.add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("New button");
+		JButton btnNewButton_2 = new JButton("Dokumente verwalten");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnNewButton_2.setBounds(492, 223, 261, 37);
 		contentPane.add(btnNewButton_2);
 		

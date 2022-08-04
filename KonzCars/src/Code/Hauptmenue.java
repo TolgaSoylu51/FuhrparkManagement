@@ -80,7 +80,14 @@ public class Hauptmenue extends JFrame {
 		btnNewButton_3.setBounds(492, 271, 261, 41);
 		contentPane.add(btnNewButton_3);
 		
-		JButton btnNewButton_4 = new JButton("New button");
+		JButton btnNewButton_4 = new JButton("Abmelden");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginMaske frame = new LoginMaske();
+				frame.setVisible(true);
+				setVisible(false);
+			}
+		});
 		btnNewButton_4.setBounds(492, 323, 261, 42);
 		contentPane.add(btnNewButton_4);
 	}

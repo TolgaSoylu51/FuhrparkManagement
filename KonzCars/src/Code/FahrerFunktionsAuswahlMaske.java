@@ -44,6 +44,14 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnZurück = new JButton("");
+		btnZurück.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Hauptmenue frame = new Hauptmenue();
+				frame.setVisible(true);
+				setVisible(false);
+			}
+		});
+		
 		btnZurück.setIcon(new ImageIcon("C:\\Users\\Tolga.Soylu\\OneDrive - KHW Konzmann GmbH\\Desktop\\back-icon (1).png"));
 		btnZurück.setBackground(Color.WHITE);
 		btnZurück.setBounds(0, 0, 40, 20);

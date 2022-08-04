@@ -83,7 +83,7 @@ public class FahrerBearbeitenMaske extends JFrame {
 
 		JButton btnSave = new JButton("Speichern");
 
-		btnSave.setBounds(20, 466, 180, 23);
+		btnSave.setBounds(210, 465, 180, 23);
 		contentPane.add(btnSave);
 
 		tfPersonalnummer = new JTextField();
@@ -171,27 +171,30 @@ public class FahrerBearbeitenMaske extends JFrame {
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-/*				try {
+				try {
 					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 					con = DriverManager.getConnection(url);
-					String query = "insert into MitarbeiterTest (ID, Personalnummer,AktivKZ,Name,Vorname,FirmaNr,NL_Nr,Fahrerlaubnis,Erstprüfung,Prüfungszeitpunkt1,Kommentar1,Zweitprüfung,Prüfungszeitpunkt2,Kommentar2) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					int i = tableFahrer.getSelectedRow();
+					String value = (tableFahrer.getModel().getValueAt(i, 0).toString());
+					String query = "UPDATE MitarbeiterTest SET Personalnummer=?,AktivKZ=?,Name=?,Vorname=?,FirmaNr=?,NL_Nr=?,Fahrerlaubnis=?,Erstprüfung=?,Prüfungszeitpunkt1=?,Kommentar1=?,Zweitprüfung=?,Prüfungszeitpunkt2=?,Kommentar2=? WHERE ID="+value;
+					
 					PreparedStatement pst = con.prepareStatement(query);
-					pst.setString(1, "");
-					pst.setString(2, tfPersonalnummer.getText());
-					pst.setString(3, tfAktivKz.getText());
-					pst.setString(4, tfNachname.getText());
-					pst.setString(5, tfVorname.getText());
-					pst.setString(6, tfFirmaNr.getText());
-					pst.setString(7, tfNlNr.getText());
+					//pst.setString(1, "");
+					pst.setString(1, tfPersonalnummer.getText());
+					pst.setString(2, tfAktivKz.getText());
+					pst.setString(3, tfNachname.getText());
+					pst.setString(4, tfVorname.getText());
+					pst.setString(5, tfFirmaNr.getText());
+					pst.setString(6, tfNlNr.getText());
 
 					boolean fahrerlaubnis = false;
 					if (chckbxFahrerlaubnis.isSelected()) {
 						fahrerlaubnis = true;
 					}
 					if (fahrerlaubnis) {
-						pst.setString(8, "1");
+						pst.setString(7, "1");
 					} else {
-						pst.setString(8, "0");
+						pst.setString(7, "0");
 					}
 
 					boolean pruefung1 = false;
@@ -199,32 +202,32 @@ public class FahrerBearbeitenMaske extends JFrame {
 						pruefung1 = true;
 					}
 					if (pruefung1) {
-						pst.setString(9, "1");
+						pst.setString(8, "1");
 						;
 					} else {
-						pst.setString(9, "0");
+						pst.setString(8, "0");
 					}
 
-					pst.setString(10, "");
-					pst.setString(11, tfKommentar1.getText());
+					pst.setString(9, "");
+					pst.setString(10, tfKommentar1.getText());
 
 					boolean pruefung2 = false;
 					if (chckbxPruefung2.isSelected()) {
 						pruefung2 = true;
 					}
 					if (pruefung2) {
-						pst.setString(12, "1");
+						pst.setString(11, "1");
 						;
 					} else {
-						pst.setString(12, "0");
+						pst.setString(11, "0");
 					}
 
-					pst.setString(13, "");
-					pst.setString(14, tfKommentar2.getText());
+					pst.setString(12, "");
+					pst.setString(13, tfKommentar2.getText());
 
 					pst.executeUpdate();
 
-					show_hinzugefuegten_fahrer();
+					show_aktualisierte_fahrerliste();
 
 					JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 				}
@@ -232,7 +235,6 @@ public class FahrerBearbeitenMaske extends JFrame {
 				catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, e1);
 				}
-*/
 			}
 		});
 
@@ -373,7 +375,7 @@ public class FahrerBearbeitenMaske extends JFrame {
 		}
 	}
 
-	public static void show_hinzugefuegten_fahrer() {
+	public static void show_aktualisierte_fahrerliste() {
 		try {
 			DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
 			model.setRowCount(0);

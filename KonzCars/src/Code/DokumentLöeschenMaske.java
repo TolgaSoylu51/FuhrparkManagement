@@ -36,20 +36,18 @@ import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
 import javax.swing.ListSelectionModel;
 
-public class DokumentAnlegenMaske extends JFrame {
+public class DokumentLöeschenMaske extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField tfDokumentName;
 
 	static Connection con = null;
 	ResultSet rs = null;
 	PreparedStatement pst = null;
 	private static JTable tableFahrer;
-	private JTextField tfDokument;
 //	private String dateiname;
 
 	/**
@@ -59,7 +57,7 @@ public class DokumentAnlegenMaske extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DokumentAnlegenMaske frame = new DokumentAnlegenMaske();
+					DokumentLöeschenMaske frame = new DokumentLöeschenMaske();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -71,7 +69,7 @@ public class DokumentAnlegenMaske extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public DokumentAnlegenMaske() {
+	public DokumentLöeschenMaske() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1710, 681);
 		contentPane = new JPanel();
@@ -80,29 +78,36 @@ public class DokumentAnlegenMaske extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton btnSave = new JButton("Anlegen");
-		btnSave.addActionListener(new ActionListener() {
+		JButton btnLoeschen = new JButton("Löschen");
+		btnLoeschen.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				createBLOB();
-				show_hinzugefuegtes_Dokument();
+				try {
+					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
+					con = DriverManager.getConnection(url);
+					int i = tableFahrer.getSelectedRow();
+					String value = (tableFahrer.getModel().getValueAt(i, 0).toString());
+					String query = "DELETE FROM DokumenteTest WHERE ID="+value;
+					
+					PreparedStatement pst = con.prepareStatement(query);
+
+					pst.executeUpdate();
+
+					show_aktualisierte_Dokument();
+
+					JOptionPane.showMessageDialog(null, "Datensatz wurde gelöscht!");
+				}
+
+				catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1);
+				}
+				
+				show_aktualisierte_Dokument();
 			}
 		});
 
-		btnSave.setBounds(204, 465, 180, 23);
-		contentPane.add(btnSave);
-
-		tfDokumentName = new JTextField();
-		tfDokumentName.setBounds(181, 69, 209, 20);
-		contentPane.add(tfDokumentName);
-		tfDokumentName.setColumns(10);
-
-		JSeparator separator = new JSeparator();
-		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setForeground(Color.GRAY);
-		separator.setBackground(Color.WHITE);
-		separator.setBounds(420, 20, 2, 537);
-		contentPane.add(separator);
+		btnLoeschen.setBounds(39, 563, 180, 23);
+		contentPane.add(btnLoeschen);
 
 //		btnSave.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent e) {
@@ -186,7 +191,7 @@ public class DokumentAnlegenMaske extends JFrame {
 		contentPane.add(btnZurück);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(450, 30, 1220, 510);
+		scrollPane.setBounds(39, 30, 1631, 510);
 		contentPane.add(scrollPane);
 
 		tableFahrer = new JTable();
@@ -201,26 +206,6 @@ public class DokumentAnlegenMaske extends JFrame {
 				"ID", "DokumentName", "Pfad", "Dokument", "Extension"
 			}
 		));
-
-		tfDokument = new JTextField();
-		tfDokument.setColumns(10);
-		tfDokument.setBounds(181, 100, 209, 20);
-		contentPane.add(tfDokument);
-
-		JButton btnDurchsuchen = new JButton("Durchsuchen");
-		btnDurchsuchen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-				int result = fileChooser.showOpenDialog(fileChooser);
-				if (result == JFileChooser.APPROVE_OPTION) {
-					File selectedFile = fileChooser.getSelectedFile();
-					tfDokument.setText(selectedFile.getAbsolutePath().toString());
-				}
-			}
-		});
-		btnDurchsuchen.setBounds(181, 150, 180, 23);
-		contentPane.add(btnDurchsuchen);
 
 		show_Dokument();
 
@@ -265,7 +250,7 @@ public class DokumentAnlegenMaske extends JFrame {
 		}
 	}
 
-	public static void show_hinzugefuegtes_Dokument() {
+	public static void show_aktualisierte_Dokument() {
 		try {
 			DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
 			model.setRowCount(0);
@@ -274,40 +259,5 @@ public class DokumentAnlegenMaske extends JFrame {
 			// JOptionPane.showMessageDialog(null, e);
 		}
 		;
-	}
-
-	public void createBLOB() {
-		FileInputStream input;
-		try {
-			con = DriverManager.getConnection(
-					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
-					"KonzCars", "KonzCars");
-			String query = "insert into DokumenteTest (DokumentName, Pfad, Dokument, Extension)values (?,?,?,?)";
-			PreparedStatement pst = con.prepareStatement(query);
-			pst.setString(1, tfDokumentName.getText());
-			pst.setString(2, tfDokument.getText());
-			File theFile = new File(tfDokument.getText());
-			input = new FileInputStream(theFile);
-			pst.setBinaryStream(3, input);
-
-//			String dateiname = "C:\\Users\\Tolga.Soylu\\OneDrive - KHW Konzmann GmbH\\Desktop\\Controllinginstrumente.txt";
-			int endungStart = 0;
-			String endung = "";
-
-			for (int i = 0; i < tfDokument.getText().length(); i++) {
-				if (tfDokument.getText().charAt(i) == '.') {
-					endungStart = i;
-				}
-			}
-
-			endung = tfDokument.getText().substring(endungStart);
-			pst.setString(4, endung);
-
-			pst.executeUpdate();
-		} catch (
-
-		Exception e1) {
-			JOptionPane.showMessageDialog(null, e1);
-		}
 	}
 }

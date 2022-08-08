@@ -4,13 +4,31 @@ public class Dokument {
 	
 	int ID;
 	String DokumentName;
+	String Pfad;
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	public String getPfad() {
+		return Pfad;
+	}
+
+	public void setPfad(String pfad) {
+		Pfad = pfad;
+	}
+
 	byte[] Dokument;
 	String Extension;
 
-	public Dokument(int id, String dokumentName, byte[] bs, String extension) {
+	public Dokument(int id, String dokumentName, String pfad , byte[] bs, String extension) {
 		super();
 		ID = id;
 		DokumentName = dokumentName;
+		Pfad = pfad;
 		Dokument = bs;
 		Extension = extension;
 	}

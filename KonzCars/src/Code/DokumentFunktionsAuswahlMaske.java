@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class FahrerFunktionsAuswahlMaske extends JFrame {
+public class DokumentFunktionsAuswahlMaske extends JFrame {
 
 	private JPanel contentPane;
 
@@ -23,7 +23,7 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FahrerFunktionsAuswahlMaske frame = new FahrerFunktionsAuswahlMaske();
+					DokumentFunktionsAuswahlMaske frame = new DokumentFunktionsAuswahlMaske();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -35,7 +35,7 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FahrerFunktionsAuswahlMaske() {
+	public DokumentFunktionsAuswahlMaske() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 345, 300);
 		contentPane = new JPanel();
@@ -57,37 +57,37 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 		btnZurück.setBounds(0, 0, 40, 20);
 		contentPane.add(btnZurück);
 		
-		JButton btnNewButton = new JButton("Neuen Fahrer anlegen");
+		JButton btnNewButton = new JButton("Neues Dokument anlegen");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrerAnlegenMaske frame = new FahrerAnlegenMaske();
+				DokumentAnlegenMaske frame = new DokumentAnlegenMaske();
 				frame.setVisible(true);
 				setVisible(false);
 			}
 		});
-		btnNewButton.setBounds(88, 50, 157, 47);
+		btnNewButton.setBounds(58, 50, 214, 47);
 		contentPane.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Fahrer bearbeiten");
+		JButton btnNewButton_1 = new JButton("Dokument ansehen");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrerBearbeitenMaske frame = new FahrerBearbeitenMaske();
+				DokumentAnsehenMaske frame = new DokumentAnsehenMaske();
 				frame.setVisible(true);
 				setVisible(false);
 			}
 		});
-		btnNewButton_1.setBounds(88, 108, 157, 47);
+		btnNewButton_1.setBounds(58, 108, 214, 47);
 		contentPane.add(btnNewButton_1);
 		
-		JButton btnNewButton_1_1 = new JButton("Fahrer löschen");
+		JButton btnNewButton_1_1 = new JButton("Dokument löschen");
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrerLoeschenMaske frame = new FahrerLoeschenMaske();
+				DokumentLöeschenMaske frame = new DokumentLöeschenMaske();
 				frame.setVisible(true);
 				setVisible(false);
 			}
 		});
-		btnNewButton_1_1.setBounds(88, 166, 157, 47);
+		btnNewButton_1_1.setBounds(58, 166, 214, 47);
 		contentPane.add(btnNewButton_1_1);
 	}
 }

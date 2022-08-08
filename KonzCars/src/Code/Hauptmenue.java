@@ -75,6 +75,9 @@ public class Hauptmenue extends JFrame {
 		JButton btnNewButton_2 = new JButton("Dokumente verwalten");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DokumentFunktionsAuswahlMaske frame = new DokumentFunktionsAuswahlMaske();
+				frame.setVisible(true);
+				setVisible(false);
 			}
 		});
 		btnNewButton_2.setBounds(492, 223, 261, 37);

@@ -41,7 +41,7 @@ import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
 import javax.swing.ListSelectionModel;
 
-public class DokumentBearbeitenMaske extends JFrame {
+public class DokumentAnsehenMaske extends JFrame {
 
 	/**
 	 * 
@@ -53,8 +53,6 @@ public class DokumentBearbeitenMaske extends JFrame {
 	ResultSet rs = null;
 	PreparedStatement pst = null;
 	private static JTable tableFahrer;
-	private static JTextField tfDokumentName;
-	private static JTextField tfPfad;
 //	private String dateiname;
 
 	/**
@@ -64,7 +62,7 @@ public class DokumentBearbeitenMaske extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DokumentBearbeitenMaske frame = new DokumentBearbeitenMaske();
+					DokumentAnsehenMaske frame = new DokumentAnsehenMaske();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -76,7 +74,7 @@ public class DokumentBearbeitenMaske extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public DokumentBearbeitenMaske() {
+	public DokumentAnsehenMaske() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1710, 681);
 		contentPane = new JPanel();
@@ -120,7 +118,7 @@ public class DokumentBearbeitenMaske extends JFrame {
 		contentPane.add(btnZurück);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(767, 69, 906, 510);
+		scrollPane.setBounds(34, 69, 1639, 510);
 		contentPane.add(scrollPane);
 
 		tableFahrer = new JTable();
@@ -130,24 +128,6 @@ public class DokumentBearbeitenMaske extends JFrame {
 		tableFahrer.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tableFahrer.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "DokumentName", "Pfad", "Dokument", "Extension" }));
-		
-		tfDokumentName = new JTextField();
-		tfDokumentName.setBounds(212, 96, 515, 20);
-		contentPane.add(tfDokumentName);
-		tfDokumentName.setColumns(10);
-		
-		tfPfad = new JTextField();
-		tfPfad.setColumns(10);
-		tfPfad.setBounds(212, 127, 515, 20);
-		contentPane.add(tfPfad);
-		
-		JLabel lblDokumentName = new JLabel("Dokumentname");
-		lblDokumentName.setBounds(47, 99, 85, 14);
-		contentPane.add(lblDokumentName);
-		
-		JLabel lblPfad = new JLabel("Pfad");
-		lblPfad.setBounds(47, 138, 46, 14);
-		contentPane.add(lblPfad);
 
 		show_Dokument();
 
@@ -190,16 +170,5 @@ public class DokumentBearbeitenMaske extends JFrame {
 			row[4] = dokument.get(i).getExtension();
 			model.addRow(row);
 		}
-
-		tableFahrer.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int i = tableFahrer.getSelectedRow();
-				TableModel model = tableFahrer.getModel();
-				tfDokumentName.setText(model.getValueAt(i, 1).toString());
-				tfPfad.setText(model.getValueAt(i, 2).toString());
-
-			}
-		});
 	}
 }

@@ -6,8 +6,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -28,9 +26,16 @@ import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.*;
 
 public class FahrerBearbeitenMaske extends JFrame {
 
@@ -52,6 +57,8 @@ public class FahrerBearbeitenMaske extends JFrame {
 	ResultSet rs = null;
 	PreparedStatement pst = null;
 	private static JTable tableFahrer;
+	private JTextField tfSuchen;
+	private JScrollPane jsp;
 
 	/**
 	 * Launch the application.
@@ -176,10 +183,11 @@ public class FahrerBearbeitenMaske extends JFrame {
 					con = DriverManager.getConnection(url);
 					int i = tableFahrer.getSelectedRow();
 					String value = (tableFahrer.getModel().getValueAt(i, 0).toString());
-					String query = "UPDATE MitarbeiterTest SET Personalnummer=?,AktivKZ=?,Name=?,Vorname=?,FirmaNr=?,NL_Nr=?,Fahrerlaubnis=?,Erstprüfung=?,Prüfungszeitpunkt1=?,Kommentar1=?,Zweitprüfung=?,Prüfungszeitpunkt2=?,Kommentar2=? WHERE ID="+value;
-					
+					String query = "UPDATE MitarbeiterTest SET Personalnummer=?,AktivKZ=?,Name=?,Vorname=?,FirmaNr=?,NL_Nr=?,Fahrerlaubnis=?,Erstprüfung=?,Prüfungszeitpunkt1=?,Kommentar1=?,Zweitprüfung=?,Prüfungszeitpunkt2=?,Kommentar2=? WHERE ID="
+							+ value;
+
 					PreparedStatement pst = con.prepareStatement(query);
-					//pst.setString(1, "");
+					// pst.setString(1, "");
 					pst.setString(1, tfPersonalnummer.getText());
 					pst.setString(2, tfAktivKz.getText());
 					pst.setString(3, tfNachname.getText());
@@ -253,7 +261,7 @@ public class FahrerBearbeitenMaske extends JFrame {
 		contentPane.add(btnZurück);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(449, 30, 1221, 510);
+		scrollPane.setBounds(449, 55, 1221, 485);
 		contentPane.add(scrollPane);
 
 		tableFahrer = new JTable();
@@ -276,47 +284,99 @@ public class FahrerBearbeitenMaske extends JFrame {
 		JLabel lblZweitePrfung = new JLabel("zweite Prüfung");
 		lblZweitePrfung.setBounds(60, 388, 151, 14);
 		contentPane.add(lblZweitePrfung);
+
+		tfSuchen = new JTextField();
+		tfSuchen.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				search(tfSuchen.getText().toLowerCase());
+			}
+		});
+
 		
+		
+//		TableModel model = tableFahrer.getModel();
+//		TableRowSorter<TableModel> sorter = new TableRowSorter<>(model);
+//		JTable table = new JTable(model);
+//	    table.setRowSorter(sorter);
+//	    jsp = new JScrollPane(table);
+//
+//		tfSuchen.getDocument().addDocumentListener(new DocumentListener() {
+//			public void search(String str) {
+//				if (str.length() == 0) {
+//					sorter.setRowFilter(null);
+//				} else {
+//					sorter.setRowFilter(RowFilter.regexFilter(str));
+//				}
+//			}
+//
+//			@Override
+//			public void insertUpdate(DocumentEvent e) {
+//				search(tfSuchen.getText());
+//
+//			}
+//
+//			@Override
+//			public void removeUpdate(DocumentEvent e) {
+//				search(tfSuchen.getText());
+//
+//			}
+//
+//			@Override
+//			public void changedUpdate(DocumentEvent e) {
+//				search(tfSuchen.getText());
+//
+//			}
+//		});
+
+		tfSuchen.setBounds(509, 11, 578, 20);
+		contentPane.add(tfSuchen);
+		tfSuchen.setColumns(10);
+
+		JLabel lblSuchen = new JLabel("Suchen");
+		lblSuchen.setBounds(449, 14, 187, 14);
+		contentPane.add(lblSuchen);
+
 		tableFahrer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					int i = tableFahrer.getSelectedRow();
-					TableModel model = tableFahrer.getModel();
-					tfPersonalnummer.setText(model.getValueAt(i, 1).toString());
-					tfVorname.setText(model.getValueAt(i, 4).toString());
-					tfFirmaNr.setText(model.getValueAt(i, 5).toString());
-					tfAktivKz.setText(model.getValueAt(i, 2).toString());
-					tfNlNr.setText(model.getValueAt(i, 6).toString());
-					tfNachname.setText(model.getValueAt(i, 3).toString());
-					tfKommentar1.setText(model.getValueAt(i, 10).toString());
-					tfKommentar2.setText(model.getValueAt(i, 13).toString());
-					String fahrerlaubnis = model.getValueAt(i, 7).toString();
-					switch (fahrerlaubnis) {
-					case "1":
-						chckbxFahrerlaubnis.setSelected(true);
-						break;
-					case "0":
-						chckbxFahrerlaubnis.setSelected(false);
-						break;
-					}
-					String erstpruefung = model.getValueAt(i, 8).toString();
-					switch (erstpruefung) {
-					case "1":
-						chckbxPruefung1.setSelected(true);
-						break;
-					case "0":
-						chckbxPruefung1.setSelected(false);
-						break;
-					}
-					String zweitpruefung = model.getValueAt(i, 11).toString();
-					switch (zweitpruefung) {
-					case "1":
-						chckbxPruefung2.setSelected(true);
-						break;
-					case "0":
-						chckbxPruefung2.setSelected(false);
-						break;
-					}
+				int i = tableFahrer.getSelectedRow();
+				TableModel model = tableFahrer.getModel();
+				tfPersonalnummer.setText(model.getValueAt(i, 1).toString());
+				tfVorname.setText(model.getValueAt(i, 4).toString());
+				tfFirmaNr.setText(model.getValueAt(i, 5).toString());
+				tfAktivKz.setText(model.getValueAt(i, 2).toString());
+				tfNlNr.setText(model.getValueAt(i, 6).toString());
+				tfNachname.setText(model.getValueAt(i, 3).toString());
+				tfKommentar1.setText(model.getValueAt(i, 10).toString());
+				tfKommentar2.setText(model.getValueAt(i, 13).toString());
+				String fahrerlaubnis = model.getValueAt(i, 7).toString();
+				switch (fahrerlaubnis) {
+				case "1":
+					chckbxFahrerlaubnis.setSelected(true);
+					break;
+				case "0":
+					chckbxFahrerlaubnis.setSelected(false);
+					break;
+				}
+				String erstpruefung = model.getValueAt(i, 8).toString();
+				switch (erstpruefung) {
+				case "1":
+					chckbxPruefung1.setSelected(true);
+					break;
+				case "0":
+					chckbxPruefung1.setSelected(false);
+					break;
+				}
+				String zweitpruefung = model.getValueAt(i, 11).toString();
+				switch (zweitpruefung) {
+				case "1":
+					chckbxPruefung2.setSelected(true);
+					break;
+				case "0":
+					chckbxPruefung2.setSelected(false);
+					break;
+				}
 
 			}
 		});
@@ -384,5 +444,12 @@ public class FahrerBearbeitenMaske extends JFrame {
 			// JOptionPane.showMessageDialog(null, e);
 		}
 		;
+	}
+	
+	public void search(String str) {
+		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
+		TableRowSorter<DefaultTableModel> trs = new TableRowSorter<>(model);
+		tableFahrer.setRowSorter(trs);
+		trs.setRowFilter(RowFilter.regexFilter(str.toLowerCase()));
 	}
 }

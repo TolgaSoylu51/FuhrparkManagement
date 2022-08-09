@@ -10,6 +10,10 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.JEditorPane;
+import javax.swing.JTextPane;
+import javax.swing.ImageIcon;
 
 public class Hauptmenue extends JFrame {
 
@@ -49,8 +53,8 @@ public class Hauptmenue extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblWillkommen = new JLabel("Fuhrpark Management System");
-		lblWillkommen.setFont(new Font("Arial", Font.BOLD, 34));
-		lblWillkommen.setBounds(158, 11, 515, 89);
+		lblWillkommen.setFont(new Font("Arial", Font.BOLD, 28));
+		lblWillkommen.setBounds(20, 107, 588, 83);
 		contentPane.add(lblWillkommen);
 		
 		JButton btnNewButton = new JButton("Fahrerdaten verwalten");
@@ -97,5 +101,10 @@ public class Hauptmenue extends JFrame {
 		});
 		btnNewButton_4.setBounds(492, 323, 261, 42);
 		contentPane.add(btnNewButton_4);
+		
+		JLabel lbl_img = new JLabel("");
+		lbl_img.setIcon(new ImageIcon("C:\\Users\\Tolga.Soylu\\OneDrive - KHW Konzmann GmbH\\Desktop\\KONZMANN_HOLDING_LOGO_FLOW_GRAU_PRINT.png"));
+		lbl_img.setBounds(10, 20, 500, 90);
+		contentPane.add(lbl_img);
 	}
 }

@@ -2,6 +2,10 @@ package Code;
 
 import java.awt.EventQueue;
 import java.awt.FileDialog;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDropEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,16 +13,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
@@ -42,14 +51,16 @@ public class DokumentAnlegenMaske extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JTextField tfDokumentName;
+	private static JPanel contentPane;
+	private static JTextField tfDokumentName;
 
 	static Connection con = null;
 	ResultSet rs = null;
 	PreparedStatement pst = null;
 	private static JTable tableFahrer;
-	private JTextField tfDokument;
+	private static JTextField tfDokument;
+	int letzteZeile;
+	static ArrayList<Dokument> dokument;
 //	private String dateiname;
 
 	/**
@@ -61,10 +72,26 @@ public class DokumentAnlegenMaske extends JFrame {
 				try {
 					DokumentAnlegenMaske frame = new DokumentAnlegenMaske();
 					frame.setVisible(true);
+					contentPane.setDropTarget(new DropTarget() {
+						public synchronized void drop(DropTargetDropEvent evt) {
+							try {
+								evt.acceptDrop(DnDConstants.ACTION_COPY);
+								List<File> droppedFiles = (List<File>) evt.getTransferable()
+										.getTransferData(DataFlavor.javaFileListFlavor);
+								for (File file : droppedFiles) {
+									tfDokument.setText(file.getAbsolutePath());
+								}
+							} catch (Exception ex) {
+								ex.printStackTrace();
+							}
+						}
+					});
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
+
 		});
 	}
 
@@ -84,8 +111,39 @@ public class DokumentAnlegenMaske extends JFrame {
 		btnSave.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				try {
+					copyFile(tfDokument.getText());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				createBLOB();
 				show_hinzugefuegtes_Dokument();
+				
+				int endungStart = 0;
+				String endung = "";
+
+				for (int i = 0; i < tfDokument.getText().length(); i++) {
+					if (tfDokument.getText().charAt(i) == '.') {
+						endungStart = i;
+					}
+				}
+
+				endung = tfDokument.getText().substring(endungStart);
+				
+				int letzteZeile = dokument.get(dokument.size()-1).getId();
+
+				try {
+					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
+					con = DriverManager.getConnection(url);
+					String query = "UPDATE DokumenteTest SET Pfad=? WHERE ID=" + letzteZeile;
+
+					PreparedStatement pst = con.prepareStatement(query);
+					pst.setString(1, "C://Users//Tolga.Soylu//OneDrive - KHW Konzmann GmbH//Desktop//FuhrparkManagement/"
+							+ tfDokumentName.getText() + endung);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1);
+				}
 			}
 		});
 
@@ -194,13 +252,8 @@ public class DokumentAnlegenMaske extends JFrame {
 		tableFahrer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(tableFahrer);
 		tableFahrer.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tableFahrer.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"ID", "DokumentName", "Pfad", "Dokument", "Extension"
-			}
-		));
+		tableFahrer.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "ID", "DokumentName", "Pfad", "Dokument", "Extension" }));
 
 		tfDokument = new JTextField();
 		tfDokument.setColumns(10);
@@ -238,8 +291,8 @@ public class DokumentAnlegenMaske extends JFrame {
 			ResultSet rs = st.executeQuery(query1);
 			Dokument dokument;
 			while (rs.next()) {
-				dokument = new Dokument(rs.getInt("ID"), rs.getString("DokumentName"), rs.getString("Pfad"), rs.getBytes("Dokument"),
-						rs.getString("Extension"));
+				dokument = new Dokument(rs.getInt("ID"), rs.getString("DokumentName"), rs.getString("Pfad"),
+						rs.getBytes("Dokument"), rs.getString("Extension"));
 				dokumentliste.add(dokument);
 			}
 		}
@@ -253,7 +306,7 @@ public class DokumentAnlegenMaske extends JFrame {
 
 	public static void show_Dokument() {
 		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
-		ArrayList<Dokument> dokument = dokument();
+		dokument = dokument();
 		Object[] row = new Object[5];
 		for (int i = 0; i < dokument.size(); i++) {
 			row[0] = dokument.get(i).getId();
@@ -274,6 +327,45 @@ public class DokumentAnlegenMaske extends JFrame {
 			// JOptionPane.showMessageDialog(null, e);
 		}
 		;
+	}
+
+	public static void copyFile(String string) throws IOException {
+
+		int endungStart = 0;
+		String endung = "";
+
+		for (int i = 0; i < tfDokument.getText().length(); i++) {
+			if (tfDokument.getText().charAt(i) == '.') {
+				endungStart = i;
+			}
+		}
+
+		endung = tfDokument.getText().substring(endungStart);
+
+		File file = new File("C://Users//Tolga.Soylu//OneDrive - KHW Konzmann GmbH//Desktop//FuhrparkManagement/"
+				+ tfDokumentName.getText() + endung);
+		file.createNewFile();
+
+		FileChannel inChannel = null;
+		FileChannel outChannel = null;
+		try {
+			inChannel = new FileInputStream(string).getChannel();
+			outChannel = new FileOutputStream(
+					"C://Users//Tolga.Soylu//OneDrive - KHW Konzmann GmbH//Desktop//FuhrparkManagement/"
+							+ tfDokumentName.getText() + endung).getChannel();
+			inChannel.transferTo(0, inChannel.size(), outChannel);
+
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			try {
+				if (inChannel != null)
+					inChannel.close();
+				if (outChannel != null)
+					outChannel.close();
+			} catch (IOException e) {
+			}
+		}
 	}
 
 	public void createBLOB() {

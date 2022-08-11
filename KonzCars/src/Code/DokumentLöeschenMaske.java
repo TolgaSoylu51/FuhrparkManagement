@@ -1,33 +1,21 @@
 package Code;
 
 import java.awt.EventQueue;
-import java.awt.FileDialog;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
 import javax.swing.JTable;
 
 import java.awt.Color;

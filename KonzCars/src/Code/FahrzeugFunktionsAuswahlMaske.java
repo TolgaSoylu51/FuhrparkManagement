@@ -1,6 +1,7 @@
 package Code;
 
 import java.awt.EventQueue;
+import java.awt.Window;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,14 +12,13 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class FahrerFunktionsAuswahlMaske extends JFrame {
+public class FahrzeugFunktionsAuswahlMaske extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
 	/**
 	 * Launch the application.
 	 */
@@ -26,7 +26,7 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FahrerFunktionsAuswahlMaske frame = new FahrerFunktionsAuswahlMaske();
+					FahrzeugFunktionsAuswahlMaske frame = new FahrzeugFunktionsAuswahlMaske();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,11 +34,10 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 			}
 		});
 	}
-
 	/**
 	 * Create the frame.
 	 */
-	public FahrerFunktionsAuswahlMaske() {
+	public FahrzeugFunktionsAuswahlMaske() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 345, 300);
 		contentPane = new JPanel();
@@ -60,10 +59,10 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 		btnZurück.setBounds(0, 0, 40, 20);
 		contentPane.add(btnZurück);
 		
-		JButton btnNewButton = new JButton("Neuen Fahrer anlegen");
+		JButton btnNewButton = new JButton("Neues Fahrzeug anlegen");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrerAnlegenMaske frame = new FahrerAnlegenMaske();
+				FahrzeugAnlegenMaske frame = new FahrzeugAnlegenMaske();
 				frame.setVisible(true);
 				setVisible(false);
 			}
@@ -71,10 +70,10 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 		btnNewButton.setBounds(88, 50, 157, 47);
 		contentPane.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Fahrer bearbeiten");
+		JButton btnNewButton_1 = new JButton("Fahrzeug bearbeiten");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrerBearbeitenMaske frame = new FahrerBearbeitenMaske();
+				FahrzeugBearbeitenMaske frame = new FahrzeugBearbeitenMaske();
 				frame.setVisible(true);
 				setVisible(false);
 			}
@@ -82,10 +81,10 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 		btnNewButton_1.setBounds(88, 108, 157, 47);
 		contentPane.add(btnNewButton_1);
 		
-		JButton btnNewButton_1_1 = new JButton("Fahrer löschen");
+		JButton btnNewButton_1_1 = new JButton("Fahrzeug löschen");
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrerLoeschenMaske frame = new FahrerLoeschenMaske();
+				FahrzeugLoeschenMaske frame = new FahrzeugLoeschenMaske();
 				frame.setVisible(true);
 				setVisible(false);
 			}

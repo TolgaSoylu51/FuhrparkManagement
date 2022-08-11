@@ -30,7 +30,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
@@ -57,6 +56,7 @@ public class FahrerBearbeitenMaske extends JFrame {
 	ResultSet rs = null;
 	PreparedStatement pst = null;
 	private static JTable tableFahrer;
+	private JTextField textField;
 	private JTextField tfSuchen;
 	private JScrollPane jsp;
 
@@ -187,7 +187,6 @@ public class FahrerBearbeitenMaske extends JFrame {
 							+ value;
 
 					PreparedStatement pst = con.prepareStatement(query);
-					// pst.setString(1, "");
 					pst.setString(1, tfPersonalnummer.getText());
 					pst.setString(2, tfAktivKz.getText());
 					pst.setString(3, tfNachname.getText());
@@ -293,6 +292,11 @@ public class FahrerBearbeitenMaske extends JFrame {
 			}
 		});
 
+		
+		textField = new JTextField();
+		textField.setBounds(623, 10, 1046, 19);
+		contentPane.add(textField);
+		textField.setColumns(10);
 		
 		
 //		TableModel model = tableFahrer.getModel();
@@ -442,8 +446,7 @@ public class FahrerBearbeitenMaske extends JFrame {
 			show_fahrer();
 		} catch (IndexOutOfBoundsException e) {
 			// JOptionPane.showMessageDialog(null, e);
-		}
-		;
+		};
 	}
 	
 	public void search(String str) {

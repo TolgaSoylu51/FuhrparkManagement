@@ -4,10 +4,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -17,20 +15,13 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JCheckBox;
 import javax.swing.JTable;
 
 import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
-import javax.swing.ListSelectionModel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class FahrerLoeschenMaske extends JFrame {
 

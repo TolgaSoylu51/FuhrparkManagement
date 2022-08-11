@@ -68,9 +68,12 @@ public class Hauptmenue extends JFrame {
 		btnNewButton.setBounds(492, 121, 261, 40);
 		contentPane.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Neu");
+		JButton btnNewButton_1 = new JButton("Fahrzeuge verwalten");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				FahrzeugFunktionsAuswahlMaske frame = new FahrzeugFunktionsAuswahlMaske();
+				frame.setVisible(true);
+				setVisible(false);
 			}
 		});
 		btnNewButton_1.setBounds(492, 172, 261, 40);

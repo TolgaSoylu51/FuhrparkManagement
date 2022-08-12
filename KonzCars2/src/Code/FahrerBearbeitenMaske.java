@@ -26,9 +26,6 @@ import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -249,7 +246,7 @@ public class FahrerBearbeitenMaske extends JFrame {
 		btnZurück.setBackground(Color.WHITE);
 		btnZurück.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Hauptmenue frame = new Hauptmenue();
+				FahrerFunktionsAuswahlMaske frame = new FahrerFunktionsAuswahlMaske();
 				frame.setVisible(true);
 				setVisible(false);
 			}

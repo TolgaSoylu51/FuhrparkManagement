@@ -241,7 +241,7 @@ public class FahrerAnlegenMaske extends JFrame {
 		btnZurück.setBackground(Color.WHITE);
 		btnZurück.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Hauptmenue frame = new Hauptmenue();
+				FahrerFunktionsAuswahlMaske frame = new FahrerFunktionsAuswahlMaske();
 				frame.setVisible(true);
 				setVisible(false);
 			}

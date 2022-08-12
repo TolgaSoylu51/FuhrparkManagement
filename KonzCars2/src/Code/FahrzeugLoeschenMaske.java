@@ -2,11 +2,8 @@ package Code;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,20 +13,16 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 public class FahrzeugLoeschenMaske extends JFrame {
 
@@ -103,6 +96,8 @@ public class FahrzeugLoeschenMaske extends JFrame {
 			}
 		});
 		tableFahrzeuge = new JTable();
+		tableFahrzeuge.setFillsViewportHeight(true);
+		tableFahrzeuge.setShowGrid(false);
 
 		tableFahrzeuge.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(tableFahrzeuge);
@@ -119,8 +114,16 @@ public class FahrzeugLoeschenMaske extends JFrame {
 		tableFahrzeuge.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
 		JButton btnZurück = new JButton("");
-		btnZurück.setBounds(0, 0, 40, 20);
 		btnZurück.setBackground(Color.WHITE);
+		btnZurück.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FahrzeugFunktionsAuswahlMaske frame = new FahrzeugFunktionsAuswahlMaske();
+				frame.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnZurück.setIcon(new ImageIcon("C:\\Users\\Tolga.Soylu\\OneDrive - KHW Konzmann GmbH\\Desktop\\back-icon (1).png"));
+		btnZurück.setBounds(0, 0, 40, 20);
 		contentPane.add(btnZurück);
 		
 		show_fahrzeug();

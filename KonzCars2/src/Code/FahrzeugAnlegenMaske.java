@@ -589,7 +589,7 @@ public class FahrzeugAnlegenMaske extends JFrame {
 		tfkm_Stand_Jan.setBounds(471, 300, 154, 19);
 		contentPane.add(tfkm_Stand_Jan);
 		
-		JLabel lblkm_Stand_Jan_VJ = new JLabel("Kilometerstand Jan Vj.");
+		JLabel lblkm_Stand_Jan_VJ = new JLabel("Kilometerstand Jan Vj");
 		lblkm_Stand_Jan_VJ.setForeground(Color.BLACK);
 		lblkm_Stand_Jan_VJ.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblkm_Stand_Jan_VJ.setBounds(346, 328, 120, 13);
@@ -603,7 +603,7 @@ public class FahrzeugAnlegenMaske extends JFrame {
 		tfkm_Stand_Jan_Vorjahr.setBounds(471, 325, 154, 19);
 		contentPane.add(tfkm_Stand_Jan_Vorjahr);
 		
-		JLabel lblkm_Stand_Jan_VVJ = new JLabel("Kilometerstand Jan Vvj.");
+		JLabel lblkm_Stand_Jan_VVJ = new JLabel("Kilometerstand Jan Vvj");
 		lblkm_Stand_Jan_VVJ.setForeground(Color.BLACK);
 		lblkm_Stand_Jan_VVJ.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblkm_Stand_Jan_VVJ.setBounds(346, 353, 120, 13);
@@ -874,7 +874,7 @@ public class FahrzeugAnlegenMaske extends JFrame {
 		btnZurück.setBackground(Color.WHITE);
 		btnZurück.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Hauptmenue frame = new Hauptmenue();
+				FahrzeugFunktionsAuswahlMaske frame = new FahrzeugFunktionsAuswahlMaske();
 				frame.setVisible(true);
 				setVisible(false);
 			}
@@ -999,9 +999,9 @@ public class FahrzeugAnlegenMaske extends JFrame {
 				rs.getString("Winterreifen"),
 				rs.getString("Winter_T_Typ"),
 				rs.getString("Kostenstelle"),
-				rs.getString("km_Stand_Jan"),
-				rs.getString("tfkm_Stand_Jan_Vorjahr"),
-				rs.getString("tfkm_Stand_Jan_VorVorjahr"),
+				rs.getString("km_Stand_Jan_Y"),
+				rs.getString("km_Stand_Jan_VJ"),
+				rs.getString("km_Stand_Jan_VVJ"),
 				rs.getString("Haftpflicht"),
 				rs.getString("Kasko"),
 				rs.getString("Quartal"),

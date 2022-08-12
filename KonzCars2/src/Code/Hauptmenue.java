@@ -10,9 +10,6 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import javax.swing.JEditorPane;
-import javax.swing.JTextPane;
 import javax.swing.ImageIcon;
 
 public class Hauptmenue extends JFrame {

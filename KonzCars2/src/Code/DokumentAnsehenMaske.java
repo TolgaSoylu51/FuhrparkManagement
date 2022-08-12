@@ -91,7 +91,7 @@ public class DokumentAnsehenMaske extends JFrame {
 		btnZurück.setBackground(Color.WHITE);
 		btnZurück.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Hauptmenue frame = new Hauptmenue();
+				DokumentFunktionsAuswahlMaske frame = new DokumentFunktionsAuswahlMaske();
 				frame.setVisible(true);
 				setVisible(false);
 			}

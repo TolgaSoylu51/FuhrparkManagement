@@ -1,7 +1,6 @@
 package Code;
 
 import java.awt.EventQueue;
-import java.awt.FileDialog;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
@@ -14,7 +13,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -29,8 +27,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -71,21 +67,6 @@ public class DokumentAnlegenMaske extends JFrame {
 				try {
 					DokumentAnlegenMaske frame = new DokumentAnlegenMaske();
 					frame.setVisible(true);
-					contentPane.setDropTarget(new DropTarget() {
-						public synchronized void drop(DropTargetDropEvent evt) {
-							try {
-								evt.acceptDrop(DnDConstants.ACTION_COPY);
-								List<File> droppedFiles = (List<File>) evt.getTransferable()
-										.getTransferData(DataFlavor.javaFileListFlavor);
-								for (File file : droppedFiles) {
-									tfDokument.setText(file.getAbsolutePath());
-								}
-							} catch (Exception ex) {
-								ex.printStackTrace();
-							}
-						}
-					});
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -232,7 +213,7 @@ public class DokumentAnlegenMaske extends JFrame {
 		btnZurück.setBackground(Color.WHITE);
 		btnZurück.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Hauptmenue frame = new Hauptmenue();
+				DokumentFunktionsAuswahlMaske frame = new DokumentFunktionsAuswahlMaske();
 				frame.setVisible(true);
 				setVisible(false);
 			}
@@ -273,6 +254,21 @@ public class DokumentAnlegenMaske extends JFrame {
 		});
 		btnDurchsuchen.setBounds(181, 150, 180, 23);
 		contentPane.add(btnDurchsuchen);
+		
+		contentPane.setDropTarget(new DropTarget() {
+			public synchronized void drop(DropTargetDropEvent evt) {
+				try {
+					evt.acceptDrop(DnDConstants.ACTION_COPY);
+					List<File> droppedFiles = (List<File>) evt.getTransferable()
+							.getTransferData(DataFlavor.javaFileListFlavor);
+					for (File file : droppedFiles) {
+						tfDokument.setText(file.getAbsolutePath());
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 
 		show_Dokument();
 

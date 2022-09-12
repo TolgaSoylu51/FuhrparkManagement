@@ -4,11 +4,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,7 +22,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JCheckBox;
@@ -26,8 +30,12 @@ import javax.swing.JTable;
 import java.awt.Color;
 
 import javax.swing.ImageIcon;
-import javax.swing.border.LineBorder;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
+
+import java.awt.SystemColor;
+import java.awt.Font;
+import java.awt.Insets;
 
 public class FahrerAnlegenMaske extends JFrame {
 
@@ -49,6 +57,7 @@ public class FahrerAnlegenMaske extends JFrame {
 	ResultSet rs = null;
 	PreparedStatement pst = null;
 	private static JTable tableFahrer;
+	private JTextField tfSuche;
 
 	/**
 	 * Launch the application.
@@ -58,6 +67,7 @@ public class FahrerAnlegenMaske extends JFrame {
 			public void run() {
 				try {
 					FahrerAnlegenMaske frame = new FahrerAnlegenMaske();
+					frame.setResizable(false);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -70,110 +80,189 @@ public class FahrerAnlegenMaske extends JFrame {
 	 * Create the frame.
 	 */
 	public FahrerAnlegenMaske() {
+		setTitle("KFM Fahrer Anlegen");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1710, 681);
+		setSize(1278, 674);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
-		contentPane.setForeground(Color.GRAY);
+		contentPane.setBackground(SystemColor.inactiveCaptionBorder);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		tfSuche = new JTextField();
+		tfSuche.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				filter(tfSuche.getText());
+			}
+		});
+		tfSuche.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		tfSuche.setColumns(10);
+		tfSuche.setBackground(SystemColor.menu);
+		tfSuche.setBounds(10, 26, 964, 19);
+		contentPane.add(tfSuche);
+		
+		JButton btnClear = new JButton("X");
+		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
+		btnClear.setFocusPainted(false);
+		btnClear.setBackground(SystemColor.inactiveCaption);
+		btnClear.setBounds(974, 26, 19, 18);
+		btnClear.setMargin(new Insets(0, 0, 0, 0));
+		contentPane.add(btnClear);
+		
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent evt){
+				tfSuche.setText("");
+				filter(tfSuche.getText());
+			}
+		});
+						
+		JLabel lblZweitePrfung = new JLabel("Zweite Prüfung");
+		lblZweitePrfung.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblZweitePrfung.setBounds(50, 397, 75, 14);
+		contentPane.add(lblZweitePrfung);
+
+		JLabel lblErstePrfung = new JLabel("Erste Prüfung");
+		lblErstePrfung.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblErstePrfung.setBounds(50, 328, 75, 14);
+		contentPane.add(lblErstePrfung);
+
+		JLabel lblFahrerlaubnis = new JLabel("Fahrerlaubnis");
+		lblFahrerlaubnis.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblFahrerlaubnis.setBounds(50, 284, 75, 14);
+		contentPane.add(lblFahrerlaubnis);
 
 		JButton btnSave = new JButton("Anlegen");
+		btnSave.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnSave.setFocusPainted(false);
+		btnSave.setBackground(SystemColor.inactiveCaption);
 
-		btnSave.setBounds(20, 466, 180, 22);
+		btnSave.setBounds(10, 605, 180, 23);
 		contentPane.add(btnSave);
 		
 		tfPersonalnummer = new JTextField();
-		tfPersonalnummer.setBounds(181, 69, 209, 20);
+		tfPersonalnummer.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		tfPersonalnummer.setBounds(137, 69, 243, 20);
 		contentPane.add(tfPersonalnummer);
 		tfPersonalnummer.setColumns(10);
 
 		tfVorname = new JTextField();
+		tfVorname.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfVorname.setColumns(10);
-		tfVorname.setBounds(181, 100, 209, 20);
+		tfVorname.setBounds(137, 100, 243, 20);
 		contentPane.add(tfVorname);
 
 		tfNachname = new JTextField();
+		tfNachname.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfNachname.setColumns(10);
-		tfNachname.setBounds(181, 131, 209, 20);
+		tfNachname.setBounds(137, 131, 243, 20);
 		contentPane.add(tfNachname);
 
 		tfAktivKz = new JTextField();
+		tfAktivKz.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfAktivKz.setColumns(10);
-		tfAktivKz.setBounds(181, 162, 209, 20);
+		tfAktivKz.setBounds(137, 162, 243, 20);
 		contentPane.add(tfAktivKz);
 
 		tfFirmaNr = new JTextField();
+		tfFirmaNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfFirmaNr.setColumns(10);
-		tfFirmaNr.setBounds(181, 193, 209, 20);
+		tfFirmaNr.setBounds(137, 193, 243, 20);
 		contentPane.add(tfFirmaNr);
 
 		tfNlNr = new JTextField();
+		tfNlNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfNlNr.setColumns(10);
-		tfNlNr.setBounds(181, 224, 209, 20);
+		tfNlNr.setBounds(137, 224, 243, 20);
 		contentPane.add(tfNlNr);
 
 		JLabel lblPersonalnummer = new JLabel("Personalnummer");
-		lblPersonalnummer.setBounds(20, 72, 422151, 14);
+		lblPersonalnummer.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblPersonalnummer.setBounds(10, 69, 100, 14);
 		contentPane.add(lblPersonalnummer);
 
 		JLabel lblVorname = new JLabel("Vorname");
-		lblVorname.setBounds(20, 103, 151, 14);
+		lblVorname.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblVorname.setBounds(10, 100, 123, 14);
 		contentPane.add(lblVorname);
 
 		JLabel lblNachname = new JLabel("Nachname");
-		lblNachname.setBounds(20, 135, 151, 14);
+		lblNachname.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNachname.setBounds(10, 132, 123, 14);
 		contentPane.add(lblNachname);
 
 		JLabel lblAktivKZ = new JLabel("Aktiv KZ");
-		lblAktivKZ.setBounds(20, 165, 151, 14);
+		lblAktivKZ.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblAktivKZ.setBounds(10, 162, 123, 14);
 		contentPane.add(lblAktivKZ);
 
 		JLabel lblFirmaNr = new JLabel("FirmaNr");
-		lblFirmaNr.setBounds(20, 196, 151, 14);
+		lblFirmaNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblFirmaNr.setBounds(10, 193, 123, 14);
 		contentPane.add(lblFirmaNr);
 
 		JLabel lblNLNr = new JLabel("Niederlassungsnummer");
-		lblNLNr.setBounds(20, 227, 151, 20);
+		lblNLNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNLNr.setBounds(10, 224, 123, 14);
 		contentPane.add(lblNLNr);
 
 		JCheckBox chckbxPruefung1 = new JCheckBox("erste Prüfung");
-		chckbxPruefung1.setBounds(20, 324, 20, 20);
+		chckbxPruefung1.setOpaque(false);
+		chckbxPruefung1.setBackground(SystemColor.inactiveCaptionBorder);
+		chckbxPruefung1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		chckbxPruefung1.setBounds(10, 324, 20, 20);
 		contentPane.add(chckbxPruefung1);
 
 		JCheckBox chckbxPruefung2 = new JCheckBox("zweite Prüfung");
-		chckbxPruefung2.setBounds(20, 384, 20, 20);
+		chckbxPruefung2.setOpaque(false);
+		chckbxPruefung2.setBackground(SystemColor.inactiveCaptionBorder);
+		chckbxPruefung2.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		chckbxPruefung2.setBounds(10, 393, 20, 20);
 		contentPane.add(chckbxPruefung2);
 
 		tfKommentar1 = new JTextField();
-		tfKommentar1.setBounds(20, 351, 370, 23);
+		tfKommentar1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		tfKommentar1.setBounds(10, 351, 370, 23);
 		contentPane.add(tfKommentar1);
 		tfKommentar1.setColumns(10);
 
 		tfKommentar2 = new JTextField();
-		tfKommentar2.setBounds(20, 411, 370, 23);
+		tfKommentar2.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		tfKommentar2.setBounds(10, 420, 370, 23);
 		contentPane.add(tfKommentar2);
 		tfKommentar2.setColumns(10);
 
 		JCheckBox chckbxFahrerlaubnis = new JCheckBox("Fahrerlaubnis");
-		chckbxFahrerlaubnis.setBounds(20, 280, 20, 20);
+		chckbxFahrerlaubnis.setOpaque(false);
+		chckbxFahrerlaubnis.setBackground(SystemColor.inactiveCaptionBorder);
+		chckbxFahrerlaubnis.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		chckbxFahrerlaubnis.setBounds(10, 280, 20, 20);
 		contentPane.add(chckbxFahrerlaubnis);
-
-		JSeparator separator = new JSeparator();
-		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setForeground(Color.GRAY);
-		separator.setBackground(Color.WHITE);
-		separator.setBounds(420, 20, 2, 537);
-		contentPane.add(separator);
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					emptyTf(tfPersonalnummer);
+					emptyTf(tfNachname);
+					emptyTf(tfAktivKz);
+					emptyTf(tfFirmaNr);
+					emptyTf(tfNlNr);
+					
 					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 					con = DriverManager.getConnection(url);
 					String query = "insert into MitarbeiterTest (Personalnummer,AktivKZ,Name,Vorname,FirmaNr,NL_Nr,Fahrerlaubnis,Erstprüfung,Prüfungszeitpunkt1,Kommentar1,Zweitprüfung,Prüfungszeitpunkt2,Kommentar2) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					PreparedStatement pst = con.prepareStatement(query);
-					//pst.setString(1, "");
+					
+					TableModel model = tableFahrer.getModel();
+					int numOfRows = model.getRowCount();
+					
+					for(int i = 1; i < numOfRows; i++) {
+						String checkRow = model.getValueAt(i, 1).toString();
+						if(tfPersonalnummer.getText().equals(checkRow)) {
+							throw new Exception("Dieser Fahrer exisitiert bereits!");
+						}
+					}
+					
 					pst.setString(1, tfPersonalnummer.getText());
 					pst.setString(2, tfAktivKz.getText());
 					pst.setString(3, tfNachname.getText());
@@ -218,7 +307,8 @@ public class FahrerAnlegenMaske extends JFrame {
 
 					pst.setString(12, "");
 					pst.setString(13, tfKommentar2.getText());
-
+					
+					
 					pst.executeUpdate();
 
 					show_hinzugefuegten_fahrer();
@@ -234,63 +324,68 @@ public class FahrerAnlegenMaske extends JFrame {
 		});
 
 		JButton btnReset = new JButton("Zurücksetzen");
-		btnReset.setBounds(210, 466, 180, 23);
+		btnReset.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnReset.setFocusPainted(false);
+		btnReset.setBackground(SystemColor.inactiveCaption);
+		btnReset.setBounds(200, 605, 180, 23);
 		contentPane.add(btnReset);
 
 		JButton btnZurück = new JButton("");
+		btnZurück.setFocusable(false);
 		btnZurück.setBackground(Color.WHITE);
 		btnZurück.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrerFunktionsAuswahlMaske frame = new FahrerFunktionsAuswahlMaske();
-				frame.setVisible(true);
 				setVisible(false);
 			}
 		});
-		btnZurück.setIcon(new ImageIcon("C:\\Users\\Tolga.Soylu\\OneDrive - KHW Konzmann GmbH\\Desktop\\back-icon (1).png"));
-		btnZurück.setBounds(0, 0, 40, 20);
+		btnZurück.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
+		btnZurück.setBounds(10, 2, 28, 23);
 		contentPane.add(btnZurück);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(450, 30, 1220, 510);
+		scrollPane.setBorder(null);
+		scrollPane.setBounds(390, 50, 862, 574);
 		contentPane.add(scrollPane);
 //		ab hier
 		tableFahrer = new JTable();
 
 		tableFahrer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(tableFahrer);
-		tableFahrer.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tableFahrer.setBorder(null);
 		tableFahrer.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "Personalnummer", "AktivKZ", "Name", "Vorname", "FirmaNr", "NL_Nr",
 						"Fahrerlaubnis", "Erstpr\u00FCfung", "Pr\u00FCfungszeitpunkt1", "Kommentar1",
 						"Zweitpr\u00FCfung", "Pr\u00FCfungszeitpunkt2", "Kommentar2" }));
-
-		JLabel lblFahrerlaubnis = new JLabel("Fahrerlaubnis");
-		lblFahrerlaubnis.setBounds(60, 284, 151, 14);
-		contentPane.add(lblFahrerlaubnis);
-
-		JLabel lblErstePrfung = new JLabel("erste Prüfung");
-		lblErstePrfung.setBounds(60, 328, 151, 14);
-		contentPane.add(lblErstePrfung);
-
-		JLabel lblZweitePrfung = new JLabel("zweite Prüfung");
-		lblZweitePrfung.setBounds(60, 388, 151, 14);
-		contentPane.add(lblZweitePrfung);
+		
+		JLabel lblBackground = new JLabel("");
+		lblBackground.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		lblBackground.setBounds(0, 0, 1262, 647);
+		contentPane.add(lblBackground);
+		
+		JLabel lblBackground_1 = new JLabel("");
+		lblBackground_1.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		lblBackground_1.setBounds(1260, 0, 433, 651);
+		contentPane.add(lblBackground_1);
+		
+		wichtigTf(tfPersonalnummer);
+		wichtigTf(tfNachname);
+		wichtigTf(tfAktivKz);
+		wichtigTf(tfFirmaNr);
+		wichtigTf(tfNlNr);
 
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tfPersonalnummer.setText("");
+				wichtigTf(tfPersonalnummer);
+				wichtigTf(tfNachname);
+				wichtigTf(tfAktivKz);
+				wichtigTf(tfFirmaNr);
+				wichtigTf(tfNlNr);
 				tfVorname.setText("");
-				tfNachname.setText("");
-				tfAktivKz.setText("");
-				tfFirmaNr.setText("");
-				tfNlNr.setText("");
 				tfKommentar1.setText("");
 				tfKommentar2.setText("");
 				chckbxFahrerlaubnis.setSelected(false);
 				chckbxPruefung1.setSelected(false);
 				chckbxPruefung2.setSelected(false);
-				tfPersonalnummer.setText("");
-				tfPersonalnummer.setText("");
 			}
 		});
 		
@@ -309,8 +404,8 @@ public class FahrerAnlegenMaske extends JFrame {
 			ResultSet rs = st.executeQuery(query1);
 			Fahrer fahrer;
 			while (rs.next()) {
-				fahrer = new Fahrer(rs.getInt("ID"), rs.getInt("Personalnummer"), rs.getString("AktivKZ"),
-						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getString("NL_Nr"),
+				fahrer = new Fahrer(rs.getInt("ID"), rs.getInt("Personalnummer"), rs.getInt("AktivKZ"),
+						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getInt("NL_Nr"),
 						rs.getString("Fahrerlaubnis"), rs.getString("Erstprüfung"), rs.getString("Prüfungszeitpunkt1"),
 						rs.getString("Kommentar1"), rs.getString("Zweitprüfung"), rs.getString("Prüfungszeitpunkt2"),
 						rs.getString("Kommentar2"));
@@ -323,6 +418,14 @@ public class FahrerAnlegenMaske extends JFrame {
 		}
 
 		return fahrerliste;
+	}
+	
+	public void filter(String str) {
+		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
+		TableRowSorter<DefaultTableModel> rowFilter = new TableRowSorter<DefaultTableModel>(model);
+		tableFahrer.setRowSorter(rowFilter);
+		
+		rowFilter.setRowFilter(RowFilter.regexFilter("(?i)" + str));
 	}
 
 	public static void show_fahrer() {
@@ -355,7 +458,31 @@ public class FahrerAnlegenMaske extends JFrame {
 			show_fahrer();
 		} catch (IndexOutOfBoundsException e) {
 			//JOptionPane.showMessageDialog(null, e);
+		};
+	}
+	
+	public void wichtigTf(JTextField tf) {
+		tf.setText("!");
+		tf.setForeground(Color.red);
+		tf.addFocusListener(new FocusAdapter() {
+			public void focusGained(FocusEvent evtfg) {
+				if(tf.getText().equals("!")) {
+					tf.setText("");
+					tf.setForeground(Color.black);
+				}
+			}
+			public void focusLost(FocusEvent evtfl) {
+				if(tf.getText().equals("")) {
+					tf.setText("!");
+					tf.setForeground(Color.red);
+				}
+			}
+		});
+	}
+	
+	public void emptyTf(JTextField tf) throws Exception {
+		if(tf.getText().equals("!")) {
+			throw new Exception("Füllen sie bitte alle Felder aus!");
 		}
-		;
 	}
 }

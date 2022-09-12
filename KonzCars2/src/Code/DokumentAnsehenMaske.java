@@ -2,12 +2,16 @@ package Code;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,8 +26,14 @@ import java.io.IOException;
 import java.awt.Color;
 
 import javax.swing.ImageIcon;
-import javax.swing.border.LineBorder;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
+
+import java.awt.SystemColor;
+import java.awt.Font;
+import java.awt.Insets;
+
+import javax.swing.JTextField;
 
 public class DokumentAnsehenMaske extends JFrame {
 
@@ -37,8 +47,7 @@ public class DokumentAnsehenMaske extends JFrame {
 	ResultSet rs = null;
 	PreparedStatement pst = null;
 	private static JTable tableFahrer;
-//	private String dateiname;
-
+	private JTextField tfSuche;
 	/**
 	 * Launch the application.
 	 */
@@ -47,6 +56,7 @@ public class DokumentAnsehenMaske extends JFrame {
 			public void run() {
 				try {
 					DokumentAnsehenMaske frame = new DokumentAnsehenMaske();
+					frame.setResizable(false);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -59,15 +69,20 @@ public class DokumentAnsehenMaske extends JFrame {
 	 * Create the frame.
 	 */
 	public DokumentAnsehenMaske() {
+		setTitle("KFM Dokument Ansehen");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1710, 681);
+		setSize(1278, 674);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
-		contentPane.setForeground(Color.GRAY);
+		contentPane.setBackground(SystemColor.inactiveCaptionBorder);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JButton btnOeffnen = new JButton("Öffnen");
+		btnOeffnen.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnOeffnen.setFocusPainted(false);
+		btnOeffnen.setBackground(SystemColor.inactiveCaption);
 		btnOeffnen.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -83,35 +98,68 @@ public class DokumentAnsehenMaske extends JFrame {
 				}
 			}
 		});
+		
+		tfSuche = new JTextField();
+		tfSuche.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				filter(tfSuche.getText());
+			}
+		});
+		tfSuche.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		tfSuche.setColumns(10);
+		tfSuche.setBackground(SystemColor.menu);
+		tfSuche.setBounds(10, 26, 964, 19);
+		contentPane.add(tfSuche);
 
-		btnOeffnen.setBounds(34, 588, 180, 23);
+		btnOeffnen.setBounds(10, 605, 180, 23);
 		contentPane.add(btnOeffnen);
 
 		JButton btnZurück = new JButton("");
+		btnZurück.setFocusable(false);
 		btnZurück.setBackground(Color.WHITE);
 		btnZurück.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DokumentFunktionsAuswahlMaske frame = new DokumentFunktionsAuswahlMaske();
-				frame.setVisible(true);
 				setVisible(false);
 			}
 		});
+		
+		JButton btnClear = new JButton("X");
+		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
+		btnClear.setFocusPainted(false);
+		btnClear.setBackground(SystemColor.inactiveCaption);
+		btnClear.setBounds(974, 26, 19, 18);
+		btnClear.setMargin(new Insets(0, 0, 0, 0));
+		contentPane.add(btnClear);
+		
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent evt){
+				tfSuche.setText("");
+				filter(tfSuche.getText());
+			}
+		});
+		
 		btnZurück.setIcon(
-				new ImageIcon("C:\\Users\\Tolga.Soylu\\OneDrive - KHW Konzmann GmbH\\Desktop\\back-icon (1).png"));
-		btnZurück.setBounds(0, 0, 40, 20);
+				new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
+		btnZurück.setBounds(10, 2, 28, 23);
 		contentPane.add(btnZurück);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(34, 69, 1639, 510);
+		scrollPane.setBorder(null);
+		scrollPane.setBounds(10, 50, 1242, 550);
 		contentPane.add(scrollPane);
 
 		tableFahrer = new JTable();
 
 		tableFahrer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(tableFahrer);
-		tableFahrer.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tableFahrer.setBorder(null);
 		tableFahrer.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "DokumentName", "Pfad", "Dokument", "Extension" }));
+		
+		JLabel lblBackground = new JLabel("");
+		lblBackground.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		lblBackground.setBounds(0, 0, 1262, 647);
+		contentPane.add(lblBackground);
 
 		show_Dokument();
 
@@ -140,6 +188,14 @@ public class DokumentAnsehenMaske extends JFrame {
 		}
 
 		return dokumentliste;
+	}
+	
+	public void filter(String str) {
+		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
+		TableRowSorter<DefaultTableModel> rowFilter = new TableRowSorter<DefaultTableModel>(model);
+		tableFahrer.setRowSorter(rowFilter);
+		
+		rowFilter.setRowFilter(RowFilter.regexFilter("(?i)" + str));
 	}
 
 	public static void show_Dokument() {

@@ -2,7 +2,8 @@ package Code;
 
 public class Fahrzeug {
 
-	private int ID; 
+	private int ID;
+	private String IdentNr;
 	private String FirmaNr;
 	private String NL;
 	private String FZG_Marke;
@@ -51,7 +52,7 @@ public class Fahrzeug {
 	private String Typ;
 	private String Belueftung_wegen_Gas;
 	
-	public Fahrzeug(int ID, String FirmaNr, String NL, String FZG_Marke, String FZG_Typ, String FZG_Bezeichnung,
+	public Fahrzeug(int iD, String identNr, String FirmaNr, String NL, String FZG_Marke, String FZG_Typ, String FZG_Bezeichnung,
 			String amtl_Kennzeichen, String Erstzulassung, String Abmeldedatum, String Fahrer,
 			String Fahrer2, String Finanzstatus, String Bank_Leasinggesellschaft, String VertragsNr,
 			String Leasingdauer_Monate, String Verlaengerung_Monate, String Leasingrate_zzgl_MwSt_Fahrzeug,
@@ -65,7 +66,8 @@ public class Fahrzeug {
 			String Folieren_Planung, String Folieren_Farbe, String Regale_Geleast_Gekauft, String Typ, 
 			String Belueftung_wegen_Gas) {
 		super();
-		this.ID = ID;
+		this.ID = iD;
+		this.IdentNr = identNr;
 		this.FirmaNr = FirmaNr;
 		this.NL = NL;
 		this.FZG_Marke = FZG_Marke;
@@ -121,6 +123,14 @@ public class Fahrzeug {
 
 	public void setID(int iD) {
 		ID = iD;
+	}
+	
+	public String getIdentNr() {
+		return IdentNr;
+	}
+
+	public void setIdentNr(String identNr) {
+		IdentNr = identNr;
 	}
 	
 	public String getFirmaNr() {

@@ -4,6 +4,12 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,15 +20,24 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
+import java.awt.SystemColor;
+import java.awt.Font;
+import java.awt.Insets;
+
+import javax.swing.JTextField;
 
 public class FahrzeugLoeschenMaske extends JFrame {
 
@@ -33,6 +48,8 @@ public class FahrzeugLoeschenMaske extends JFrame {
 	ResultSet rs = null;
 	PreparedStatement pst = null;
 	private static JTable tableFahrzeuge;
+	private JTextField tfSuche;
+	private String id = null;
 	/**
 	 * Launch the application.
 	 */
@@ -52,34 +69,41 @@ public class FahrzeugLoeschenMaske extends JFrame {
 	 * Create the frame.
 	 */
 	public FahrzeugLoeschenMaske() {
+		setTitle("KFM Fahrzeug Löschen");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1710, 681);
+		setSize(1278, 674);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
-		contentPane.setForeground(Color.GRAY);
+		contentPane.setBackground(SystemColor.control);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		tfSuche = new JTextField();
+		tfSuche.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				filter(tfSuche.getText());
+			}
+		});
+		tfSuche.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		tfSuche.setColumns(10);
+		tfSuche.setBackground(SystemColor.menu);
+		tfSuche.setBounds(10, 26, 964, 19);
+		contentPane.add(tfSuche);
 
 		JButton btnDelete = new JButton("Löschen");
-		btnDelete.setBounds(31, 600, 180, 23);
+		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnDelete.setFocusPainted(false);
+		btnDelete.setBackground(SystemColor.inactiveCaption);
+		btnDelete.setBounds(10, 605, 180, 23);
 		contentPane.add(btnDelete);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(31, 40, 1634, 521);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		contentPane.add(scrollPane);
-		
-		JPanel panel = new JPanel();
-		scrollPane.setViewportView(panel);
 		
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 					conn = DriverManager.getConnection(url);
-					int i = tableFahrzeuge.getSelectedRow();
-					String value = (tableFahrzeuge.getModel().getValueAt(i, 0).toString());
-					String query = "DELETE FROM FuhrparkTest WHERE ID="+value;
+					String query = "DELETE FROM FuhrparkTest WHERE ID="+id;
 					PreparedStatement pst = conn.prepareStatement(query);
 
 					pst.executeUpdate();
@@ -95,15 +119,28 @@ public class FahrzeugLoeschenMaske extends JFrame {
 				}
 			}
 		});
+		
+		JButton btnClear = new JButton("X");
+		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
+		btnClear.setFocusPainted(false);
+		btnClear.setBackground(SystemColor.inactiveCaption);
+		btnClear.setBounds(974, 26, 19, 18);
+		btnClear.setMargin(new Insets(0, 0, 0, 0));
+		contentPane.add(btnClear);
+		
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent evt){
+				tfSuche.setText("");
+				filter(tfSuche.getText());
+			}
+		});
+		
 		tableFahrzeuge = new JTable();
-		tableFahrzeuge.setFillsViewportHeight(true);
-		tableFahrzeuge.setShowGrid(false);
+		tableFahrzeuge.setBorder(null);
 
 		tableFahrzeuge.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollPane.setViewportView(tableFahrzeuge);
-		tableFahrzeuge.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tableFahrzeuge.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "ID", "FirmaNr", "NL", "FZG_Marke", "FZG_Typ", "FZG_Bezeichnung", "amtl_Kennzeichen", "Erstzulassung", 
+				new String[] { "ID", "IdentNr", "FirmaNr", "NL", "FZG_Marke", "FZG_Typ", "FZG_Bezeichnung", "amtl_Kennzeichen", "Erstzulassung", 
 						"Abmeldedatum", "Fahrer", "Fahrer2", "Finanzstatus", "Bank_Leasinggesellschaft", "VertragsNr", "Leasingdauer_Monate", 
 						"Verlaengerung_Monate", "Leasingrate_zzgl_MwSt_Fahrzeug", "Vertragsende", "Bemerkung", "Restwert_Leasingende", 
 						"Soll_Laufleistung_Km", "km_Stand", "Datum_Erfassung_km_Stand", "Anschaffungswert__Netto", "Finanzierungsrate", 
@@ -114,20 +151,26 @@ public class FahrzeugLoeschenMaske extends JFrame {
 		tableFahrzeuge.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
 		JButton btnZurück = new JButton("");
+		btnZurück.setFocusable(false);
 		btnZurück.setBackground(Color.WHITE);
 		btnZurück.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrzeugFunktionsAuswahlMaske frame = new FahrzeugFunktionsAuswahlMaske();
-				frame.setVisible(true);
 				setVisible(false);
 			}
 		});
-		btnZurück.setIcon(new ImageIcon("C:\\Users\\Tolga.Soylu\\OneDrive - KHW Konzmann GmbH\\Desktop\\back-icon (1).png"));
-		btnZurück.setBounds(0, 0, 40, 20);
+		btnZurück.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
+		btnZurück.setBounds(10, 2, 28, 23);
 		contentPane.add(btnZurück);
 		
+		tableFahrzeuge.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
+				TableModel model = tableFahrzeuge.getModel();
+				id = model.getValueAt(i, 0).toString();
+			}
+		});
 		show_fahrzeug();
-
+		scrollpane(btnDelete, btnClear);
 	}
 	public static ArrayList<Fahrzeug> fahrzeug() {
 		ArrayList<Fahrzeug> fahrzeugliste = new ArrayList<>();
@@ -143,6 +186,7 @@ public class FahrzeugLoeschenMaske extends JFrame {
 			while (rs.next()) {
 				fahrzeug = new Fahrzeug(
 						rs.getInt("ID"),
+						rs.getString("IdentNr"),
 						rs.getString("FirmaNr"),
 						rs.getString("NL"),
 						rs.getString("FZG_Marke"),
@@ -200,60 +244,69 @@ public class FahrzeugLoeschenMaske extends JFrame {
 
 		return fahrzeugliste;
 	}
+	
+	public void filter(String str) {
+		DefaultTableModel model = (DefaultTableModel) tableFahrzeuge.getModel();
+		TableRowSorter<DefaultTableModel> rowFilter = new TableRowSorter<DefaultTableModel>(model);
+		tableFahrzeuge.setRowSorter(rowFilter);
+		
+		rowFilter.setRowFilter(RowFilter.regexFilter("(?i)" + str));
+	}
 
 	public static void show_fahrzeug() {
 		DefaultTableModel model = (DefaultTableModel) tableFahrzeuge.getModel();
 		ArrayList<Fahrzeug> fahrzeug = fahrzeug();
-		Object[] row = new Object[48];
+		Object[] row = new Object[49];
 		for (int i = 0; i < fahrzeug.size(); i++) {
 			row[0] = fahrzeug.get(i).getID();
-			row[1] = fahrzeug.get(i).getFirmaNr();
-			row[2] = fahrzeug.get(i).getNL();
-			row[3] = fahrzeug.get(i).getFZG_Marke();
-			row[4] = fahrzeug.get(i).getFZG_Typ();
-			row[5] = fahrzeug.get(i).getFZG_Bezeichnung();
-			row[6] = fahrzeug.get(i).getAmtl_Kennzeichen();
-			row[7] = fahrzeug.get(i).getErstzulassung();
-			row[8] = fahrzeug.get(i).getAbmeldedatum();
-			row[9] = fahrzeug.get(i).getFahrer();
-			row[10] = fahrzeug.get(i).getFahrer2();
-			row[11] = fahrzeug.get(i).getFinanzstatus();
-			row[12] = fahrzeug.get(i).getBank_Leasinggesellschaft();
-			row[13] = fahrzeug.get(i).getVertragsNr();
-			row[14] = fahrzeug.get(i).getLeasingdauer_Monate();
-			row[15] = fahrzeug.get(i).getVerlaengerung_Monate();
-			row[16] = fahrzeug.get(i).getLeasingrate_zzgl_MwSt_Fahrzeug();
-			row[17] = fahrzeug.get(i).getVertragsende();
-			row[18] = fahrzeug.get(i).getBemerkung();
-			row[19] = fahrzeug.get(i).getRestwert_Leasingende();
-			row[20] = fahrzeug.get(i).getSoll_Laufleistung_Km();
-			row[21] = fahrzeug.get(i).getKm_Stand();
-			row[22] = fahrzeug.get(i).getDatum_Erfassung_km_Stand();
-			row[23] = fahrzeug.get(i).getAnschaffungswert_Netto();
-			row[24] = fahrzeug.get(i).getFinanzierungsrate();
-			row[25] = fahrzeug.get(i).getWartung();
-			row[26] = fahrzeug.get(i).getZulassungsart();
-			row[27] = fahrzeug.get(i).getZulaessiges_Gesamtgew_F_1();
-			row[28] = fahrzeug.get(i).getMotorleistung_KW_P_2();
-			row[29] = fahrzeug.get(i).getSommerreifen();
-			row[30] = fahrzeug.get(i).getSommer_T_Typ();
-			row[31] = fahrzeug.get(i).getWinterreifen();
-			row[32] = fahrzeug.get(i).getWinter_T_Typ();
-			row[33] = fahrzeug.get(i).getKostenstelle();
-			row[34] = fahrzeug.get(i).getKm_Stand_Jan();
-			row[35] = fahrzeug.get(i).getKm_Stand_Jan_Vorjahr();
-			row[36] = fahrzeug.get(i).getKm_Stand_Jan_VorVorjahr();
-			row[37] = fahrzeug.get(i).getHaftpflicht();
-			row[38] = fahrzeug.get(i).getKasko();
-			row[39] = fahrzeug.get(i).getQuartal();
-			row[40] = fahrzeug.get(i).getSteuer();
-			row[41] = fahrzeug.get(i).getFarbe_Auto();
-			row[42] = fahrzeug.get(i).getFoliert();
-			row[43] = fahrzeug.get(i).getFolieren_Planung();
-			row[44] = fahrzeug.get(i).getFolieren_Farbe();
-			row[45] = fahrzeug.get(i).getRegale_Geleast_Gekauft();
-			row[46] = fahrzeug.get(i).getTyp();
-			row[47] = fahrzeug.get(i).getBelueftung_wegen_Gas();
+			row[1] = fahrzeug.get(i).getIdentNr();
+			row[2] = fahrzeug.get(i).getFirmaNr();
+			row[3] = fahrzeug.get(i).getNL();
+			row[4] = fahrzeug.get(i).getFZG_Marke();
+			row[5] = fahrzeug.get(i).getFZG_Typ();
+			row[6] = fahrzeug.get(i).getFZG_Bezeichnung();
+			row[7] = fahrzeug.get(i).getAmtl_Kennzeichen();
+			row[8] = fahrzeug.get(i).getErstzulassung();
+			row[9] = fahrzeug.get(i).getAbmeldedatum();
+			row[10] = fahrzeug.get(i).getFahrer();
+			row[11] = fahrzeug.get(i).getFahrer2();
+			row[12] = fahrzeug.get(i).getFinanzstatus();
+			row[13] = fahrzeug.get(i).getBank_Leasinggesellschaft();
+			row[14] = fahrzeug.get(i).getVertragsNr();
+			row[15] = fahrzeug.get(i).getLeasingdauer_Monate();
+			row[16] = fahrzeug.get(i).getVerlaengerung_Monate();
+			row[17] = fahrzeug.get(i).getLeasingrate_zzgl_MwSt_Fahrzeug();
+			row[18] = fahrzeug.get(i).getVertragsende();
+			row[19] = fahrzeug.get(i).getBemerkung();
+			row[20] = fahrzeug.get(i).getRestwert_Leasingende();
+			row[21] = fahrzeug.get(i).getSoll_Laufleistung_Km();
+			row[22] = fahrzeug.get(i).getKm_Stand();
+			row[23] = fahrzeug.get(i).getDatum_Erfassung_km_Stand();
+			row[24] = fahrzeug.get(i).getAnschaffungswert_Netto();
+			row[25] = fahrzeug.get(i).getFinanzierungsrate();
+			row[26] = fahrzeug.get(i).getWartung();
+			row[27] = fahrzeug.get(i).getZulassungsart();
+			row[28] = fahrzeug.get(i).getZulaessiges_Gesamtgew_F_1();
+			row[29] = fahrzeug.get(i).getMotorleistung_KW_P_2();
+			row[30] = fahrzeug.get(i).getSommerreifen();
+			row[31] = fahrzeug.get(i).getSommer_T_Typ();
+			row[32] = fahrzeug.get(i).getWinterreifen();
+			row[33] = fahrzeug.get(i).getWinter_T_Typ();
+			row[34] = fahrzeug.get(i).getKostenstelle();
+			row[35] = fahrzeug.get(i).getKm_Stand_Jan();
+			row[36] = fahrzeug.get(i).getKm_Stand_Jan_Vorjahr();
+			row[37] = fahrzeug.get(i).getKm_Stand_Jan_VorVorjahr();
+			row[38] = fahrzeug.get(i).getHaftpflicht();
+			row[39] = fahrzeug.get(i).getKasko();
+			row[40] = fahrzeug.get(i).getQuartal();
+			row[41] = fahrzeug.get(i).getSteuer();
+			row[42] = fahrzeug.get(i).getFarbe_Auto();
+			row[43] = fahrzeug.get(i).getFoliert();
+			row[44] = fahrzeug.get(i).getFolieren_Planung();
+			row[45] = fahrzeug.get(i).getFolieren_Farbe();
+			row[46] = fahrzeug.get(i).getRegale_Geleast_Gekauft();
+			row[47] = fahrzeug.get(i).getTyp();
+			row[48] = fahrzeug.get(i).getBelueftung_wegen_Gas();
 			model.addRow(row);
 		}
 	}
@@ -266,5 +319,49 @@ public class FahrzeugLoeschenMaske extends JFrame {
 		} catch (IndexOutOfBoundsException e) {
 			// JOptionPane.showMessageDialog(null, e);
 		};
+	}
+	
+	public void scrollpane(JButton btnDelete, JButton btnClear) {
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBorder(null);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBounds(10, 50, 1242, 550);
+		contentPane.add(scrollPane);
+		
+		JPanel panel = new JPanel();
+		scrollPane.setViewportView(panel);
+		scrollPane.setViewportView(tableFahrzeuge);
+		
+		JLabel lblBackground_2 = new JLabel("");
+		lblBackground_2.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		
+		JLabel lblBackground = new JLabel("");
+		lblBackground.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		lblBackground.setBounds(0, 0, 1262, 647);
+		contentPane.add(lblBackground);
+		
+		addWindowStateListener(new WindowStateListener() {
+            public void windowStateChanged(final WindowEvent evt) {
+                if (evt.getNewState() == MAXIMIZED_BOTH) {
+                	contentPane.remove(lblBackground);
+                	scrollPane.setBounds(10, 50, 1900, 932);
+                	btnDelete.setBounds(10, 986, 180, 23);
+                	btnClear.setBounds(1619, 26, 19, 18);
+                	lblBackground_2.setBounds(658, 0, 1262, 651);
+            		lblBackground.setBounds(0, 0, 1262, 651);
+            		contentPane.add(lblBackground_2);
+            		contentPane.add(lblBackground);
+            		tfSuche.setBounds(10, 26, 1638, 19);
+            		tfSuche.setBounds(10, 26, 1609, 19);
+                }
+                else {
+                	scrollPane.setBounds(10, 50, 1242, 550);
+                	btnDelete.setBounds(10, 605, 180, 23);
+                	lblBackground.setBounds(0, 0, 1262, 647);
+            		contentPane.remove(lblBackground_2);
+            		tfSuche.setBounds(10, 26, 980, 19);
+                }
+            }
+        });
 	}
 }

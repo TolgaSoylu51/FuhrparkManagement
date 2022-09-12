@@ -2,12 +2,23 @@ package Code;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,8 +32,14 @@ import javax.swing.JTable;
 import java.awt.Color;
 
 import javax.swing.ImageIcon;
-import javax.swing.border.LineBorder;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
+
+import java.awt.SystemColor;
+import java.awt.Font;
+import java.awt.Insets;
+
+import javax.swing.JTextField;
 
 public class DokumentLöeschenMaske extends JFrame {
 
@@ -36,6 +53,8 @@ public class DokumentLöeschenMaske extends JFrame {
 	ResultSet rs = null;
 	PreparedStatement pst = null;
 	private static JTable tableFahrer;
+	private JTextField tfSuche;
+	private String id = null;
 //	private String dateiname;
 
 	/**
@@ -46,6 +65,7 @@ public class DokumentLöeschenMaske extends JFrame {
 			public void run() {
 				try {
 					DokumentLöeschenMaske frame = new DokumentLöeschenMaske();
+					frame.setResizable(false);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,28 +78,55 @@ public class DokumentLöeschenMaske extends JFrame {
 	 * Create the frame.
 	 */
 	public DokumentLöeschenMaske() {
+		setTitle("KFM Dokument Löschen");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1710, 681);
+		setSize(1278, 674);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
-		contentPane.setForeground(Color.GRAY);
+		contentPane.setBackground(SystemColor.inactiveCaptionBorder);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JButton btnLoeschen = new JButton("Löschen");
+		btnLoeschen.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnLoeschen.setFocusPainted(false);
+		btnLoeschen.setBackground(SystemColor.inactiveCaption);
 		btnLoeschen.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 					con = DriverManager.getConnection(url);
-					int i = tableFahrer.getSelectedRow();
-					String value = (tableFahrer.getModel().getValueAt(i, 0).toString());
-					String query = "DELETE FROM DokumenteTest WHERE ID="+value;
-					
+					int i = tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow());
+					TableModel model = tableFahrer.getModel();
+					String query = "DELETE FROM DokumenteTest WHERE ID=" + id;
+					String pfad = model.getValueAt(i, 2).toString();
+					String name = model.getValueAt(i, 1).toString();
+
 					PreparedStatement pst = con.prepareStatement(query);
 
 					pst.executeUpdate();
+
+					int endungStart = 0;
+					String endung = "";
+
+					for (int j = 0; j < pfad.length(); j++) {
+						if (pfad.charAt(j) == '.') {
+							endungStart = j;
+						}
+					}
+					
+					
+					
+					endung = pfad.substring(endungStart);
+					
+					Path path = Paths
+							.get(System.getProperty("user.home") + "/Desktop/FuhrparkManagement_Dokumente/" + name + endung);
+					try {
+						Files.delete(path);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 
 					show_aktualisierte_Dokument();
 
@@ -89,12 +136,39 @@ public class DokumentLöeschenMaske extends JFrame {
 				catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, e1);
 				}
-				
+
 				show_aktualisierte_Dokument();
 			}
 		});
 
-		btnLoeschen.setBounds(39, 563, 180, 23);
+		JButton btnClear = new JButton("X");
+		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
+		btnClear.setFocusPainted(false);
+		btnClear.setBackground(SystemColor.inactiveCaption);
+		btnClear.setBounds(974, 26, 19, 18);
+		btnClear.setMargin(new Insets(0, 0, 0, 0));
+		contentPane.add(btnClear);
+
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				tfSuche.setText("");
+				filter(tfSuche.getText());
+			}
+		});
+
+		tfSuche = new JTextField();
+		tfSuche.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				filter(tfSuche.getText());
+			}
+		});
+		tfSuche.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		tfSuche.setColumns(10);
+		tfSuche.setBackground(SystemColor.menu);
+		tfSuche.setBounds(10, 26, 964, 19);
+		contentPane.add(tfSuche);
+
+		btnLoeschen.setBounds(10, 605, 180, 23);
 		contentPane.add(btnLoeschen);
 
 //		btnSave.addActionListener(new ActionListener() {
@@ -165,35 +239,44 @@ public class DokumentLöeschenMaske extends JFrame {
 //		});
 
 		JButton btnZurück = new JButton("");
+		btnZurück.setFocusable(false);
 		btnZurück.setBackground(Color.WHITE);
 		btnZurück.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DokumentFunktionsAuswahlMaske frame = new DokumentFunktionsAuswahlMaske();
-				frame.setVisible(true);
 				setVisible(false);
 			}
 		});
-		btnZurück.setIcon(
-				new ImageIcon("C:\\Users\\Tolga.Soylu\\OneDrive - KHW Konzmann GmbH\\Desktop\\back-icon (1).png"));
-		btnZurück.setBounds(0, 0, 40, 20);
+		btnZurück.setIcon(new ImageIcon(
+				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
+		btnZurück.setBounds(10, 2, 28, 23);
 		contentPane.add(btnZurück);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(39, 30, 1631, 510);
+		scrollPane.setBorder(null);
+		scrollPane.setBounds(10, 50, 1242, 550);
 		contentPane.add(scrollPane);
 
 		tableFahrer = new JTable();
 
 		tableFahrer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(tableFahrer);
-		tableFahrer.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tableFahrer.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"ID", "DokumentName", "Pfad", "Dokument", "Extension"
+		tableFahrer.setBorder(null);
+		tableFahrer.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "ID", "DokumentName", "Pfad", "Dokument", "Extension" }));
+
+		JLabel lblBackground = new JLabel("");
+		lblBackground.setIcon(new ImageIcon(
+				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		lblBackground.setBounds(0, 0, 1262, 647);
+		contentPane.add(lblBackground);
+
+		tableFahrer.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				int i = tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow());
+				TableModel model = tableFahrer.getModel();
+				id = model.getValueAt(i, 0).toString();
 			}
-		));
+		});
 
 		show_Dokument();
 
@@ -211,8 +294,8 @@ public class DokumentLöeschenMaske extends JFrame {
 			ResultSet rs = st.executeQuery(query1);
 			Dokument dokument;
 			while (rs.next()) {
-				dokument = new Dokument(rs.getInt("ID"), rs.getString("DokumentName"), rs.getString("Pfad"), rs.getBytes("Dokument"),
-						rs.getString("Extension"));
+				dokument = new Dokument(rs.getInt("ID"), rs.getString("DokumentName"), rs.getString("Pfad"),
+						rs.getBytes("Dokument"), rs.getString("Extension"));
 				dokumentliste.add(dokument);
 			}
 		}
@@ -222,6 +305,14 @@ public class DokumentLöeschenMaske extends JFrame {
 		}
 
 		return dokumentliste;
+	}
+
+	public void filter(String str) {
+		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
+		TableRowSorter<DefaultTableModel> rowFilter = new TableRowSorter<DefaultTableModel>(model);
+		tableFahrer.setRowSorter(rowFilter);
+
+		rowFilter.setRowFilter(RowFilter.regexFilter("(?i)" + str));
 	}
 
 	public static void show_Dokument() {

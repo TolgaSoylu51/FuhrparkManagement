@@ -3,11 +3,11 @@ package Code;
 public class Fahrer {
 	private int ID; 
 	private int Personalnummer;
-	private String AktivKZ;
+	private int AktivKZ;
 	private String Name;
 	private String Vorname;
 	private String FirmaNr;
-	private String NL_Nr;
+	private int NL_Nr;
 	private String Fahrerlaubnis;
 	private String Erstprüfung;
 	private String Prüfungszeitpunkt1;
@@ -16,17 +16,17 @@ public class Fahrer {
 	private String Prüfungszeitpunkt2;
 	private String Kommentar2;
 	
-	public Fahrer(int iD, int personalnummer, String aktivKZ, String name, String vorname, String firmaNr, String nL_Nr,
+	public Fahrer(int iD, int personalnummer, int aktivkz, String name, String vorname, String firmaNr, int nlnr,
 			String fahrerlaubnis, String erstprüfung, String prüfungszeitpunkt1, String kommentar1, String zweitprüfung,
 			String prüfungszeitpunkt2, String kommentar2) {
 		super();
 		ID = iD;
 		Personalnummer = personalnummer;
-		AktivKZ = aktivKZ;
+		AktivKZ = aktivkz;
 		Name = name;
 		Vorname = vorname;
 		FirmaNr = firmaNr;
-		NL_Nr = nL_Nr;
+		NL_Nr = nlnr;
 		Fahrerlaubnis = fahrerlaubnis;
 		Erstprüfung = erstprüfung;
 		Prüfungszeitpunkt1 = prüfungszeitpunkt1;
@@ -52,11 +52,11 @@ public class Fahrer {
 		Personalnummer = personalnummer;
 	}
 
-	public String getAktivKZ() {
+	public int getAktivKZ() {
 		return AktivKZ;
 	}
 
-	public void setAktivKZ(String aktivKZ) {
+	public void setAktivKZ(int aktivKZ) {
 		AktivKZ = aktivKZ;
 	}
 
@@ -84,11 +84,11 @@ public class Fahrer {
 		FirmaNr = firmaNr;
 	}
 
-	public String getNL_Nr() {
+	public int getNL_Nr() {
 		return NL_Nr;
 	}
 
-	public void setNL_Nr(String nL_Nr) {
+	public void setNL_Nr(int nL_Nr) {
 		NL_Nr = nL_Nr;
 	}
 

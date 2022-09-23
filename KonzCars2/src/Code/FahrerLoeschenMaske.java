@@ -120,17 +120,20 @@ public class FahrerLoeschenMaske extends JFrame {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+
+					
 					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 					con = DriverManager.getConnection(url);
-					String query = "DELETE FROM MitarbeiterTest WHERE ID="+id;
-					
+					String query = "UPDATE MitarbeiterTest SET AktivKZ=? WHERE ID="
+							+ id;
 					PreparedStatement pst = con.prepareStatement(query);
-
+					pst.setString(1, "4");
+					
 					pst.executeUpdate();
 
 					show_aktualisierte_fahrerliste();
 
-					JOptionPane.showMessageDialog(null, "Datensatz wurde gelöscht!");
+					//JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 				}
 
 				catch (Exception e1) {
@@ -190,7 +193,7 @@ public class FahrerLoeschenMaske extends JFrame {
 			con = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query1 = "Select * from MitarbeiterTest";
+			String query1 = "Select * from MitarbeiterTest where AktivKZ <> 4";
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			Fahrer fahrer;

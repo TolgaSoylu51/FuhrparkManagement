@@ -1,3 +1,4 @@
+
 package Code;
 
 import java.awt.EventQueue;
@@ -134,7 +135,7 @@ public class DokumentAnlegenMaske extends JFrame {
 					pst.setString(1,
 							"C://Users//Tolga.Soylu//OneDrive - KHW Konzmann GmbH//Desktop//FuhrparkManagement/"
 									+ tfDokumentName.getText() + endung);
-					JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
+					//JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 				} catch (Exception e1) {
 //					JOptionPane.showMessageDialog(null, e1);
 				}

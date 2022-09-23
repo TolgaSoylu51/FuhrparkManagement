@@ -51,6 +51,7 @@ public class Fahrzeug {
 	private String Regale_Geleast_Gekauft;
 	private String Typ;
 	private String Belueftung_wegen_Gas;
+	private int Bearbeitet;
 	
 	public Fahrzeug(int iD, String identNr, String FirmaNr, String NL, String FZG_Marke, String FZG_Typ, String FZG_Bezeichnung,
 			String amtl_Kennzeichen, String Erstzulassung, String Abmeldedatum, String Fahrer,
@@ -64,7 +65,7 @@ public class Fahrzeug {
 			String km_Stand_Jan, String km_Stand_Jan_Vorjahr, String km_Stand_Jan_VorVorjahr, String Haftpflicht, 
 			String Kasko, String Quartal, String Steuer, String Farbe_Auto, String Foliert, 
 			String Folieren_Planung, String Folieren_Farbe, String Regale_Geleast_Gekauft, String Typ, 
-			String Belueftung_wegen_Gas) {
+			String Belueftung_wegen_Gas, int Bearbeitet) {
 		super();
 		this.ID = iD;
 		this.IdentNr = identNr;
@@ -115,6 +116,7 @@ public class Fahrzeug {
 		this.Regale_Geleast_Gekauft = Regale_Geleast_Gekauft;
 		this.Typ = Typ;
 		this.Belueftung_wegen_Gas = Belueftung_wegen_Gas;
+		this.Bearbeitet = Bearbeitet;
 	}
 	
 	public int getID() {
@@ -507,6 +509,14 @@ public class Fahrzeug {
 
 	public void setBelueftung_wegen_Gas(String belueftung_wegen_Gas) {
 		Belueftung_wegen_Gas = belueftung_wegen_Gas;
+	}
+	
+	public int getBearbeitet() {
+		return Bearbeitet;
+	}
+
+	public void setBearbeitet(int bearbeitet) {
+		Bearbeitet = bearbeitet;
 	}
 }
 

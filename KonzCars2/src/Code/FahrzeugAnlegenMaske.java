@@ -873,7 +873,7 @@ public class FahrzeugAnlegenMaske extends JFrame {
 							+ "Vertragsende, Bemerkung, Restwert_Leasingende, Soll_Laufleistung_Km, km_Stand, Datum_Erfassung_km_Stand, Anschaffungswert__Netto, Finanzierungsrate, "
 							+ "Wartung, Zulassungsart, zulaessiges_Gesamtgew_F_1, Motorleistung_KW_P_2, Sommerreifen, Sommer_T_Typ, Winterreifen, Winter_T_Typ, Kostenstelle, km_Stand_Jan_Y, "
 							+ "km_Stand_Jan_VJ, km_Stand_Jan_VVJ, Haftpflicht, Kasko, Quartal, Steuer, Farbe_Auto, Foliert, Folieren_Planung, Folieren_Farbe, Regale_Geleast_Gekauft, Typ, "
-							+ "Belueftung_wegen_Gas) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "Belueftung_wegen_Gas, Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					PreparedStatement pst = conn.prepareStatement(query);
 					
 					TableModel model = tableFahrzeuge.getModel();
@@ -957,13 +957,14 @@ public class FahrzeugAnlegenMaske extends JFrame {
 					pst.setString(45, tfFolieren_Farbe.getText());
 					pst.setString(46, tfRegale_Geleast_Gekauft.getText());
 					pst.setString(47, tfTyp.getText());
-					pst.setString(48, tfBelueftung_wegen_Gas.getText());	
+					pst.setString(48, tfBelueftung_wegen_Gas.getText());
+					pst.setInt(49, 0);	
 
 					pst.executeUpdate();
 
 					show_hinzugefuegtes_fahrzeug();
 
-					JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
+					//JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 				}
 
 				catch (Exception e1) {
@@ -1124,7 +1125,8 @@ public class FahrzeugAnlegenMaske extends JFrame {
 				rs.getString("Folieren_Farbe"),
 				rs.getString("Regale_Geleast_Gekauft"),
 				rs.getString("Typ"),
-				rs.getString("Belueftung_wegen_Gas"));
+				rs.getString("Belueftung_wegen_Gas"),
+				rs.getInt("Bearbeitet"));
 				fahrzeugliste.add(fahrzeug);
 			}
 		}

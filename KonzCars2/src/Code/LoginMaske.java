@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.SystemColor;
 import java.awt.Font;
+import java.awt.HeadlessException;
 
 public class LoginMaske extends JFrame {
 	/**

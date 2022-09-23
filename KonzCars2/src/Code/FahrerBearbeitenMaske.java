@@ -254,7 +254,7 @@ public class FahrerBearbeitenMaske extends JFrame {
 							+ id;
 					PreparedStatement pst = con.prepareStatement(query);
 					pst.setString(1, tfPersonalnummer.getText());
-					pst.setString(2, tfAktivKz.getText());
+					pst.setString(2, "2");
 					pst.setString(3, tfNachname.getText());
 					pst.setString(4, tfVorname.getText());
 					pst.setString(5, tfFirmaNr.getText());
@@ -302,7 +302,7 @@ public class FahrerBearbeitenMaske extends JFrame {
 
 					show_aktualisierte_fahrerliste();
 
-					JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
+					//JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 				}
 
 				catch (Exception e1) {
@@ -408,7 +408,7 @@ public class FahrerBearbeitenMaske extends JFrame {
 			con = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query1 = "Select * from MitarbeiterTest";
+			String query1 = "Select * from MitarbeiterTest where AktivKZ <> 4";
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			Fahrer fahrer;

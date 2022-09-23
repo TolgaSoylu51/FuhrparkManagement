@@ -111,7 +111,7 @@ public class FahrzeugLoeschenMaske extends JFrame {
 
 					show_aktualisiertes_fahrzeug();
 
-					JOptionPane.showMessageDialog(null, "Datensatz wurde gelöscht!");
+					//JOptionPane.showMessageDialog(null, "Datensatz wurde gelöscht!");
 				}
 
 				catch (Exception e1) {
@@ -233,7 +233,8 @@ public class FahrzeugLoeschenMaske extends JFrame {
 						rs.getString("Folieren_Farbe"),
 						rs.getString("Regale_Geleast_Gekauft"),
 						rs.getString("Typ"),
-						rs.getString("Belueftung_wegen_Gas"));
+						rs.getString("Belueftung_wegen_Gas"),
+						rs.getInt("Bearbeitet"));
 				fahrzeugliste.add(fahrzeug);
 			}
 		}

@@ -1,3 +1,4 @@
+
 package Code;
 
 import java.awt.EventQueue;
@@ -130,7 +131,7 @@ public class DokumentLöeschenMaske extends JFrame {
 
 					show_aktualisierte_Dokument();
 
-					JOptionPane.showMessageDialog(null, "Datensatz wurde gelöscht!");
+					//JOptionPane.showMessageDialog(null, "Datensatz wurde gelöscht!");
 				}
 
 				catch (Exception e1) {

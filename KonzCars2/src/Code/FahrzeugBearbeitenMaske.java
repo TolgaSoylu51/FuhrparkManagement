@@ -49,6 +49,7 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 	static Connection conn = null;
 	ResultSet rs = null;
 	PreparedStatement pst = null;
+	ArrayList<Fahrzeug> vergleichsliste = new ArrayList<>();
 	private static JTable tableFahrzeuge;
 	boolean erweitern = false;
 	private String id = null;
@@ -839,7 +840,16 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
+				//int aktualisiert;
+				//aktualisiert = vergleichsliste.get(i).getBearbeitet();
+				//System.out.print(aktualisiert); //DARF NICHT MITHOCHGERECHNET WERDEN
+				//System.out.print(vergleichsliste.get(i).getBearbeitet());
+				//ArrayList<Fahrzeug> fahrzeugliste = fahrzeug();
+				//if (aktualisiert == fahrzeugliste.get(i).getBearbeitet()) {
 				try {
+					
+					
 					emptyTf(tfIdentNr);
 					emptyTf(tfFirmaNr);
 					emptyTf(tfNL);
@@ -860,7 +870,7 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 					
 					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 					conn = DriverManager.getConnection(url);
-					String query = "UPDATE FuhrparkTest SET IdentNr=?, FirmaNr=?, NL=?, FZG_Marke=?, FZG_Typ=?, FZG_Bezeichnung=?, amtl_Kennzeichen=?, Erstzulassung=?, Abmeldedatum=?, Fahrer=?, Fahrer2=?, Finanzstatus=?, Bank_Leasinggesellschaft=?, VertragsNr=?, Leasingdauer_Monate=?, Verlaengerung_Monate=?, Leasingrate_zzgl_MwSt_Fahrzeug=?, Vertragsende=?, Bemerkung=?, Restwert_Leasingende=?, Soll_Laufleistung_Km=?, km_Stand=?, Datum_Erfassung_km_Stand=?, Anschaffungswert__Netto=?, Finanzierungsrate=?, Wartung=?, Zulassungsart=?, zulaessiges_Gesamtgew_F_1=?, Motorleistung_KW_P_2=?, Sommerreifen=?, Sommer_T_Typ=?, Winterreifen=?, Winter_T_Typ=?, Kostenstelle=?, km_Stand_Jan_Y=?, km_Stand_Jan_VJ=?, km_Stand_Jan_VVJ=?, Haftpflicht=?, Kasko=?, Quartal=?, Steuer=?, Farbe_Auto=?, Foliert=?, Folieren_Planung=?, Folieren_Farbe=?, Regale_Geleast_Gekauft=?, Typ=?, Belueftung_wegen_Gas=? WHERE ID="
+					String query = "UPDATE FuhrparkTest SET IdentNr=?, FirmaNr=?, NL=?, FZG_Marke=?, FZG_Typ=?, FZG_Bezeichnung=?, amtl_Kennzeichen=?, Erstzulassung=?, Abmeldedatum=?, Fahrer=?, Fahrer2=?, Finanzstatus=?, Bank_Leasinggesellschaft=?, VertragsNr=?, Leasingdauer_Monate=?, Verlaengerung_Monate=?, Leasingrate_zzgl_MwSt_Fahrzeug=?, Vertragsende=?, Bemerkung=?, Restwert_Leasingende=?, Soll_Laufleistung_Km=?, km_Stand=?, Datum_Erfassung_km_Stand=?, Anschaffungswert__Netto=?, Finanzierungsrate=?, Wartung=?, Zulassungsart=?, zulaessiges_Gesamtgew_F_1=?, Motorleistung_KW_P_2=?, Sommerreifen=?, Sommer_T_Typ=?, Winterreifen=?, Winter_T_Typ=?, Kostenstelle=?, km_Stand_Jan_Y=?, km_Stand_Jan_VJ=?, km_Stand_Jan_VVJ=?, Haftpflicht=?, Kasko=?, Quartal=?, Steuer=?, Farbe_Auto=?, Foliert=?, Folieren_Planung=?, Folieren_Farbe=?, Regale_Geleast_Gekauft=?, Typ=?, Belueftung_wegen_Gas=?, Bearbeitet=? WHERE ID="
 							+ id;
 
 					PreparedStatement pst = conn.prepareStatement(query);
@@ -937,7 +947,13 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 					pst.setString(46, tfRegale_Geleast_Gekauft.getText());
 					pst.setString(47, tfTyp.getText());
 					pst.setString(48, tfBelueftung_wegen_Gas.getText());
-
+					try {
+						ArrayList<Fahrzeug> fahrzeugliste = fahrzeug();
+						int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
+						pst.setInt(49, fahrzeugliste.get(i).getBearbeitet() +1);
+					} catch(IndexOutOfBoundsException e1){
+						//
+					}
 					pst.executeUpdate();
 
 					show_aktualisiertes_fahrzeug();
@@ -948,8 +964,9 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 				catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, e1);
 				}
-			}
-		});
+			}}
+	//	}
+	);
 
 		JButton btnZurück = new JButton("");
 		btnZurück.setFocusable(false);
@@ -1083,12 +1100,14 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 				tfBelueftung_wegen_Gas.setText(model.getValueAt(i, 48).toString());
 			}
 		});
+		
+		vergleichsliste = fahrzeug();
+		
 		show_fahrzeug();
 	}
 
 	public static ArrayList<Fahrzeug> fahrzeug() {
 		ArrayList<Fahrzeug> fahrzeugliste = new ArrayList<>();
-
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
@@ -1116,7 +1135,7 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 						rs.getString("Kasko"), rs.getString("Quartal"), rs.getString("Steuer"),
 						rs.getString("Farbe_Auto"), rs.getString("Foliert"), rs.getString("Folieren_Planung"),
 						rs.getString("Folieren_Farbe"), rs.getString("Regale_Geleast_Gekauft"), rs.getString("Typ"),
-						rs.getString("Belueftung_wegen_Gas"));
+						rs.getString("Belueftung_wegen_Gas"),rs.getInt("Bearbeitet"));
 				fahrzeugliste.add(fahrzeug);
 			}
 		}

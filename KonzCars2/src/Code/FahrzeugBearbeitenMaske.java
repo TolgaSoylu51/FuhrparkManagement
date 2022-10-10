@@ -150,7 +150,7 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 
 		btnSave.setBounds(10, 605, 180, 23);
 		contentPane.add(btnSave);
-		
+
 		JButton btnClear = new JButton("X");
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnClear.setFocusPainted(false);
@@ -158,9 +158,9 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 		btnClear.setBounds(974, 26, 19, 18);
 		btnClear.setMargin(new Insets(0, 0, 0, 0));
 		contentPane.add(btnClear);
-		
+
 		btnClear.addActionListener(new ActionListener() {
-			public void actionPerformed (ActionEvent evt){
+			public void actionPerformed(ActionEvent evt) {
 				tfSuche.setText("");
 				filter(tfSuche.getText());
 			}
@@ -171,7 +171,7 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 		lblIdentNr.setForeground(Color.BLACK);
 		lblIdentNr.setBounds(10, 72, 45, 13);
 		contentPane.add(lblIdentNr);
-		
+
 		tfIdentNr = new JTextField();
 		tfIdentNr.setForeground(Color.BLACK);
 		tfIdentNr.setBackground(Color.WHITE);
@@ -179,13 +179,13 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 		tfIdentNr.setBounds(64, 69, 140, 19);
 		contentPane.add(tfIdentNr);
 		tfIdentNr.setColumns(10);
-		
+
 		JLabel lblFirmaNr = new JLabel("FirmaNr");
 		lblFirmaNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblFirmaNr.setForeground(Color.BLACK);
 		lblFirmaNr.setBounds(212, 72, 45, 13);
 		contentPane.add(lblFirmaNr);
-		
+
 		tfFirmaNr = new JTextField();
 		tfFirmaNr.setForeground(Color.BLACK);
 		tfFirmaNr.setBackground(Color.WHITE);
@@ -840,133 +840,140 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
-				//int aktualisiert;
-				//aktualisiert = vergleichsliste.get(i).getBearbeitet();
-				//System.out.print(aktualisiert); //DARF NICHT MITHOCHGERECHNET WERDEN
+				int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
+				int aktualisiert;
+				aktualisiert = vergleichsliste.get(i).getBearbeitet();
+				//System.out.print(aktualisiert); // DARF NICHT MITHOCHGERECHNET WERDEN
 				//System.out.print(vergleichsliste.get(i).getBearbeitet());
-				//ArrayList<Fahrzeug> fahrzeugliste = fahrzeug();
-				//if (aktualisiert == fahrzeugliste.get(i).getBearbeitet()) {
-				try {
-					
-					
-					emptyTf(tfIdentNr);
-					emptyTf(tfFirmaNr);
-					emptyTf(tfNL);
-					emptyTf(tfFZG_Marke);
-					emptyTf(tfFZG_Typ);
-					emptyTf(tfFZG_Bezeichnung);
-					emptyTf(tfamtl_Kennzeichen);
-					emptyTf(tfErstzulassung);
-					emptyTf(tfAbmeldedatum);
-					emptyTf(tfFahrer);
-					emptyTf(tfFinanzstatus);		
-					emptyTf(tfkm_Stand);
-					emptyTf(tfDatum_Erfassung_km_Stand);
-					emptyTf(tfZulassungsart);
-					emptyTf(tfzulaessiges_Gesamtgew_F_1);
-					emptyTf(tfMotorleistung_KW_P_2);
-					emptyTf(tfKostenstelle);
-					
-					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
-					conn = DriverManager.getConnection(url);
-					String query = "UPDATE FuhrparkTest SET IdentNr=?, FirmaNr=?, NL=?, FZG_Marke=?, FZG_Typ=?, FZG_Bezeichnung=?, amtl_Kennzeichen=?, Erstzulassung=?, Abmeldedatum=?, Fahrer=?, Fahrer2=?, Finanzstatus=?, Bank_Leasinggesellschaft=?, VertragsNr=?, Leasingdauer_Monate=?, Verlaengerung_Monate=?, Leasingrate_zzgl_MwSt_Fahrzeug=?, Vertragsende=?, Bemerkung=?, Restwert_Leasingende=?, Soll_Laufleistung_Km=?, km_Stand=?, Datum_Erfassung_km_Stand=?, Anschaffungswert__Netto=?, Finanzierungsrate=?, Wartung=?, Zulassungsart=?, zulaessiges_Gesamtgew_F_1=?, Motorleistung_KW_P_2=?, Sommerreifen=?, Sommer_T_Typ=?, Winterreifen=?, Winter_T_Typ=?, Kostenstelle=?, km_Stand_Jan_Y=?, km_Stand_Jan_VJ=?, km_Stand_Jan_VVJ=?, Haftpflicht=?, Kasko=?, Quartal=?, Steuer=?, Farbe_Auto=?, Foliert=?, Folieren_Planung=?, Folieren_Farbe=?, Regale_Geleast_Gekauft=?, Typ=?, Belueftung_wegen_Gas=?, Bearbeitet=? WHERE ID="
-							+ id;
-
-					PreparedStatement pst = conn.prepareStatement(query);
-					
-					pst.setString(1, tfIdentNr.getText());
-					pst.setString(2, tfFirmaNr.getText());
-					pst.setString(3, tfNL.getText());
-					pst.setString(4, tfFZG_Marke.getText());
-					pst.setString(5, tfFZG_Typ.getText());
-					pst.setString(6, tfFZG_Bezeichnung.getText());
-					pst.setString(7, tfamtl_Kennzeichen.getText());
-					pst.setString(8, tfErstzulassung.getText());
-					pst.setString(9, tfAbmeldedatum.getText());
-					pst.setString(10, tfFahrer.getText());
-					pst.setString(11, tfFahrer2.getText());
-					pst.setString(12, tfFinanzstatus.getText());
-					pst.setString(13, tfBank_Leasinggesellschaft.getText());
-					pst.setString(14, tfVertragsNr.getText());
-					pst.setString(15, tfLeasingdauer_Monate.getText());
-					pst.setString(16, tfVerlaengerung_Monate.getText());
-					pst.setString(17, tfLeasingrate_zzgl_MwSt_Fahrzeug.getText());
-					pst.setString(18, tfVertragsende.getText());
-					pst.setString(19, tfBemerkung.getText());
-					pst.setString(20, tfRestwert_Leasingende.getText());
-					pst.setString(21, tfSoll_Laufleistung_Km.getText());
-					pst.setString(22, tfkm_Stand.getText());
-					pst.setString(23, tfDatum_Erfassung_km_Stand.getText());
-					pst.setString(24, tfAnschaffungswert__Netto.getText());
-					pst.setString(25, tfFinanzierungsrate.getText());
-					boolean wartung = false;
-					if (chkbxWartung.isSelected()) {
-						wartung = true;
-					}
-					if (wartung) {
-						pst.setString(26, "1");
-					} else {
-						pst.setString(26, "0");
-					}
-					pst.setString(27, tfZulassungsart.getText());
-					pst.setString(28, tfzulaessiges_Gesamtgew_F_1.getText());
-					pst.setString(29, tfMotorleistung_KW_P_2.getText());
-					pst.setString(30, tfSommerreifen.getText());
-					pst.setString(31, tfSommer_T_Typ.getText());
-					pst.setString(32, tfWinterreifen.getText());
-					pst.setString(33, tfWinter_T_Typ.getText());
-					pst.setString(34, tfKostenstelle.getText());
-					pst.setString(35, tfkm_Stand_Jan.getText());
-					pst.setString(36, tfkm_Stand_Jan_Vorjahr.getText());
-					pst.setString(37, tfkm_Stand_Jan_VorVorjahr.getText());
-					pst.setString(38, tfHaftpflicht.getText());
-					pst.setString(39, tfKasko.getText());
-					pst.setString(40, tfQuartal.getText());
-					pst.setString(41, tfSteuer.getText());
-					pst.setString(42, tfFarbe_Auto.getText());
-					boolean foliert = false;
-					if (chkbxFoliert.isSelected()) {
-						foliert = true;
-					}
-					if (foliert) {
-						pst.setString(43, "1");
-					} else {
-						pst.setString(43, "0");
-					}
-					boolean folieren_planung = false;
-					if (chkbxFolieren_Planung.isSelected()) {
-						folieren_planung = true;
-					}
-					if (folieren_planung) {
-						pst.setString(44, "1");
-					} else {
-						pst.setString(44, "0");
-					}
-					pst.setString(45, tfFolieren_Farbe.getText());
-					pst.setString(46, tfRegale_Geleast_Gekauft.getText());
-					pst.setString(47, tfTyp.getText());
-					pst.setString(48, tfBelueftung_wegen_Gas.getText());
+				ArrayList<Fahrzeug> fahrzeugliste = fahrzeug();
+				if (aktualisiert == fahrzeugliste.get(i).getBearbeitet()) {
 					try {
-						ArrayList<Fahrzeug> fahrzeugliste = fahrzeug();
-						int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
-						pst.setInt(49, fahrzeugliste.get(i).getBearbeitet() +1);
-					} catch(IndexOutOfBoundsException e1){
-						//
+
+						emptyTf(tfIdentNr);
+						emptyTf(tfFirmaNr);
+						emptyTf(tfNL);
+						emptyTf(tfFZG_Marke);
+						emptyTf(tfFZG_Typ);
+						emptyTf(tfFZG_Bezeichnung);
+						emptyTf(tfamtl_Kennzeichen);
+						emptyTf(tfErstzulassung);
+						emptyTf(tfAbmeldedatum);
+						emptyTf(tfFahrer);
+						emptyTf(tfFinanzstatus);
+						emptyTf(tfkm_Stand);
+						emptyTf(tfDatum_Erfassung_km_Stand);
+						emptyTf(tfZulassungsart);
+						emptyTf(tfzulaessiges_Gesamtgew_F_1);
+						emptyTf(tfMotorleistung_KW_P_2);
+						emptyTf(tfKostenstelle);
+
+						String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
+						conn = DriverManager.getConnection(url);
+						String query = "UPDATE FuhrparkTest SET IdentNr=?, FirmaNr=?, NL=?, FZG_Marke=?, FZG_Typ=?, FZG_Bezeichnung=?, amtl_Kennzeichen=?, Erstzulassung=?, Abmeldedatum=?, Fahrer=?, Fahrer2=?, Finanzstatus=?, Bank_Leasinggesellschaft=?, VertragsNr=?, Leasingdauer_Monate=?, Verlaengerung_Monate=?, Leasingrate_zzgl_MwSt_Fahrzeug=?, Vertragsende=?, Bemerkung=?, Restwert_Leasingende=?, Soll_Laufleistung_Km=?, km_Stand=?, Datum_Erfassung_km_Stand=?, Anschaffungswert__Netto=?, Finanzierungsrate=?, Wartung=?, Zulassungsart=?, zulaessiges_Gesamtgew_F_1=?, Motorleistung_KW_P_2=?, Sommerreifen=?, Sommer_T_Typ=?, Winterreifen=?, Winter_T_Typ=?, Kostenstelle=?, km_Stand_Jan_Y=?, km_Stand_Jan_VJ=?, km_Stand_Jan_VVJ=?, Haftpflicht=?, Kasko=?, Quartal=?, Steuer=?, Farbe_Auto=?, Foliert=?, Folieren_Planung=?, Folieren_Farbe=?, Regale_Geleast_Gekauft=?, Typ=?, Belueftung_wegen_Gas=?, Bearbeitet=? WHERE ID="
+								+ id;
+
+						PreparedStatement pst = conn.prepareStatement(query);
+
+						pst.setString(1, tfIdentNr.getText());
+						pst.setString(2, tfFirmaNr.getText());
+						pst.setString(3, tfNL.getText());
+						pst.setString(4, tfFZG_Marke.getText());
+						pst.setString(5, tfFZG_Typ.getText());
+						pst.setString(6, tfFZG_Bezeichnung.getText());
+						pst.setString(7, tfamtl_Kennzeichen.getText());
+						pst.setString(8, tfErstzulassung.getText());
+						pst.setString(9, tfAbmeldedatum.getText());
+						pst.setString(10, tfFahrer.getText());
+						pst.setString(11, tfFahrer2.getText());
+						pst.setString(12, tfFinanzstatus.getText());
+						pst.setString(13, tfBank_Leasinggesellschaft.getText());
+						pst.setString(14, tfVertragsNr.getText());
+						pst.setString(15, tfLeasingdauer_Monate.getText());
+						pst.setString(16, tfVerlaengerung_Monate.getText());
+						pst.setString(17, tfLeasingrate_zzgl_MwSt_Fahrzeug.getText());
+						pst.setString(18, tfVertragsende.getText());
+						pst.setString(19, tfBemerkung.getText());
+						pst.setString(20, tfRestwert_Leasingende.getText());
+						pst.setString(21, tfSoll_Laufleistung_Km.getText());
+						pst.setString(22, tfkm_Stand.getText());
+						pst.setString(23, tfDatum_Erfassung_km_Stand.getText());
+						pst.setString(24, tfAnschaffungswert__Netto.getText());
+						pst.setString(25, tfFinanzierungsrate.getText());
+						boolean wartung = false;
+						if (chkbxWartung.isSelected()) {
+							wartung = true;
+						}
+						if (wartung) {
+							pst.setString(26, "1");
+						} else {
+							pst.setString(26, "0");
+						}
+						pst.setString(27, tfZulassungsart.getText());
+						pst.setString(28, tfzulaessiges_Gesamtgew_F_1.getText());
+						pst.setString(29, tfMotorleistung_KW_P_2.getText());
+						pst.setString(30, tfSommerreifen.getText());
+						pst.setString(31, tfSommer_T_Typ.getText());
+						pst.setString(32, tfWinterreifen.getText());
+						pst.setString(33, tfWinter_T_Typ.getText());
+						pst.setString(34, tfKostenstelle.getText());
+						pst.setString(35, tfkm_Stand_Jan.getText());
+						pst.setString(36, tfkm_Stand_Jan_Vorjahr.getText());
+						pst.setString(37, tfkm_Stand_Jan_VorVorjahr.getText());
+						pst.setString(38, tfHaftpflicht.getText());
+						pst.setString(39, tfKasko.getText());
+						pst.setString(40, tfQuartal.getText());
+						pst.setString(41, tfSteuer.getText());
+						pst.setString(42, tfFarbe_Auto.getText());
+						boolean foliert = false;
+						if (chkbxFoliert.isSelected()) {
+							foliert = true;
+						}
+						if (foliert) {
+							pst.setString(43, "1");
+						} else {
+							pst.setString(43, "0");
+						}
+						boolean folieren_planung = false;
+						if (chkbxFolieren_Planung.isSelected()) {
+							folieren_planung = true;
+						}
+						if (folieren_planung) {
+							pst.setString(44, "1");
+						} else {
+							pst.setString(44, "0");
+						}
+						pst.setString(45, tfFolieren_Farbe.getText());
+						pst.setString(46, tfRegale_Geleast_Gekauft.getText());
+						pst.setString(47, tfTyp.getText());
+						pst.setString(48, tfBelueftung_wegen_Gas.getText());
+						try {
+							fahrzeugliste = fahrzeug();
+							// tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
+							pst.setInt(49, fahrzeugliste.get(i).getBearbeitet() + 1);
+						} catch (IndexOutOfBoundsException e1) {
+							//
+						}
+						pst.executeUpdate();
+
+						show_aktualisiertes_fahrzeug();
+
+						JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 					}
-					pst.executeUpdate();
 
-					show_aktualisiertes_fahrzeug();
-
-					JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
+					catch (IndexOutOfBoundsException e2) {
+						//JOptionPane.showMessageDialog(null, e);
+					} catch (Exception e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Ihre Änderungen wurden nicht gespeichert, bitte überarbeiten Sie die Daten gegebenfalls noch einmal.");
 				}
+				vergleichsliste = fahrzeug();
+				show_aktualisiertes_fahrzeug();
+			}
 
-				catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, e1);
-				}
-			}}
-	//	}
-	);
+		});
 
 		JButton btnZurück = new JButton("");
 		btnZurück.setFocusable(false);
@@ -986,8 +993,8 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 		tableFahrzeuge.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableFahrzeuge.setBorder(null);
 		tableFahrzeuge.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "ID", "IdentNr", "FirmaNr", "NL", "FZG_Marke", "FZG_Typ", "FZG_Bezeichnung", "amtl_Kennzeichen",
-						"Erstzulassung", "Abmeldedatum", "Fahrer", "Fahrer2", "Finanzstatus",
+				new String[] { "ID", "IdentNr", "FirmaNr", "NL", "FZG_Marke", "FZG_Typ", "FZG_Bezeichnung",
+						"amtl_Kennzeichen", "Erstzulassung", "Abmeldedatum", "Fahrer", "Fahrer2", "Finanzstatus",
 						"Bank_Leasinggesellschaft", "VertragsNr", "Leasingdauer_Monate", "Verlaengerung_Monate",
 						"Leasingrate_zzgl_MwSt_Fahrzeug", "Vertragsende", "Bemerkung", "Restwert_Leasingende",
 						"Soll_Laufleistung_Km", "km_Stand", "Datum_Erfassung_km_Stand", "Anschaffungswert__Netto",
@@ -1000,7 +1007,7 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 		tableFahrzeuge.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 		scrollpane(btnSave, btnClear);
-		
+
 		wichtigTf(tfIdentNr);
 		wichtigTf(tfFirmaNr);
 		wichtigTf(tfNL);
@@ -1011,7 +1018,7 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 		wichtigTf(tfErstzulassung);
 		wichtigTf(tfAbmeldedatum);
 		wichtigTf(tfFahrer);
-		wichtigTf(tfFinanzstatus);		
+		wichtigTf(tfFinanzstatus);
 		wichtigTf(tfkm_Stand);
 		wichtigTf(tfDatum_Erfassung_km_Stand);
 		wichtigTf(tfZulassungsart);
@@ -1024,7 +1031,7 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
 				TableModel model = tableFahrzeuge.getModel();
-				
+
 				id = model.getValueAt(i, 0).toString();
 				tfIdentNr.setText(model.getValueAt(i, 1).toString());
 				tfFirmaNr.setText(model.getValueAt(i, 2).toString());
@@ -1100,9 +1107,9 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 				tfBelueftung_wegen_Gas.setText(model.getValueAt(i, 48).toString());
 			}
 		});
-		
+
 		vergleichsliste = fahrzeug();
-		
+
 		show_fahrzeug();
 	}
 
@@ -1117,14 +1124,14 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 			ResultSet rs = st.executeQuery(query1);
 			Fahrzeug fahrzeug;
 			while (rs.next()) {
-				fahrzeug = new Fahrzeug(rs.getInt("ID"), rs.getString("IdentNr"), rs.getString("FirmaNr"), rs.getString("NL"),
-						rs.getString("FZG_Marke"), rs.getString("FZG_Typ"), rs.getString("FZG_Bezeichnung"),
-						rs.getString("amtl_Kennzeichen"), rs.getString("Erstzulassung"), rs.getString("Abmeldedatum"),
-						rs.getString("Fahrer"), rs.getString("Fahrer2"), rs.getString("Finanzstatus"),
-						rs.getString("Bank_Leasinggesellschaft"), rs.getString("VertragsNr"),
-						rs.getString("Leasingdauer_Monate"), rs.getString("Verlaengerung_Monate"),
-						rs.getString("Leasingrate_zzgl_MwSt_Fahrzeug"), rs.getString("Vertragsende"),
-						rs.getString("Bemerkung"), rs.getString("Restwert_Leasingende"),
+				fahrzeug = new Fahrzeug(rs.getInt("ID"), rs.getString("IdentNr"), rs.getString("FirmaNr"),
+						rs.getString("NL"), rs.getString("FZG_Marke"), rs.getString("FZG_Typ"),
+						rs.getString("FZG_Bezeichnung"), rs.getString("amtl_Kennzeichen"),
+						rs.getString("Erstzulassung"), rs.getString("Abmeldedatum"), rs.getString("Fahrer"),
+						rs.getString("Fahrer2"), rs.getString("Finanzstatus"), rs.getString("Bank_Leasinggesellschaft"),
+						rs.getString("VertragsNr"), rs.getString("Leasingdauer_Monate"),
+						rs.getString("Verlaengerung_Monate"), rs.getString("Leasingrate_zzgl_MwSt_Fahrzeug"),
+						rs.getString("Vertragsende"), rs.getString("Bemerkung"), rs.getString("Restwert_Leasingende"),
 						rs.getString("Soll_Laufleistung_Km"), rs.getString("km_Stand"),
 						rs.getString("Datum_Erfassung_km_Stand"), rs.getString("Anschaffungswert__Netto"),
 						rs.getString("Finanzierungsrate"), rs.getString("Wartung"), rs.getString("Zulassungsart"),
@@ -1135,7 +1142,7 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 						rs.getString("Kasko"), rs.getString("Quartal"), rs.getString("Steuer"),
 						rs.getString("Farbe_Auto"), rs.getString("Foliert"), rs.getString("Folieren_Planung"),
 						rs.getString("Folieren_Farbe"), rs.getString("Regale_Geleast_Gekauft"), rs.getString("Typ"),
-						rs.getString("Belueftung_wegen_Gas"),rs.getInt("Bearbeitet"));
+						rs.getString("Belueftung_wegen_Gas"), rs.getInt("Bearbeitet"));
 				fahrzeugliste.add(fahrzeug);
 			}
 		}
@@ -1235,60 +1242,62 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 		JPanel panel = new JPanel();
 		scrollPane.setViewportView(panel);
 		scrollPane.setViewportView(tableFahrzeuge);
-		
+
 		JLabel lblBackground_2 = new JLabel("");
-		lblBackground_2.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
-		
+		lblBackground_2.setIcon(new ImageIcon(
+				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+
 		JLabel lblBackground = new JLabel("");
-		lblBackground.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		lblBackground.setIcon(new ImageIcon(
+				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
 		lblBackground.setBounds(0, 0, 1262, 647);
 		contentPane.add(lblBackground);
-		
+
 		addWindowStateListener(new WindowStateListener() {
-            public void windowStateChanged(final WindowEvent evt) {
-                if (evt.getNewState() == MAXIMIZED_BOTH) {
-                	contentPane.remove(lblBackground);
-                	scrollPane.setBounds(635, 50, 1272, 956);
-                	btnSave.setBounds(10, 986, 180, 23);
-            		btnClear.setBounds(1619, 26, 19, 18);
-            		lblBackground_2.setBounds(658, 0, 1262, 651);
-            		lblBackground.setBounds(0, 0, 1262, 651);
-            		contentPane.add(lblBackground_2);
-            		contentPane.add(lblBackground);
-            		tfSuche.setBounds(10, 26, 1609, 19);
-                }
-                else {
-                	scrollPane.setBounds(622, 50, 630, 574);
-                	btnSave.setBounds(10, 605, 180, 23);
-            		lblBackground.setBounds(0, 0, 1262, 647);
-            		contentPane.remove(lblBackground_2);
-            		tfSuche.setBounds(10, 26, 980, 19);
-                }
-            }
-        });
+			public void windowStateChanged(final WindowEvent evt) {
+				if (evt.getNewState() == MAXIMIZED_BOTH) {
+					contentPane.remove(lblBackground);
+					scrollPane.setBounds(635, 50, 1272, 956);
+					btnSave.setBounds(10, 986, 180, 23);
+					btnClear.setBounds(1619, 26, 19, 18);
+					lblBackground_2.setBounds(658, 0, 1262, 651);
+					lblBackground.setBounds(0, 0, 1262, 651);
+					contentPane.add(lblBackground_2);
+					contentPane.add(lblBackground);
+					tfSuche.setBounds(10, 26, 1609, 19);
+				} else {
+					scrollPane.setBounds(622, 50, 630, 574);
+					btnSave.setBounds(10, 605, 180, 23);
+					lblBackground.setBounds(0, 0, 1262, 647);
+					contentPane.remove(lblBackground_2);
+					tfSuche.setBounds(10, 26, 980, 19);
+				}
+			}
+		});
 	}
-	
+
 	public void wichtigTf(JTextField tf) {
 		tf.setText("!");
 		tf.setForeground(Color.red);
 		tf.addFocusListener(new FocusAdapter() {
 			public void focusGained(FocusEvent evtfg) {
-				if(tf.getText().equals("!")) {
+				if (tf.getText().equals("!")) {
 					tf.setText("");
 					tf.setForeground(Color.black);
 				}
 			}
+
 			public void focusLost(FocusEvent evtfl) {
-				if(tf.getText().equals("")) {
+				if (tf.getText().equals("")) {
 					tf.setText("!");
 					tf.setForeground(Color.red);
 				}
 			}
 		});
 	}
-	
+
 	public void emptyTf(JTextField tf) throws Exception {
-		if(tf.getText().equals("!")) {
+		if (tf.getText().equals("!")) {
 			throw new Exception("Füllen sie bitte alle Felder aus!");
 		}
 	}

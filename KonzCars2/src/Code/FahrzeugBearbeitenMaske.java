@@ -995,7 +995,7 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 						"Motorleistung_KW_P_2", "Sommerreifen", "Sommer_T_Typ", "Winterreifen", "Winter_T_Typ",
 						"Kostenstelle", "km_Stand_Jan_Y", "km_Stand_Jan_VJ", "km_Stand_Jan_VVJ", "Haftpflicht", "Kasko",
 						"Quartal", "Steuer", "Farbe_Auto", "Foliert", "Folieren_Planung", "Folieren_Farbe",
-						"Regale_Geleast_Gekauft", "Typ", "Belueftung_wegen_Gas" }));
+						"Regale_Geleast_Gekauft", "Typ", "Belueftung_wegen_Gas", "Bearbeitet" }));
 
 		tableFahrzeuge.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
@@ -1158,7 +1158,7 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 	public static void show_fahrzeug() {
 		DefaultTableModel model = (DefaultTableModel) tableFahrzeuge.getModel();
 		ArrayList<Fahrzeug> fahrzeug = fahrzeug();
-		Object[] row = new Object[49];
+		Object[] row = new Object[50];
 		for (int i = 0; i < fahrzeug.size(); i++) {
 			row[0] = fahrzeug.get(i).getID();
 			row[1] = fahrzeug.get(i).getIdentNr();
@@ -1209,6 +1209,7 @@ public class FahrzeugBearbeitenMaske extends JFrame {
 			row[46] = fahrzeug.get(i).getRegale_Geleast_Gekauft();
 			row[47] = fahrzeug.get(i).getTyp();
 			row[48] = fahrzeug.get(i).getBelueftung_wegen_Gas();
+			row[49] = fahrzeug.get(i).getBearbeitet();
 			model.addRow(row);
 		}
 	}

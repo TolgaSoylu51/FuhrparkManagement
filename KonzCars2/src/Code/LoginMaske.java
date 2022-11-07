@@ -36,6 +36,7 @@ public class LoginMaske extends JFrame {
 	private JPasswordField tfPasswort;
 	private JLabel lblBackground;
 	public Login login;
+	int rolle;
 
 	/**
 	 * Launch the application.
@@ -125,6 +126,7 @@ public class LoginMaske extends JFrame {
 			if (rs.next()) {
 				login = new Login(rs.getString("UserName"),rs.getString("Passwort"),rs.getInt("Rolle"));
 				if (login.Rolle == 1 || login.Rolle == 2 || login.Rolle == 3) {
+					rolle = login.Rolle;
 					Hauptmenue s = new Hauptmenue();
 					s.setResizable(false);
 					ImageIcon icon = new ImageIcon(

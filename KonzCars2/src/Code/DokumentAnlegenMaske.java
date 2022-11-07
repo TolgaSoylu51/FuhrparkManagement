@@ -19,10 +19,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -105,7 +107,7 @@ public class DokumentAnlegenMaske extends JFrame {
 		btnSave.setBackground(SystemColor.inactiveCaption);
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {					
+				try {
 					copyFile(tfDokument.getText());
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -135,13 +137,13 @@ public class DokumentAnlegenMaske extends JFrame {
 					pst.setString(1,
 							"C://Users//Tolga.Soylu//OneDrive - KHW Konzmann GmbH//Desktop//FuhrparkManagement/"
 									+ tfDokumentName.getText() + endung);
-					//JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
+					// JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 				} catch (Exception e1) {
 //					JOptionPane.showMessageDialog(null, e1);
 				}
 			}
 		});
-		
+
 		JButton btnClear = new JButton("X");
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnClear.setFocusPainted(false);
@@ -149,14 +151,14 @@ public class DokumentAnlegenMaske extends JFrame {
 		btnClear.setBounds(974, 26, 19, 18);
 		btnClear.setMargin(new Insets(0, 0, 0, 0));
 		contentPane.add(btnClear);
-		
+
 		btnClear.addActionListener(new ActionListener() {
-			public void actionPerformed (ActionEvent evt){
+			public void actionPerformed(ActionEvent evt) {
 				tfSuche.setText("");
 				filter(tfSuche.getText());
 			}
 		});
-		
+
 		tfSuche = new JTextField();
 		tfSuche.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
@@ -253,8 +255,8 @@ public class DokumentAnlegenMaske extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnZurück.setIcon(
-				new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
+		btnZurück.setIcon(new ImageIcon(
+				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
 		btnZurück.setBounds(10, 2, 28, 23);
 		contentPane.add(btnZurück);
 
@@ -314,7 +316,7 @@ public class DokumentAnlegenMaske extends JFrame {
 						tfDokument.setText(file.getAbsolutePath());
 					}
 				} catch (Exception ex) {
-					//ex.printStackTrace();
+					// ex.printStackTrace();
 				}
 			}
 		});
@@ -363,12 +365,12 @@ public class DokumentAnlegenMaske extends JFrame {
 
 		return dokumentliste;
 	}
-	
+
 	public void filter(String str) {
 		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
 		TableRowSorter<DefaultTableModel> rowFilter = new TableRowSorter<DefaultTableModel>(model);
 		tableFahrer.setRowSorter(rowFilter);
-		
+
 		rowFilter.setRowFilter(RowFilter.regexFilter("(?i)" + str));
 	}
 
@@ -399,10 +401,9 @@ public class DokumentAnlegenMaske extends JFrame {
 
 	@SuppressWarnings("resource")
 	public static void copyFile(String string) throws IOException {
-		
-		File f = new File(System.getProperty("user.home") + "/Desktop/FuhrparkManagement_Dokumente");
-		if (!f.exists()){
-			Files.createDirectory(Paths.get(System.getProperty("user.home") + "/Desktop/FuhrparkManagement_Dokumente"));;
+		File f = new File(System.getProperty("user.home") + "/FuhrparkManagement_Dokumente");
+		if (!f.exists()) {
+			f.mkdirs();
 		}
 
 		int endungStart = 0;
@@ -416,7 +417,7 @@ public class DokumentAnlegenMaske extends JFrame {
 
 		endung = tfDokument.getText().substring(endungStart);
 
-		File file = new File(System.getProperty("user.home") + "/Desktop/FuhrparkManagement_Dokumente/"
+		File file = new File(System.getProperty("user.home") + "/FuhrparkManagement_Dokumente/"
 				+ tfDokumentName.getText() + endung);
 		file.createNewFile();
 
@@ -424,14 +425,12 @@ public class DokumentAnlegenMaske extends JFrame {
 		FileChannel outChannel = null;
 		try {
 			inChannel = new FileInputStream(string).getChannel();
-			outChannel = new FileOutputStream(
-					System.getProperty("user.home") + "/Desktop/FuhrparkManagement_Dokumente/"
-							+ tfDokumentName.getText() + endung)
-					.getChannel();
+			outChannel = new FileOutputStream(System.getProperty("user.home") + "/FuhrparkManagement_Dokumente/"
+					+ tfDokumentName.getText() + endung).getChannel();
 			inChannel.transferTo(0, inChannel.size(), outChannel);
 
 		} catch (IOException e) {
-			//throw e;
+			// throw e;
 		} finally {
 			try {
 				if (inChannel != null)
@@ -465,9 +464,10 @@ public class DokumentAnlegenMaske extends JFrame {
 					endungStart = i;
 				}
 			}
-			
+
 			endung = tfDokument.getText().substring(endungStart);
-			pst.setString(2, System.getProperty("user.home") + "/Desktop/FuhrparkManagement_Dokumente/" + tfDokumentName.getText() + endung);
+			pst.setString(2, System.getProperty("user.home") + "/FuhrparkManagement_Dokumente/"
+					+ tfDokumentName.getText() + endung);
 			pst.setString(4, endung);
 
 			pst.executeUpdate();

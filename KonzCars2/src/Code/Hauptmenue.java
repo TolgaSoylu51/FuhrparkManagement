@@ -6,11 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.DriverManager;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Color;
@@ -23,6 +26,8 @@ public class Hauptmenue extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	LoginMaske loginMaske = new LoginMaske();
+	int rolle = loginMaske.rolle;
 
 	/**
 	 * Launch the application.
@@ -210,5 +215,6 @@ public class Hauptmenue extends JFrame {
 				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
 		lblBackground.setBounds(0, 0, 764, 381);
 		contentPane.add(lblBackground);
+		
 	}
 }

@@ -122,7 +122,7 @@ public class DokumentLöeschenMaske extends JFrame {
 					endung = pfad.substring(endungStart);
 					
 					Path path = Paths
-							.get(System.getProperty("user.home") + "/Desktop/FuhrparkManagement_Dokumente/" + name + endung);
+							.get(System.getProperty("user.home") + "/FuhrparkManagement_Dokumente/" + name + endung);
 					try {
 						Files.delete(path);
 					} catch (IOException e1) {

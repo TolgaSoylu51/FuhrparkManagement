@@ -51,6 +51,7 @@ public class FahrerLoeschenMaske extends JFrame {
 	private static JTable tableFahrer;
 	private JTextField tfSuche;
 	private String id = null;
+
 	/**
 	 * Launch the application.
 	 */
@@ -81,7 +82,7 @@ public class FahrerLoeschenMaske extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		tfSuche = new JTextField();
 		tfSuche.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
@@ -93,7 +94,7 @@ public class FahrerLoeschenMaske extends JFrame {
 		tfSuche.setBackground(SystemColor.menu);
 		tfSuche.setBounds(10, 26, 964, 19);
 		contentPane.add(tfSuche);
-		
+
 		JButton btnClear = new JButton("X");
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnClear.setFocusPainted(false);
@@ -101,9 +102,9 @@ public class FahrerLoeschenMaske extends JFrame {
 		btnClear.setBounds(974, 26, 19, 18);
 		btnClear.setMargin(new Insets(0, 0, 0, 0));
 		contentPane.add(btnClear);
-		
+
 		btnClear.addActionListener(new ActionListener() {
-			public void actionPerformed (ActionEvent evt){
+			public void actionPerformed(ActionEvent evt) {
 				tfSuche.setText("");
 				filter(tfSuche.getText());
 			}
@@ -121,19 +122,17 @@ public class FahrerLoeschenMaske extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 
-					
 					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 					con = DriverManager.getConnection(url);
-					String query = "UPDATE MitarbeiterTest SET AktivKZ=? WHERE ID="
-							+ id;
+					String query = "UPDATE MitarbeiterTest SET AktivKZ=? WHERE ID=" + id;
 					PreparedStatement pst = con.prepareStatement(query);
 					pst.setString(1, "4");
-					
+
 					pst.executeUpdate();
 
 					show_aktualisierte_fahrerliste();
 
-					//JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
+					// JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 				}
 
 				catch (Exception e1) {
@@ -150,8 +149,8 @@ public class FahrerLoeschenMaske extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnZurück.setIcon(
-				new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
+		btnZurück.setIcon(new ImageIcon(
+				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
 		btnZurück.setBounds(10, 2, 28, 23);
 		contentPane.add(btnZurück);
 
@@ -168,13 +167,14 @@ public class FahrerLoeschenMaske extends JFrame {
 		tableFahrer.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "Personalnummer", "AktivKZ", "Name", "Vorname", "FirmaNr", "NL_Nr",
 						"Fahrerlaubnis", "Erstpruefung", "Pruefungszeitpunkt1", "Kommentar1", "Zweitpruefung",
-						"Pruefungszeitpunkt2", "Kommentar2" }));
-		
+						"Pruefungszeitpunkt2", "Kommentar2", "Bearbeitet" }));
+
 		JLabel lblBackground_1 = new JLabel("");
-		lblBackground_1.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		lblBackground_1.setIcon(new ImageIcon(
+				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
 		lblBackground_1.setBounds(0, 0, 1262, 647);
 		contentPane.add(lblBackground_1);
-		
+
 		tableFahrer.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				int i = tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow());
@@ -202,7 +202,7 @@ public class FahrerLoeschenMaske extends JFrame {
 						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getInt("NL_Nr"),
 						rs.getString("Fahrerlaubnis"), rs.getString("Erstprüfung"), rs.getString("Prüfungszeitpunkt1"),
 						rs.getString("Kommentar1"), rs.getString("Zweitprüfung"), rs.getString("Prüfungszeitpunkt2"),
-						rs.getString("Kommentar2"));
+						rs.getString("Kommentar2"), rs.getInt("Bearbeitet"));
 				fahrerliste.add(fahrer);
 			}
 		}
@@ -213,19 +213,19 @@ public class FahrerLoeschenMaske extends JFrame {
 
 		return fahrerliste;
 	}
-	
+
 	public void filter(String str) {
 		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
 		TableRowSorter<DefaultTableModel> rowFilter = new TableRowSorter<DefaultTableModel>(model);
 		tableFahrer.setRowSorter(rowFilter);
-		
+
 		rowFilter.setRowFilter(RowFilter.regexFilter("(?i)" + str));
 	}
 
 	public static void show_fahrer() {
 		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
 		ArrayList<Fahrer> fahrer = fahrer();
-		Object[] row = new Object[14];
+		Object[] row = new Object[15];
 		for (int i = 0; i < fahrer.size(); i++) {
 			row[0] = fahrer.get(i).getID();
 			row[1] = fahrer.get(i).getPersonalnummer();
@@ -241,6 +241,7 @@ public class FahrerLoeschenMaske extends JFrame {
 			row[11] = fahrer.get(i).getZweitprüfung();
 			row[12] = fahrer.get(i).getPrüfungszeitpunkt2();
 			row[13] = fahrer.get(i).getKommentar2();
+			row[14] = fahrer.get(i).getBearbeitet();
 			model.addRow(row);
 		}
 	}

@@ -250,7 +250,7 @@ public class FahrerAnlegenMaske extends JFrame {
 					
 					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 					con = DriverManager.getConnection(url);
-					String query = "insert into MitarbeiterTest (Personalnummer,AktivKZ,Name,Vorname,FirmaNr,NL_Nr,Fahrerlaubnis,Erstprüfung,Prüfungszeitpunkt1,Kommentar1,Zweitprüfung,Prüfungszeitpunkt2,Kommentar2) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					String query = "insert into MitarbeiterTest (Personalnummer,AktivKZ,Name,Vorname,FirmaNr,NL_Nr,Fahrerlaubnis,Erstprüfung,Prüfungszeitpunkt1,Kommentar1,Zweitprüfung,Prüfungszeitpunkt2,Kommentar2, Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					PreparedStatement pst = con.prepareStatement(query);
 					
 					TableModel model = tableFahrer.getModel();
@@ -307,6 +307,7 @@ public class FahrerAnlegenMaske extends JFrame {
 
 					pst.setString(12, "");
 					pst.setString(13, tfKommentar2.getText());
+					pst.setInt(14, 0);	
 					
 					
 					pst.executeUpdate();
@@ -355,7 +356,7 @@ public class FahrerAnlegenMaske extends JFrame {
 		tableFahrer.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "Personalnummer", "AktivKZ", "Name", "Vorname", "FirmaNr", "NL_Nr",
 						"Fahrerlaubnis", "Erstpr\u00FCfung", "Pr\u00FCfungszeitpunkt1", "Kommentar1",
-						"Zweitpr\u00FCfung", "Pr\u00FCfungszeitpunkt2", "Kommentar2" }));
+						"Zweitpr\u00FCfung", "Pr\u00FCfungszeitpunkt2", "Kommentar2", "Bearbeitet" }));
 		
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
@@ -408,7 +409,7 @@ public class FahrerAnlegenMaske extends JFrame {
 						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getInt("NL_Nr"),
 						rs.getString("Fahrerlaubnis"), rs.getString("Erstprüfung"), rs.getString("Prüfungszeitpunkt1"),
 						rs.getString("Kommentar1"), rs.getString("Zweitprüfung"), rs.getString("Prüfungszeitpunkt2"),
-						rs.getString("Kommentar2"));
+						rs.getString("Kommentar2"), rs.getInt("Bearbeitet"));
 				fahrerliste.add(fahrer);
 			}
 		}
@@ -431,7 +432,7 @@ public class FahrerAnlegenMaske extends JFrame {
 	public static void show_fahrer() {
 		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
 		ArrayList<Fahrer> fahrer = fahrer();
-		Object[] row = new Object[14];
+		Object[] row = new Object[15];
 		for (int i = 0; i < fahrer.size(); i++) {
 			row[0] = fahrer.get(i).getID();
 			row[1] = fahrer.get(i).getPersonalnummer();
@@ -447,6 +448,7 @@ public class FahrerAnlegenMaske extends JFrame {
 			row[11] = fahrer.get(i).getZweitprüfung();
 			row[12] = fahrer.get(i).getPrüfungszeitpunkt2();
 			row[13] = fahrer.get(i).getKommentar2();
+			row[14] = fahrer.get(i).getBearbeitet();
 			model.addRow(row);
 		}
 	}

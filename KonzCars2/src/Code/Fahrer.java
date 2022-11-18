@@ -15,12 +15,11 @@ public class Fahrer {
 	private String Zweitprüfung;
 	private String Prüfungszeitpunkt2;
 	private String Kommentar2;
-//	private int Bearbeitet;
+	private int Bearbeitet;
 	
 	public Fahrer(int iD, int personalnummer, int aktivkz, String name, String vorname, String firmaNr, int nlnr,
 			String fahrerlaubnis, String erstprüfung, String prüfungszeitpunkt1, String kommentar1, String zweitprüfung,
-			String prüfungszeitpunkt2, String kommentar2
-//			, int bearbeitet
+			String prüfungszeitpunkt2, String kommentar2, int bearbeitet
 			) {
 		super();
 		ID = iD;
@@ -37,7 +36,7 @@ public class Fahrer {
 		Zweitprüfung = zweitprüfung;
 		Prüfungszeitpunkt2 = prüfungszeitpunkt2;
 		Kommentar2 = kommentar2;
-//		Bearbeitet = bearbeitet;
+		Bearbeitet = bearbeitet;
 	}
 
 	public int getID() {
@@ -152,11 +151,11 @@ public class Fahrer {
 		Kommentar2 = kommentar2;
 	}
 
-//	public int getBearbeitet() {
-//		return Bearbeitet;
-//	}
-//
-//	public void setBearbeitet(int bearbeitet) {
-//		Bearbeitet = bearbeitet;
-//	}
+	public int getBearbeitet() {
+		return Bearbeitet;
+	}
+
+	public void setBearbeitet(int bearbeitet) {
+		Bearbeitet = bearbeitet;
+	}
 }

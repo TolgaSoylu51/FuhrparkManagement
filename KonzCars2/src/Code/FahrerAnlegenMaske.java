@@ -14,15 +14,18 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
@@ -36,6 +39,7 @@ import javax.swing.RowFilter;
 import java.awt.SystemColor;
 import java.awt.Font;
 import java.awt.Insets;
+import javax.swing.JComboBox;
 
 public class FahrerAnlegenMaske extends JFrame {
 
@@ -52,6 +56,8 @@ public class FahrerAnlegenMaske extends JFrame {
 	private JTextField tfNlNr;
 	private JTextField tfKommentar1;
 	private JTextField tfKommentar2;
+	private static ArrayList<String> array = new ArrayList<String>();
+	JList theList = new JList();
 
 	static Connection con = null;
 	ResultSet rs = null;
@@ -89,7 +95,7 @@ public class FahrerAnlegenMaske extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		tfSuche = new JTextField();
 		tfSuche.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
@@ -101,7 +107,7 @@ public class FahrerAnlegenMaske extends JFrame {
 		tfSuche.setBackground(SystemColor.menu);
 		tfSuche.setBounds(10, 26, 964, 19);
 		contentPane.add(tfSuche);
-		
+
 		JButton btnClear = new JButton("X");
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnClear.setFocusPainted(false);
@@ -109,14 +115,14 @@ public class FahrerAnlegenMaske extends JFrame {
 		btnClear.setBounds(974, 26, 19, 18);
 		btnClear.setMargin(new Insets(0, 0, 0, 0));
 		contentPane.add(btnClear);
-		
+
 		btnClear.addActionListener(new ActionListener() {
-			public void actionPerformed (ActionEvent evt){
+			public void actionPerformed(ActionEvent evt) {
 				tfSuche.setText("");
 				filter(tfSuche.getText());
 			}
 		});
-						
+
 		JLabel lblZweitePrfung = new JLabel("Zweite Prüfung");
 		lblZweitePrfung.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblZweitePrfung.setBounds(50, 397, 75, 14);
@@ -139,7 +145,7 @@ public class FahrerAnlegenMaske extends JFrame {
 
 		btnSave.setBounds(10, 605, 180, 23);
 		contentPane.add(btnSave);
-		
+
 		tfPersonalnummer = new JTextField();
 		tfPersonalnummer.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfPersonalnummer.setBounds(137, 69, 243, 20);
@@ -247,22 +253,22 @@ public class FahrerAnlegenMaske extends JFrame {
 					emptyTf(tfAktivKz);
 					emptyTf(tfFirmaNr);
 					emptyTf(tfNlNr);
-					
+
 					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 					con = DriverManager.getConnection(url);
 					String query = "insert into MitarbeiterTest (Personalnummer,AktivKZ,Name,Vorname,FirmaNr,NL_Nr,Fahrerlaubnis,Erstprüfung,Prüfungszeitpunkt1,Kommentar1,Zweitprüfung,Prüfungszeitpunkt2,Kommentar2, Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					PreparedStatement pst = con.prepareStatement(query);
-					
+
 					TableModel model = tableFahrer.getModel();
 					int numOfRows = model.getRowCount();
-					
-					for(int i = 1; i < numOfRows; i++) {
+
+					for (int i = 1; i < numOfRows; i++) {
 						String checkRow = model.getValueAt(i, 1).toString();
-						if(tfPersonalnummer.getText().equals(checkRow)) {
+						if (tfPersonalnummer.getText().equals(checkRow)) {
 							throw new Exception("Dieser Fahrer exisitiert bereits!");
 						}
 					}
-					
+
 					pst.setString(1, tfPersonalnummer.getText());
 					pst.setString(2, "1");
 					pst.setString(3, tfNachname.getText());
@@ -307,14 +313,13 @@ public class FahrerAnlegenMaske extends JFrame {
 
 					pst.setString(12, "");
 					pst.setString(13, tfKommentar2.getText());
-					pst.setInt(14, 0);	
-					
-					
+					pst.setInt(14, 0);
+
 					pst.executeUpdate();
 
 					show_hinzugefuegten_fahrer();
 
-					//JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
+					// JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 				}
 
 				catch (Exception e1) {
@@ -339,7 +344,8 @@ public class FahrerAnlegenMaske extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnZurück.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
+		btnZurück.setIcon(new ImageIcon(
+				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
 		btnZurück.setBounds(10, 2, 28, 23);
 		contentPane.add(btnZurück);
 
@@ -357,22 +363,31 @@ public class FahrerAnlegenMaske extends JFrame {
 				new String[] { "ID", "Personalnummer", "AktivKZ", "Name", "Vorname", "FirmaNr", "NL_Nr",
 						"Fahrerlaubnis", "Erstpr\u00FCfung", "Pr\u00FCfungszeitpunkt1", "Kommentar1",
 						"Zweitpr\u00FCfung", "Pr\u00FCfungszeitpunkt2", "Kommentar2", "Bearbeitet" }));
-		
+
 		JLabel lblBackground = new JLabel("");
-		lblBackground.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
-		lblBackground.setBounds(0, 0, 1262, 647);
+		lblBackground.setIcon(new ImageIcon(
+				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		lblBackground.setBounds(-10, -23, 1262, 647);
 		contentPane.add(lblBackground);
-		
+
 		JLabel lblBackground_1 = new JLabel("");
-		lblBackground_1.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		lblBackground_1.setIcon(new ImageIcon(
+				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
 		lblBackground_1.setBounds(1260, 0, 433, 651);
 		contentPane.add(lblBackground_1);
-		
+
 		wichtigTf(tfPersonalnummer);
 		wichtigTf(tfNachname);
 		wichtigTf(tfAktivKz);
 		wichtigTf(tfFirmaNr);
 		wichtigTf(tfNlNr);
+
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(223, 280, 143, 22);
+		contentPane.add(comboBox);
+//		for (int i = 0; i < array.size(); i++) {
+//			comboBox .add(array.get(i));
+//		}
 
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -389,7 +404,7 @@ public class FahrerAnlegenMaske extends JFrame {
 				chckbxPruefung2.setSelected(false);
 			}
 		});
-		
+
 		show_fahrer();
 	}
 
@@ -411,21 +426,25 @@ public class FahrerAnlegenMaske extends JFrame {
 						rs.getString("Kommentar1"), rs.getString("Zweitprüfung"), rs.getString("Prüfungszeitpunkt2"),
 						rs.getString("Kommentar2"), rs.getInt("Bearbeitet"));
 				fahrerliste.add(fahrer);
+				array.add(
+						rs.getString("Personalnummer") + ", " + rs.getString("Name") + ", " + rs.getString("Vorname"));
 			}
+
+			System.out.println(array);
 		}
 
 		catch (Exception e1) {
 			JOptionPane.showMessageDialog(null, e1);
 		}
-
 		return fahrerliste;
+
 	}
-	
+
 	public void filter(String str) {
 		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
 		TableRowSorter<DefaultTableModel> rowFilter = new TableRowSorter<DefaultTableModel>(model);
 		tableFahrer.setRowSorter(rowFilter);
-		
+
 		rowFilter.setRowFilter(RowFilter.regexFilter("(?i)" + str));
 	}
 
@@ -459,31 +478,33 @@ public class FahrerAnlegenMaske extends JFrame {
 			model.setRowCount(0);
 			show_fahrer();
 		} catch (IndexOutOfBoundsException e) {
-			//JOptionPane.showMessageDialog(null, e);
-		};
+			// JOptionPane.showMessageDialog(null, e);
+		}
+		;
 	}
-	
+
 	public void wichtigTf(JTextField tf) {
 		tf.setText("!");
 		tf.setForeground(Color.red);
 		tf.addFocusListener(new FocusAdapter() {
 			public void focusGained(FocusEvent evtfg) {
-				if(tf.getText().equals("!")) {
+				if (tf.getText().equals("!")) {
 					tf.setText("");
 					tf.setForeground(Color.black);
 				}
 			}
+
 			public void focusLost(FocusEvent evtfl) {
-				if(tf.getText().equals("")) {
+				if (tf.getText().equals("")) {
 					tf.setText("!");
 					tf.setForeground(Color.red);
 				}
 			}
 		});
 	}
-	
+
 	public void emptyTf(JTextField tf) throws Exception {
-		if(tf.getText().equals("!")) {
+		if (tf.getText().equals("!")) {
 			throw new Exception("Füllen sie bitte alle Felder aus!");
 		}
 	}

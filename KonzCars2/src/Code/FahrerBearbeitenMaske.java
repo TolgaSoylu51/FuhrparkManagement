@@ -334,6 +334,7 @@ public class FahrerBearbeitenMaske extends JFrame {
 				
 				vergleichsliste = fahrer();
 				show_aktualisierte_fahrerliste();
+				//tableFahrer.setEditingRow(i);
 			}
 		});
 

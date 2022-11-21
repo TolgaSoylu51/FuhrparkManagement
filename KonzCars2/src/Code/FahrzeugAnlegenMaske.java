@@ -76,25 +76,11 @@ public class FahrzeugAnlegenMaske extends JFrame {
 	private JTextField tfAnschaffungswert__Netto;
 	private JTextField tfFinanzierungsrate;
 	private JTextField tfZulassungsart;
-	private JTextField tfzulaessiges_Gesamtgew_F_1;
 	private JTextField tfMotorleistung_KW_P_2;
 	private JTextField tfSommerreifen;
-	private JTextField tfSommer_T_Typ;
 	private JTextField tfWinterreifen;
-	private JTextField tfWinter_T_Typ;
 	private JTextField tfKostenstelle;
-	private JTextField tfkm_Stand_Jan;
-	private JTextField tfkm_Stand_Jan_Vorjahr;
-	private JTextField tfkm_Stand_Jan_VorVorjahr;
-	private JTextField tfHaftpflicht;
-	private JTextField tfKasko;
-	private JTextField tfQuartal;
-	private JTextField tfSteuer;
-	private JTextField tfFarbe_Auto;
-	private JTextField tfFolieren_Farbe;
-	private JTextField tfRegale_Geleast_Gekauft;
 	private JTextField tfTyp;
-	private JTextField tfBelueftung_wegen_Gas;
 	private JTextField tfErstzulassung;
 	private JTextField tfSuche;
 	/**
@@ -142,9 +128,8 @@ public class FahrzeugAnlegenMaske extends JFrame {
 						"Abmeldedatum", "Fahrer", "Fahrer2", "Finanzstatus", "Bank_Leasinggesellschaft", "VertragsNr", "Leasingdauer_Monate", 
 						"Verlaengerung_Monate", "Leasingrate_zzgl_MwSt_Fahrzeug", "Vertragsende", "Bemerkung", "Restwert_Leasingende", 
 						"Soll_Laufleistung_Km", "km_Stand", "Datum_Erfassung_km_Stand", "Anschaffungswert__Netto", "Finanzierungsrate", 
-						"Wartung", "Zulassungsart", "zulaessiges_Gesamtgew_F_1", "Motorleistung_KW_P_2", "Sommerreifen", "Sommer_T_Typ", 
-						"Winterreifen", "Winter_T_Typ", "Kostenstelle", "km_Stand_Jan_Y", "km_Stand_Jan_VJ", "km_Stand_Jan_VVJ", "Haftpflicht", "Kasko", "Quartal", "Steuer", 
-						"Farbe_Auto", "Foliert", "Folieren_Planung", "Folieren_Farbe", "Regale_Geleast_Gekauft", "Typ", "Belueftung_wegen_Gas" }));
+						"Wartung", "Zulassungsart", "Motorleistung_KW_P_2", "Sommerreifen", "Winterreifen", "Kostenstelle", "Foliert", 
+						"Typ", "UVV", "Fahrerunterweisung", "Werkstatteinrichtung", "Belueftung" }));
 		
 		tableFahrzeuge.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
@@ -414,7 +399,7 @@ public class FahrzeugAnlegenMaske extends JFrame {
 		JLabel lblBemerkung = new JLabel("Bemerkung");
 		lblBemerkung.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblBemerkung.setForeground(Color.BLACK);
-		lblBemerkung.setBounds(333, 572, 64, 13);
+		lblBemerkung.setBounds(333, 272, 64, 13);
 		contentPane.add(lblBemerkung);
 		
 		tfLeasingdauer_Monate = new JTextField();
@@ -454,7 +439,7 @@ public class FahrzeugAnlegenMaske extends JFrame {
 		tfBemerkung.setBackground(Color.WHITE);
 		tfBemerkung.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfBemerkung.setColumns(10);
-		tfBemerkung.setBounds(422, 569, 190, 19);
+		tfBemerkung.setBounds(392, 269, 220, 19);
 		contentPane.add(tfBemerkung);
 		
 		JLabel lblRestwert_Leasingende = new JLabel("Restwert Leasingende");
@@ -537,7 +522,7 @@ public class FahrzeugAnlegenMaske extends JFrame {
 		chkbxWartung.setOpaque(false);
 		chkbxWartung.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		chkbxWartung.setForeground(Color.BLACK);
-		chkbxWartung.setBounds(60, 564, 21, 21);
+		chkbxWartung.setBounds(60, 564, 20, 20);
 		contentPane.add(chkbxWartung);
 		
 		tfZulassungsart = new JTextField();
@@ -554,24 +539,10 @@ public class FahrzeugAnlegenMaske extends JFrame {
 		lblZulassungsart.setBounds(333, 122, 120, 13);
 		contentPane.add(lblZulassungsart);
 		
-		JLabel lblzulaessiges_Gesamtgew_F_1 = new JLabel("zulässiges Gesamtgewicht");
-		lblzulaessiges_Gesamtgew_F_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblzulaessiges_Gesamtgew_F_1.setForeground(Color.BLACK);
-		lblzulaessiges_Gesamtgew_F_1.setBounds(333, 147, 120, 13);
-		contentPane.add(lblzulaessiges_Gesamtgew_F_1);
-		
-		tfzulaessiges_Gesamtgew_F_1 = new JTextField();
-		tfzulaessiges_Gesamtgew_F_1.setBackground(Color.WHITE);
-		tfzulaessiges_Gesamtgew_F_1.setForeground(Color.BLACK);
-		tfzulaessiges_Gesamtgew_F_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfzulaessiges_Gesamtgew_F_1.setColumns(10);
-		tfzulaessiges_Gesamtgew_F_1.setBounds(458, 144, 154, 19);
-		contentPane.add(tfzulaessiges_Gesamtgew_F_1);
-		
 		JLabel lblMotorleistung_KW_P_2 = new JLabel("Motorleistung (ps)");
 		lblMotorleistung_KW_P_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblMotorleistung_KW_P_2.setForeground(Color.BLACK);
-		lblMotorleistung_KW_P_2.setBounds(333, 172, 120, 13);
+		lblMotorleistung_KW_P_2.setBounds(333, 147, 120, 13);
 		contentPane.add(lblMotorleistung_KW_P_2);
 		
 		tfMotorleistung_KW_P_2 = new JTextField();
@@ -579,13 +550,13 @@ public class FahrzeugAnlegenMaske extends JFrame {
 		tfMotorleistung_KW_P_2.setForeground(Color.BLACK);
 		tfMotorleistung_KW_P_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfMotorleistung_KW_P_2.setColumns(10);
-		tfMotorleistung_KW_P_2.setBounds(458, 169, 64, 19);
+		tfMotorleistung_KW_P_2.setBounds(458, 144, 64, 19);
 		contentPane.add(tfMotorleistung_KW_P_2);
 		
 		JLabel lblSommerreifen = new JLabel("Sommerreifen");
 		lblSommerreifen.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblSommerreifen.setForeground(Color.BLACK);
-		lblSommerreifen.setBounds(333, 197, 120, 13);
+		lblSommerreifen.setBounds(333, 172, 120, 13);
 		contentPane.add(lblSommerreifen);
 		
 		tfSommerreifen = new JTextField();
@@ -593,27 +564,13 @@ public class FahrzeugAnlegenMaske extends JFrame {
 		tfSommerreifen.setForeground(Color.BLACK);
 		tfSommerreifen.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfSommerreifen.setColumns(10);
-		tfSommerreifen.setBounds(458, 194, 154, 19);
+		tfSommerreifen.setBounds(458, 169, 154, 19);
 		contentPane.add(tfSommerreifen);
-		
-		JLabel lblSommer_T_Typ = new JLabel("Sommer_T_Typ");
-		lblSommer_T_Typ.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblSommer_T_Typ.setForeground(Color.BLACK);
-		lblSommer_T_Typ.setBounds(333, 222, 120, 13);
-		contentPane.add(lblSommer_T_Typ);
-		
-		tfSommer_T_Typ = new JTextField();
-		tfSommer_T_Typ.setBackground(Color.WHITE);
-		tfSommer_T_Typ.setForeground(Color.BLACK);
-		tfSommer_T_Typ.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfSommer_T_Typ.setColumns(10);
-		tfSommer_T_Typ.setBounds(458, 219, 154, 19);
-		contentPane.add(tfSommer_T_Typ);
 		
 		JLabel lblWinterreifen = new JLabel("Winterreifen");
 		lblWinterreifen.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblWinterreifen.setForeground(Color.BLACK);
-		lblWinterreifen.setBounds(333, 247, 120, 13);
+		lblWinterreifen.setBounds(333, 197, 120, 13);
 		contentPane.add(lblWinterreifen);
 		
 		tfWinterreifen = new JTextField();
@@ -621,27 +578,13 @@ public class FahrzeugAnlegenMaske extends JFrame {
 		tfWinterreifen.setForeground(Color.BLACK);
 		tfWinterreifen.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfWinterreifen.setColumns(10);
-		tfWinterreifen.setBounds(458, 244, 154, 19);
+		tfWinterreifen.setBounds(458, 194, 154, 19);
 		contentPane.add(tfWinterreifen);
-		
-		JLabel lblWinter_T_Typ = new JLabel("Winter_T_Typ");
-		lblWinter_T_Typ.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblWinter_T_Typ.setForeground(Color.BLACK);
-		lblWinter_T_Typ.setBounds(333, 272, 120, 13);
-		contentPane.add(lblWinter_T_Typ);
-		
-		tfWinter_T_Typ = new JTextField();
-		tfWinter_T_Typ.setBackground(Color.WHITE);
-		tfWinter_T_Typ.setForeground(Color.BLACK);
-		tfWinter_T_Typ.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfWinter_T_Typ.setColumns(10);
-		tfWinter_T_Typ.setBounds(458, 269, 154, 19);
-		contentPane.add(tfWinter_T_Typ);
 		
 		JLabel lblKostenstelle = new JLabel("Kostenstelle");
 		lblKostenstelle.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblKostenstelle.setForeground(Color.BLACK);
-		lblKostenstelle.setBounds(333, 297, 120, 13);
+		lblKostenstelle.setBounds(333, 222, 120, 13);
 		contentPane.add(lblKostenstelle);
 		
 		tfKostenstelle = new JTextField();
@@ -649,179 +592,26 @@ public class FahrzeugAnlegenMaske extends JFrame {
 		tfKostenstelle.setForeground(Color.BLACK);
 		tfKostenstelle.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfKostenstelle.setColumns(10);
-		tfKostenstelle.setBounds(458, 294, 154, 19);
+		tfKostenstelle.setBounds(458, 219, 154, 19);
 		contentPane.add(tfKostenstelle);
-		
-		JLabel lblkm_Stand_Jan_Y = new JLabel("Kilometerstand Jan");
-		lblkm_Stand_Jan_Y.setForeground(Color.BLACK);
-		lblkm_Stand_Jan_Y.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblkm_Stand_Jan_Y.setBounds(333, 322, 120, 13);
-		contentPane.add(lblkm_Stand_Jan_Y);
-	
-		tfkm_Stand_Jan = new JTextField();
-		tfkm_Stand_Jan.setBackground(Color.WHITE);
-		tfkm_Stand_Jan.setForeground(Color.BLACK);
-		tfkm_Stand_Jan.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfkm_Stand_Jan.setColumns(10);
-		tfkm_Stand_Jan.setBounds(458, 319, 154, 19);
-		contentPane.add(tfkm_Stand_Jan);
-		
-		JLabel lblkm_Stand_Jan_VJ = new JLabel("Kilometerstand Jan Vj");
-		lblkm_Stand_Jan_VJ.setForeground(Color.BLACK);
-		lblkm_Stand_Jan_VJ.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblkm_Stand_Jan_VJ.setBounds(333, 347, 120, 13);
-		contentPane.add(lblkm_Stand_Jan_VJ);
-		
-		tfkm_Stand_Jan_Vorjahr = new JTextField();
-		tfkm_Stand_Jan_Vorjahr.setBackground(Color.WHITE);
-		tfkm_Stand_Jan_Vorjahr.setForeground(Color.BLACK);
-		tfkm_Stand_Jan_Vorjahr.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfkm_Stand_Jan_Vorjahr.setColumns(10);
-		tfkm_Stand_Jan_Vorjahr.setBounds(458, 344, 154, 19);
-		contentPane.add(tfkm_Stand_Jan_Vorjahr);
-		
-		JLabel lblkm_Stand_Jan_VVJ = new JLabel("Kilometerstand Jan Vvj");
-		lblkm_Stand_Jan_VVJ.setForeground(Color.BLACK);
-		lblkm_Stand_Jan_VVJ.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblkm_Stand_Jan_VVJ.setBounds(333, 372, 120, 13);
-		contentPane.add(lblkm_Stand_Jan_VVJ);
-		
-		tfkm_Stand_Jan_VorVorjahr = new JTextField();
-		tfkm_Stand_Jan_VorVorjahr.setBackground(Color.WHITE);
-		tfkm_Stand_Jan_VorVorjahr.setForeground(Color.BLACK);
-		tfkm_Stand_Jan_VorVorjahr.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfkm_Stand_Jan_VorVorjahr.setColumns(10);
-		tfkm_Stand_Jan_VorVorjahr.setBounds(458, 369, 154, 19);
-		contentPane.add(tfkm_Stand_Jan_VorVorjahr);
-		
-		JLabel lblHaftpflicht = new JLabel("Haftpflicht");
-		lblHaftpflicht.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblHaftpflicht.setForeground(Color.BLACK);
-		lblHaftpflicht.setBounds(333, 397, 52, 13);
-		contentPane.add(lblHaftpflicht);
-		
-		tfHaftpflicht = new JTextField();
-		tfHaftpflicht.setBackground(Color.WHITE);
-		tfHaftpflicht.setForeground(Color.BLACK);
-		tfHaftpflicht.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfHaftpflicht.setColumns(10);
-		tfHaftpflicht.setBounds(388, 394, 88, 19);
-		contentPane.add(tfHaftpflicht);
-		
-		JLabel lblKasko = new JLabel("Kasko");
-		lblKasko.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblKasko.setForeground(Color.BLACK);
-		lblKasko.setBounds(333, 422, 35, 13);
-		contentPane.add(lblKasko);
-		
-		tfKasko = new JTextField();
-		tfKasko.setBackground(Color.WHITE);
-		tfKasko.setForeground(Color.BLACK);
-		tfKasko.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfKasko.setColumns(10);
-		tfKasko.setBounds(388, 419, 88, 19);
-		contentPane.add(tfKasko);
-		
-		JLabel lblQuartal = new JLabel("Quartal");
-		lblQuartal.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblQuartal.setForeground(Color.BLACK);
-		lblQuartal.setBounds(483, 422, 45, 13);
-		contentPane.add(lblQuartal);
-		
-		tfQuartal = new JTextField();
-		tfQuartal.setBackground(Color.WHITE);
-		tfQuartal.setForeground(Color.BLACK);
-		tfQuartal.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfQuartal.setColumns(10);
-		tfQuartal.setBounds(524, 419, 88, 19);
-		contentPane.add(tfQuartal);
-		
-		JLabel lblSteuer = new JLabel("Steuer");
-		lblSteuer.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblSteuer.setForeground(Color.BLACK);
-		lblSteuer.setBounds(483, 397, 35, 13);
-		contentPane.add(lblSteuer);
-		
-		tfSteuer = new JTextField();
-		tfSteuer.setBackground(Color.WHITE);
-		tfSteuer.setForeground(Color.BLACK);
-		tfSteuer.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfSteuer.setColumns(10);
-		tfSteuer.setBounds(524, 394, 88, 19);
-		contentPane.add(tfSteuer);
-		
-		JLabel lblFarbe_Auto = new JLabel("Autofarbe");
-		lblFarbe_Auto.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblFarbe_Auto.setForeground(Color.BLACK);
-		lblFarbe_Auto.setBounds(333, 447, 120, 13);
-		contentPane.add(lblFarbe_Auto);
-		
-		tfFarbe_Auto = new JTextField();
-		tfFarbe_Auto.setBackground(Color.WHITE);
-		tfFarbe_Auto.setForeground(Color.BLACK);
-		tfFarbe_Auto.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfFarbe_Auto.setColumns(10);
-		tfFarbe_Auto.setBounds(492, 444, 120, 19);
-		contentPane.add(tfFarbe_Auto);
 		
 		JCheckBox chkbxFoliert = new JCheckBox("");
 		chkbxFoliert.setOpaque(false);
 		chkbxFoliert.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		chkbxFoliert.setForeground(Color.BLACK);
-		chkbxFoliert.setBounds(137, 564, 21, 21);
+		chkbxFoliert.setBounds(135, 564, 20, 20);
 		contentPane.add(chkbxFoliert);
 		
 		JLabel lblFoliert = new JLabel("Foliert");
 		lblFoliert.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblFoliert.setForeground(Color.BLACK);
-		lblFoliert.setBounds(97, 567, 35, 13);
+		lblFoliert.setBounds(95, 567, 35, 13);
 		contentPane.add(lblFoliert);
-		
-		JLabel lblFolieren_Planung = new JLabel("Folierung in Planung");
-		lblFolieren_Planung.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblFolieren_Planung.setForeground(Color.BLACK);
-		lblFolieren_Planung.setBounds(175, 567, 102, 13);
-		contentPane.add(lblFolieren_Planung);
-		
-		JCheckBox chkbxFolieren_Planung = new JCheckBox("");
-		chkbxFolieren_Planung.setOpaque(false);
-		chkbxFolieren_Planung.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		chkbxFolieren_Planung.setForeground(Color.BLACK);
-		chkbxFolieren_Planung.setBounds(277, 564, 21, 21);
-		contentPane.add(chkbxFolieren_Planung);
-		
-		JLabel lblFolieren_Farbe = new JLabel("Folierfarbe");
-		lblFolieren_Farbe.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblFolieren_Farbe.setForeground(Color.BLACK);
-		lblFolieren_Farbe.setBounds(333, 472, 120, 13);
-		contentPane.add(lblFolieren_Farbe);
-		
-		tfFolieren_Farbe = new JTextField();
-		tfFolieren_Farbe.setBackground(Color.WHITE);
-		tfFolieren_Farbe.setForeground(Color.BLACK);
-		tfFolieren_Farbe.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfFolieren_Farbe.setColumns(10);
-		tfFolieren_Farbe.setBounds(492, 469, 120, 19);
-		contentPane.add(tfFolieren_Farbe);
-		
-		JLabel lblRegale_Geleast_Gekauft = new JLabel("Regalfinanzstatus");
-		lblRegale_Geleast_Gekauft.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblRegale_Geleast_Gekauft.setForeground(Color.BLACK);
-		lblRegale_Geleast_Gekauft.setBounds(333, 497, 80, 13);
-		contentPane.add(lblRegale_Geleast_Gekauft);
-		
-		tfRegale_Geleast_Gekauft = new JTextField();
-		tfRegale_Geleast_Gekauft.setBackground(Color.WHITE);
-		tfRegale_Geleast_Gekauft.setForeground(Color.BLACK);
-		tfRegale_Geleast_Gekauft.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfRegale_Geleast_Gekauft.setColumns(10);
-		tfRegale_Geleast_Gekauft.setBounds(458, 494, 154, 19);
-		contentPane.add(tfRegale_Geleast_Gekauft);
 		
 		JLabel lblTyp = new JLabel("Regaltyp");
 		lblTyp.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblTyp.setForeground(Color.BLACK);
-		lblTyp.setBounds(333, 522, 120, 13);
+		lblTyp.setBounds(333, 247, 120, 13);
 		contentPane.add(lblTyp);
 		
 		tfTyp = new JTextField();
@@ -829,22 +619,61 @@ public class FahrzeugAnlegenMaske extends JFrame {
 		tfTyp.setForeground(Color.BLACK);
 		tfTyp.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfTyp.setColumns(10);
-		tfTyp.setBounds(458, 519, 154, 19);
+		tfTyp.setBounds(458, 244, 154, 19);
 		contentPane.add(tfTyp);
 		
-		JLabel lblBelueftung_wegen_Gas = new JLabel("Belüftung");
-		lblBelueftung_wegen_Gas.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblBelueftung_wegen_Gas.setForeground(Color.BLACK);
-		lblBelueftung_wegen_Gas.setBounds(333, 547, 120, 13);
-		contentPane.add(lblBelueftung_wegen_Gas);
+		JCheckBox chkbxUVV = new JCheckBox("");
+		chkbxUVV.setOpaque(false);
+		chkbxUVV.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		chkbxUVV.setForeground(Color.BLACK);
+		chkbxUVV.setBounds(195, 564, 20, 20);
+		contentPane.add(chkbxUVV);
 		
-		tfBelueftung_wegen_Gas = new JTextField();
-		tfBelueftung_wegen_Gas.setBackground(Color.WHITE);
-		tfBelueftung_wegen_Gas.setForeground(Color.BLACK);
-		tfBelueftung_wegen_Gas.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfBelueftung_wegen_Gas.setColumns(10);
-		tfBelueftung_wegen_Gas.setBounds(458, 544, 154, 19);
-		contentPane.add(tfBelueftung_wegen_Gas);
+		JLabel lblUVV = new JLabel("UVV");
+		lblUVV.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblUVV.setForeground(Color.BLACK);
+		lblUVV.setBounds(170, 567, 20, 13);
+		contentPane.add(lblUVV);
+		
+		JCheckBox chkbxFahrerunterweisung = new JCheckBox("");
+		chkbxFahrerunterweisung.setOpaque(false);
+		chkbxFahrerunterweisung.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		chkbxFahrerunterweisung.setForeground(Color.BLACK);
+		chkbxFahrerunterweisung.setBounds(305, 564, 20, 20);
+		contentPane.add(chkbxFahrerunterweisung);
+		
+		JLabel lblFahrerunterweisung = new JLabel("Fahrerunterw.");
+		lblFahrerunterweisung.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblFahrerunterweisung.setForeground(Color.BLACK);
+		lblFahrerunterweisung.setBounds(230, 567, 70, 13);
+		contentPane.add(lblFahrerunterweisung);
+		
+		JCheckBox chkbxWerkstatteinrichtung = new JCheckBox("");
+		chkbxWerkstatteinrichtung.setOpaque(false);
+		chkbxWerkstatteinrichtung.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		chkbxWerkstatteinrichtung.setForeground(Color.BLACK);
+		chkbxWerkstatteinrichtung.setBounds(415, 564, 20, 20);
+		contentPane.add(chkbxWerkstatteinrichtung);
+		
+		JLabel lblWerkstatteinrichtung = new JLabel("Werkstatteinr.");
+		lblWerkstatteinrichtung.setBackground(new Color(240, 240, 240));
+		lblWerkstatteinrichtung.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblWerkstatteinrichtung.setForeground(Color.BLACK);
+		lblWerkstatteinrichtung.setBounds(340, 567, 70, 13);
+		contentPane.add(lblWerkstatteinrichtung);
+		
+		JCheckBox chkbxBelueftung = new JCheckBox("");
+		chkbxBelueftung.setOpaque(false);
+		chkbxBelueftung.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		chkbxBelueftung.setForeground(Color.BLACK);
+		chkbxBelueftung.setBounds(505, 564, 20, 20);
+		contentPane.add(chkbxBelueftung);
+		
+		JLabel lblBelueftung = new JLabel("Belüftung");
+		lblBelueftung.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblBelueftung.setForeground(Color.BLACK);
+		lblBelueftung.setBounds(450, 567, 50, 13);
+		contentPane.add(lblBelueftung);
 		
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -862,7 +691,6 @@ public class FahrzeugAnlegenMaske extends JFrame {
 					emptyTf(tfkm_Stand);
 					emptyTf(tfDatum_Erfassung_km_Stand);
 					emptyTf(tfZulassungsart);
-					emptyTf(tfzulaessiges_Gesamtgew_F_1);
 					emptyTf(tfMotorleistung_KW_P_2);
 					emptyTf(tfKostenstelle);
 					
@@ -871,9 +699,9 @@ public class FahrzeugAnlegenMaske extends JFrame {
 					String query = "insert into FuhrparkTest (IdentNr, FirmaNr, NL, FZG_Marke, FZG_Typ, FZG_Bezeichnung, amtl_Kennzeichen, Erstzulassung, Abmeldedatum, "
 							+ "Fahrer, Fahrer2, Finanzstatus, Bank_Leasinggesellschaft, VertragsNr, Leasingdauer_Monate, Verlaengerung_Monate, Leasingrate_zzgl_MwSt_Fahrzeug, "
 							+ "Vertragsende, Bemerkung, Restwert_Leasingende, Soll_Laufleistung_Km, km_Stand, Datum_Erfassung_km_Stand, Anschaffungswert__Netto, Finanzierungsrate, "
-							+ "Wartung, Zulassungsart, zulaessiges_Gesamtgew_F_1, Motorleistung_KW_P_2, Sommerreifen, Sommer_T_Typ, Winterreifen, Winter_T_Typ, Kostenstelle, km_Stand_Jan_Y, "
-							+ "km_Stand_Jan_VJ, km_Stand_Jan_VVJ, Haftpflicht, Kasko, Quartal, Steuer, Farbe_Auto, Foliert, Folieren_Planung, Folieren_Farbe, Regale_Geleast_Gekauft, Typ, "
-							+ "Belueftung_wegen_Gas, Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "Wartung, Zulassungsart, Motorleistung_KW_P_2, Sommerreifen, Winterreifen, Kostenstelle, "
+							+ "Foliert, Typ, UVV, Fahrerunterweisung, Werkstatteinrichtung, Belueftung,"
+							+ "Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					PreparedStatement pst = conn.prepareStatement(query);
 					
 					TableModel model = tableFahrzeuge.getModel();
@@ -921,44 +749,57 @@ public class FahrzeugAnlegenMaske extends JFrame {
 						pst.setString(26, "0");
 					}
 					pst.setString(27, tfZulassungsart.getText());
-					pst.setString(28, tfzulaessiges_Gesamtgew_F_1.getText());
-					pst.setString(29, tfMotorleistung_KW_P_2.getText());
-					pst.setString(30, tfSommerreifen.getText());
-					pst.setString(31, tfSommer_T_Typ.getText());
-					pst.setString(32, tfWinterreifen.getText());
-					pst.setString(33, tfWinter_T_Typ.getText());
-					pst.setString(34, tfKostenstelle.getText());
-					pst.setString(35, tfkm_Stand_Jan.getText());
-					pst.setString(36, tfkm_Stand_Jan_Vorjahr.getText());
-					pst.setString(37, tfkm_Stand_Jan_VorVorjahr.getText());
-					pst.setString(38, tfHaftpflicht.getText());
-					pst.setString(39, tfKasko.getText());
-					pst.setString(40, tfQuartal.getText());
-					pst.setString(41, tfSteuer.getText());
-					pst.setString(42, tfFarbe_Auto.getText());
+					pst.setString(28, tfMotorleistung_KW_P_2.getText());
+					pst.setString(29, tfSommerreifen.getText());
+					pst.setString(30, tfWinterreifen.getText());
+					pst.setString(31, tfKostenstelle.getText());
 					boolean foliert = false;
 					if (chkbxFoliert.isSelected()) {
 						foliert = true;
 					}
 					if (foliert) {
-						pst.setString(43, "1");
+						pst.setString(32, "1");
 					} else {
-						pst.setString(43, "0");
+						pst.setString(32, "0");
 					}
-					boolean folieren_planung = false;
-					if (chkbxFolieren_Planung.isSelected()) {
-						folieren_planung = true;
+					pst.setString(33, tfTyp.getText());
+					boolean uvv = false;
+					if (chkbxUVV.isSelected()) {
+						uvv = true;
 					}
-					if (folieren_planung) {
-						pst.setString(44, "1");
+					if (uvv) {
+						pst.setString(34, "1");
 					} else {
-						pst.setString(44, "0");
+						pst.setString(34, "0");
 					}
-					pst.setString(45, tfFolieren_Farbe.getText());
-					pst.setString(46, tfRegale_Geleast_Gekauft.getText());
-					pst.setString(47, tfTyp.getText());
-					pst.setString(48, tfBelueftung_wegen_Gas.getText());
-					pst.setInt(49, 0);	
+					boolean fahrerunterweisung = false;
+					if (chkbxFahrerunterweisung.isSelected()) {
+						fahrerunterweisung = true;
+					}
+					if (fahrerunterweisung) {
+						pst.setString(35, "1");
+					} else {
+						pst.setString(35, "0");
+					}
+					boolean werkstatteinrichtung = false;
+					if (chkbxWerkstatteinrichtung.isSelected()) {
+						werkstatteinrichtung = true;
+					}
+					if (werkstatteinrichtung) {
+						pst.setString(36, "1");
+					} else {
+						pst.setString(36, "0");
+					}
+					boolean belueftung = false;
+					if (chkbxBelueftung.isSelected()) {
+						belueftung = true;
+					}
+					if (belueftung) {
+						pst.setString(37, "1");
+					} else {
+						pst.setString(37, "0");
+					}
+					pst.setInt(38, 0);	
 
 					pst.executeUpdate();
 
@@ -1007,7 +848,6 @@ public class FahrzeugAnlegenMaske extends JFrame {
 		wichtigTf(tfkm_Stand);
 		wichtigTf(tfDatum_Erfassung_km_Stand);
 		wichtigTf(tfZulassungsart);
-		wichtigTf(tfzulaessiges_Gesamtgew_F_1);
 		wichtigTf(tfMotorleistung_KW_P_2);
 		wichtigTf(tfKostenstelle);
 		
@@ -1026,7 +866,6 @@ public class FahrzeugAnlegenMaske extends JFrame {
 				wichtigTf(tfkm_Stand);
 				wichtigTf(tfDatum_Erfassung_km_Stand);
 				wichtigTf(tfZulassungsart);
-				wichtigTf(tfzulaessiges_Gesamtgew_F_1);
 				wichtigTf(tfMotorleistung_KW_P_2);
 				wichtigTf(tfKostenstelle);
 				tfFahrer2.setText("");
@@ -1043,23 +882,13 @@ public class FahrzeugAnlegenMaske extends JFrame {
 				tfFinanzierungsrate.setText("");
 				chkbxWartung.setSelected(false);
 				tfSommerreifen.setText("");
-				tfSommer_T_Typ.setText("");
 				tfWinterreifen.setText("");
-				tfWinter_T_Typ.setText("");
-				tfkm_Stand_Jan.setText("");
-				tfkm_Stand_Jan_Vorjahr.setText("");
-				tfkm_Stand_Jan_VorVorjahr.setText("");
-				tfHaftpflicht.setText("");
-				tfKasko.setText("");
-				tfQuartal.setText("");
-				tfSteuer.setText("");
-				tfFarbe_Auto.setText("");
 				chkbxFoliert.setSelected(false);
-				chkbxFolieren_Planung.setSelected(false);
-				tfFolieren_Farbe.setText("");
-				tfRegale_Geleast_Gekauft.setText("");
 				tfTyp.setText("");
-				tfBelueftung_wegen_Gas.setText("");
+				chkbxUVV.setSelected(false);
+				chkbxFahrerunterweisung.setSelected(false);
+				chkbxWerkstatteinrichtung.setSelected(false);
+				chkbxBelueftung.setSelected(false);
 			}
 		});
 		show_fahrzeug();
@@ -1105,27 +934,16 @@ public class FahrzeugAnlegenMaske extends JFrame {
 				rs.getString("Finanzierungsrate"),
 				rs.getString("Wartung"),
 				rs.getString("Zulassungsart"),
-				rs.getString("zulaessiges_Gesamtgew_F_1"),
 				rs.getString("Motorleistung_KW_P_2"),
 				rs.getString("Sommerreifen"),
-				rs.getString("Sommer_T_Typ"),
 				rs.getString("Winterreifen"),
-				rs.getString("Winter_T_Typ"),
 				rs.getString("Kostenstelle"),
-				rs.getString("km_Stand_Jan_Y"),
-				rs.getString("km_Stand_Jan_VJ"),
-				rs.getString("km_Stand_Jan_VVJ"),
-				rs.getString("Haftpflicht"),
-				rs.getString("Kasko"),
-				rs.getString("Quartal"),
-				rs.getString("Steuer"),
-				rs.getString("Farbe_Auto"),
 				rs.getString("Foliert"),
-				rs.getString("Folieren_Planung"),
-				rs.getString("Folieren_Farbe"),
-				rs.getString("Regale_Geleast_Gekauft"),
 				rs.getString("Typ"),
-				rs.getString("Belueftung_wegen_Gas"),
+				rs.getInt("UVV"),
+				rs.getInt("Fahrerunterweisung"),
+				rs.getInt("Werkstatteinrichtung"),
+				rs.getInt("Belueftung"),
 				rs.getInt("Bearbeitet"));
 				fahrzeugliste.add(fahrzeug);
 			}
@@ -1149,7 +967,7 @@ public class FahrzeugAnlegenMaske extends JFrame {
 	public static void show_fahrzeug() {
 		DefaultTableModel model = (DefaultTableModel) tableFahrzeuge.getModel();
 		ArrayList<Fahrzeug> fahrzeug = fahrzeug();
-		Object[] row = new Object[49];
+		Object[] row = new Object[38];
 		for (int i = 0; i < fahrzeug.size(); i++) {
 			row[0] = fahrzeug.get(i).getID();
 			row[1] = fahrzeug.get(i).getIdentNr();
@@ -1179,27 +997,16 @@ public class FahrzeugAnlegenMaske extends JFrame {
 			row[25] = fahrzeug.get(i).getFinanzierungsrate();
 			row[26] = fahrzeug.get(i).getWartung();
 			row[27] = fahrzeug.get(i).getZulassungsart();
-			row[28] = fahrzeug.get(i).getZulaessiges_Gesamtgew_F_1();
-			row[29] = fahrzeug.get(i).getMotorleistung_KW_P_2();
-			row[30] = fahrzeug.get(i).getSommerreifen();
-			row[31] = fahrzeug.get(i).getSommer_T_Typ();
-			row[32] = fahrzeug.get(i).getWinterreifen();
-			row[33] = fahrzeug.get(i).getWinter_T_Typ();
-			row[34] = fahrzeug.get(i).getKostenstelle();
-			row[35] = fahrzeug.get(i).getKm_Stand_Jan();
-			row[36] = fahrzeug.get(i).getKm_Stand_Jan_Vorjahr();
-			row[37] = fahrzeug.get(i).getKm_Stand_Jan_VorVorjahr();
-			row[38] = fahrzeug.get(i).getHaftpflicht();
-			row[39] = fahrzeug.get(i).getKasko();
-			row[40] = fahrzeug.get(i).getQuartal();
-			row[41] = fahrzeug.get(i).getSteuer();
-			row[42] = fahrzeug.get(i).getFarbe_Auto();
-			row[43] = fahrzeug.get(i).getFoliert();
-			row[44] = fahrzeug.get(i).getFolieren_Planung();
-			row[45] = fahrzeug.get(i).getFolieren_Farbe();
-			row[46] = fahrzeug.get(i).getRegale_Geleast_Gekauft();
-			row[47] = fahrzeug.get(i).getTyp();
-			row[48] = fahrzeug.get(i).getBelueftung_wegen_Gas();
+			row[28] = fahrzeug.get(i).getMotorleistung_KW_P_2();
+			row[29] = fahrzeug.get(i).getSommerreifen();
+			row[30] = fahrzeug.get(i).getWinterreifen();
+			row[31] = fahrzeug.get(i).getKostenstelle();
+			row[32] = fahrzeug.get(i).getFoliert();
+			row[33] = fahrzeug.get(i).getTyp();
+			row[34] = fahrzeug.get(i).getUVV();
+			row[35] = fahrzeug.get(i).getFahrerunterweisung();
+			row[36] = fahrzeug.get(i).getWerkstatteinrichtung();
+			row[37] = fahrzeug.get(i).getBelueftung();
 			model.addRow(row);
 		}
 	}

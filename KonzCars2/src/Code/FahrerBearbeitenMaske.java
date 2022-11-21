@@ -358,6 +358,7 @@ public class FahrerBearbeitenMaske extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				int i = tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow());
 				TableModel model = tableFahrer.getModel();
+				
 				id = model.getValueAt(i, 0).toString();
 				tfPersonalnummer.setText(model.getValueAt(i, 1).toString());
 				tfVorname.setText(model.getValueAt(i, 4).toString());

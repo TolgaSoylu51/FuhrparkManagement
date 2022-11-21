@@ -144,9 +144,8 @@ public class FahrzeugLoeschenMaske extends JFrame {
 						"Abmeldedatum", "Fahrer", "Fahrer2", "Finanzstatus", "Bank_Leasinggesellschaft", "VertragsNr", "Leasingdauer_Monate", 
 						"Verlaengerung_Monate", "Leasingrate_zzgl_MwSt_Fahrzeug", "Vertragsende", "Bemerkung", "Restwert_Leasingende", 
 						"Soll_Laufleistung_Km", "km_Stand", "Datum_Erfassung_km_Stand", "Anschaffungswert__Netto", "Finanzierungsrate", 
-						"Wartung", "Zulassungsart", "zulaessiges_Gesamtgew_F_1", "Motorleistung_KW_P_2", "Sommerreifen", "Sommer_T_Typ", 
-						"Winterreifen", "Winter_T_Typ", "Kostenstelle", "km_Stand_Jan_Y", "km_Stand_Jan_VJ", "km_Stand_Jan_VVJ", "Haftpflicht", "Kasko", "Quartal", "Steuer", 
-						"Farbe_Auto", "Foliert", "Folieren_Planung", "Folieren_Farbe", "Regale_Geleast_Gekauft", "Typ", "Belueftung_wegen_Gas" }));
+						"Wartung", "Zulassungsart", "Motorleistung_KW_P_2", "Sommerreifen", "Winterreifen", "Kostenstelle", "Foliert", 
+						"Typ", "UVV", "Fahrerunterweisung", "Werkstatteinrichtung", "Belueftung", "Bearbeitet" }));
 		
 		tableFahrzeuge.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
@@ -213,29 +212,18 @@ public class FahrzeugLoeschenMaske extends JFrame {
 						rs.getString("Finanzierungsrate"),
 						rs.getString("Wartung"),
 						rs.getString("Zulassungsart"),
-						rs.getString("zulaessiges_Gesamtgew_F_1"),
 						rs.getString("Motorleistung_KW_P_2"),
 						rs.getString("Sommerreifen"),
-						rs.getString("Sommer_T_Typ"),
 						rs.getString("Winterreifen"),
-						rs.getString("Winter_T_Typ"),
 						rs.getString("Kostenstelle"),
-						rs.getString("km_Stand_Jan_Y"),
-						rs.getString("km_Stand_Jan_VJ"),
-						rs.getString("km_Stand_Jan_VVJ"),
-						rs.getString("Haftpflicht"),
-						rs.getString("Kasko"),
-						rs.getString("Quartal"),
-						rs.getString("Steuer"),
-						rs.getString("Farbe_Auto"),
 						rs.getString("Foliert"),
-						rs.getString("Folieren_Planung"),
-						rs.getString("Folieren_Farbe"),
-						rs.getString("Regale_Geleast_Gekauft"),
 						rs.getString("Typ"),
-						rs.getString("Belueftung_wegen_Gas"),
+						rs.getInt("UVV"),
+						rs.getInt("Fahrerunterweisung"),
+						rs.getInt("Werkstatteinrichtung"),
+						rs.getInt("Belueftung"),
 						rs.getInt("Bearbeitet"));
-				fahrzeugliste.add(fahrzeug);
+						fahrzeugliste.add(fahrzeug);
 			}
 		}
 
@@ -257,7 +245,7 @@ public class FahrzeugLoeschenMaske extends JFrame {
 	public static void show_fahrzeug() {
 		DefaultTableModel model = (DefaultTableModel) tableFahrzeuge.getModel();
 		ArrayList<Fahrzeug> fahrzeug = fahrzeug();
-		Object[] row = new Object[49];
+		Object[] row = new Object[39];
 		for (int i = 0; i < fahrzeug.size(); i++) {
 			row[0] = fahrzeug.get(i).getID();
 			row[1] = fahrzeug.get(i).getIdentNr();
@@ -287,27 +275,17 @@ public class FahrzeugLoeschenMaske extends JFrame {
 			row[25] = fahrzeug.get(i).getFinanzierungsrate();
 			row[26] = fahrzeug.get(i).getWartung();
 			row[27] = fahrzeug.get(i).getZulassungsart();
-			row[28] = fahrzeug.get(i).getZulaessiges_Gesamtgew_F_1();
-			row[29] = fahrzeug.get(i).getMotorleistung_KW_P_2();
-			row[30] = fahrzeug.get(i).getSommerreifen();
-			row[31] = fahrzeug.get(i).getSommer_T_Typ();
-			row[32] = fahrzeug.get(i).getWinterreifen();
-			row[33] = fahrzeug.get(i).getWinter_T_Typ();
-			row[34] = fahrzeug.get(i).getKostenstelle();
-			row[35] = fahrzeug.get(i).getKm_Stand_Jan();
-			row[36] = fahrzeug.get(i).getKm_Stand_Jan_Vorjahr();
-			row[37] = fahrzeug.get(i).getKm_Stand_Jan_VorVorjahr();
-			row[38] = fahrzeug.get(i).getHaftpflicht();
-			row[39] = fahrzeug.get(i).getKasko();
-			row[40] = fahrzeug.get(i).getQuartal();
-			row[41] = fahrzeug.get(i).getSteuer();
-			row[42] = fahrzeug.get(i).getFarbe_Auto();
-			row[43] = fahrzeug.get(i).getFoliert();
-			row[44] = fahrzeug.get(i).getFolieren_Planung();
-			row[45] = fahrzeug.get(i).getFolieren_Farbe();
-			row[46] = fahrzeug.get(i).getRegale_Geleast_Gekauft();
-			row[47] = fahrzeug.get(i).getTyp();
-			row[48] = fahrzeug.get(i).getBelueftung_wegen_Gas();
+			row[28] = fahrzeug.get(i).getMotorleistung_KW_P_2();
+			row[29] = fahrzeug.get(i).getSommerreifen();
+			row[30] = fahrzeug.get(i).getWinterreifen();
+			row[31] = fahrzeug.get(i).getKostenstelle();
+			row[32] = fahrzeug.get(i).getFoliert();
+			row[33] = fahrzeug.get(i).getTyp();
+			row[34] = fahrzeug.get(i).getUVV();
+			row[35] = fahrzeug.get(i).getFahrerunterweisung();
+			row[36] = fahrzeug.get(i).getWerkstatteinrichtung();
+			row[37] = fahrzeug.get(i).getBelueftung();
+			row[38] = fahrzeug.get(i).getBearbeitet();
 			model.addRow(row);
 		}
 	}

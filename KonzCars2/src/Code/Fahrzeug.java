@@ -30,27 +30,16 @@ public class Fahrzeug {
 	private String Finanzierungsrate;
 	private String Wartung;
 	private String Zulassungsart;
-	private String zulaessiges_Gesamtgew_F_1;
 	private String Motorleistung_KW_P_2;
 	private String Sommerreifen;
-	private String Sommer_T_Typ;
 	private String Winterreifen;
-	private String Winter_T_Typ;
 	private String Kostenstelle;
-	private String km_Stand_Jan;
-	private String km_Stand_Jan_Vorjahr;
-	private String km_Stand_Jan_VorVorjahr;
-	private String Haftpflicht;
-	private String Kasko;
-	private String Quartal;
-	private String Steuer;
-	private String Farbe_Auto;
 	private String Foliert;
-	private String Folieren_Planung;
-	private String Folieren_Farbe;
-	private String Regale_Geleast_Gekauft;
 	private String Typ;
-	private String Belueftung_wegen_Gas;
+	private int UVV;
+	private int Fahrerunterweisung;
+	private int Werkstatteinrichtung;
+	private int Belueftung;
 	private int Bearbeitet;
 	
 	public Fahrzeug(int iD, String identNr, String FirmaNr, String NL, String FZG_Marke, String FZG_Typ, String FZG_Bezeichnung,
@@ -60,12 +49,8 @@ public class Fahrzeug {
 			String Vertragsende, String Bemerkung, String Restwert_Leasingende, String Soll_Laufleistung_Km,
 			String km_Stand, String Datum_Erfassung_km_Stand, String Anschaffungswert_Netto,
 			String Finanzierungsrate, String Wartung, String Zulassungsart,
-			String zulaessiges_Gesamtgew_F_1, String Motorleistung_KW_P_2, String Sommerreifen,
-			String Sommer_T_Typ, String Winterreifen, String Winter_T_Typ, String Kostenstelle,
-			String km_Stand_Jan, String km_Stand_Jan_Vorjahr, String km_Stand_Jan_VorVorjahr, String Haftpflicht, 
-			String Kasko, String Quartal, String Steuer, String Farbe_Auto, String Foliert, 
-			String Folieren_Planung, String Folieren_Farbe, String Regale_Geleast_Gekauft, String Typ, 
-			String Belueftung_wegen_Gas, int Bearbeitet) {
+			String Motorleistung_KW_P_2, String Sommerreifen, String Winterreifen, String Kostenstelle, String Foliert, String Typ, 
+			int UVV, int Fahrerunterweisung, int Werkstatteinrichtung, int Belueftung, int Bearbeitet) {
 		super();
 		this.ID = iD;
 		this.IdentNr = identNr;
@@ -95,27 +80,16 @@ public class Fahrzeug {
 		this.Finanzierungsrate = Finanzierungsrate;
 		this.Wartung = Wartung;
 		this.Zulassungsart = Zulassungsart;
-		this.zulaessiges_Gesamtgew_F_1 = zulaessiges_Gesamtgew_F_1;
 		this.Motorleistung_KW_P_2 = Motorleistung_KW_P_2;
 		this.Sommerreifen = Sommerreifen;
-		this.Sommer_T_Typ = Sommer_T_Typ;
 		this.Winterreifen = Winterreifen;
-		this.Winter_T_Typ = Winter_T_Typ;
 		this.Kostenstelle = Kostenstelle;
-		this.km_Stand_Jan = km_Stand_Jan;
-		this.km_Stand_Jan_Vorjahr = km_Stand_Jan_Vorjahr;
-		this.km_Stand_Jan_VorVorjahr = km_Stand_Jan_VorVorjahr;
-		this.Haftpflicht = Haftpflicht;
-		this.Kasko = Kasko;
-		this.Quartal = Quartal;
-		this.Steuer = Steuer;
-		this.Farbe_Auto = Farbe_Auto;
 		this.Foliert = Foliert;
-		this.Folieren_Planung = Folieren_Planung;
-		this.Folieren_Farbe = Folieren_Farbe;
-		this.Regale_Geleast_Gekauft = Regale_Geleast_Gekauft;
 		this.Typ = Typ;
-		this.Belueftung_wegen_Gas = Belueftung_wegen_Gas;
+		this.UVV = UVV;
+		this.Fahrerunterweisung = Fahrerunterweisung;
+		this.Werkstatteinrichtung = Werkstatteinrichtung;
+		this.Belueftung = Belueftung;
 		this.Bearbeitet = Bearbeitet;
 	}
 	
@@ -343,14 +317,6 @@ public class Fahrzeug {
 		Zulassungsart = zulassungsart;
 	}
 
-	public String getZulaessiges_Gesamtgew_F_1() {
-		return zulaessiges_Gesamtgew_F_1;
-	}
-
-	public void setZulaessiges_Gesamtgew_F_1(String zulaessiges_Gesamtgew_F_1) {
-		this.zulaessiges_Gesamtgew_F_1 = zulaessiges_Gesamtgew_F_1;
-	}
-
 	public String getMotorleistung_KW_P_2() {
 		return Motorleistung_KW_P_2;
 	}
@@ -367,28 +333,12 @@ public class Fahrzeug {
 		Sommerreifen = sommerreifen;
 	}
 
-	public String getSommer_T_Typ() {
-		return Sommer_T_Typ;
-	}
-
-	public void setSommer_T_Typ(String sommer_T_Typ) {
-		Sommer_T_Typ = sommer_T_Typ;
-	}
-
 	public String getWinterreifen() {
 		return Winterreifen;
 	}
 
 	public void setWinterreifen(String winterreifen) {
 		Winterreifen = winterreifen;
-	}
-
-	public String getWinter_T_Typ() {
-		return Winter_T_Typ;
-	}
-
-	public void setWinter_T_Typ(String winter_T_Typ) {
-		Winter_T_Typ = winter_T_Typ;
 	}
 
 	public String getKostenstelle() {
@@ -399,100 +349,12 @@ public class Fahrzeug {
 		Kostenstelle = kostenstelle;
 	}
 
-	public String getKm_Stand_Jan() {
-		return km_Stand_Jan;
-	}
-
-	public void setKm_Stand_Jan(String km_Stand_Jan) {
-		this.km_Stand_Jan = km_Stand_Jan;
-	}
-	
-	public String getKm_Stand_Jan_Vorjahr() {
-		return km_Stand_Jan_Vorjahr;
-	}
-
-	public void setKm_Stand_Jan_Vorjahr(String km_Stand_Jan_Vorjahr) {
-		this.km_Stand_Jan_Vorjahr = km_Stand_Jan_Vorjahr;
-	}
-	
-	public String getKm_Stand_Jan_VorVorjahr() {
-		return km_Stand_Jan_VorVorjahr;
-	}
-
-	public void setKm_Stand_Jan_VorVorjahr(String km_Stand_Jan_VorVorjahr) {
-		this.km_Stand_Jan_VorVorjahr = km_Stand_Jan_VorVorjahr;
-	}
-
-	public String getHaftpflicht() {
-		return Haftpflicht;
-	}
-
-	public void setHaftpflicht(String haftpflicht) {
-		Haftpflicht = haftpflicht;
-	}
-
-	public String getKasko() {
-		return Kasko;
-	}
-
-	public void setKasko(String kasko) {
-		Kasko = kasko;
-	}
-
-	public String getQuartal() {
-		return Quartal;
-	}
-
-	public void setQuartal(String quartal) {
-		Quartal = quartal;
-	}
-
-	public String getSteuer() {
-		return Steuer;
-	}
-
-	public void setSteuer(String steuer) {
-		Steuer = steuer;
-	}
-
-	public String getFarbe_Auto() {
-		return Farbe_Auto;
-	}
-
-	public void setFarbe_Auto(String farbe_Auto) {
-		Farbe_Auto = farbe_Auto;
-	}
-
 	public String getFoliert() {
 		return Foliert;
 	}
 
 	public void setFoliert(String foliert) {
 		Foliert = foliert;
-	}
-
-	public String getFolieren_Planung() {
-		return Folieren_Planung;
-	}
-
-	public void setFolieren_Planung(String folieren_Planung) {
-		Folieren_Planung = folieren_Planung;
-	}
-
-	public String getFolieren_Farbe() {
-		return Folieren_Farbe;
-	}
-
-	public void setFolieren_Farbe(String folieren_Farbe) {
-		Folieren_Farbe = folieren_Farbe;
-	}
-
-	public String getRegale_Geleast_Gekauft() {
-		return Regale_Geleast_Gekauft;
-	}
-
-	public void setRegale_Geleast_Gekauft(String regale_Geleast_Gekauft) {
-		Regale_Geleast_Gekauft = regale_Geleast_Gekauft;
 	}
 
 	public String getTyp() {
@@ -502,13 +364,37 @@ public class Fahrzeug {
 	public void setTyp(String typ) {
 		Typ = typ;
 	}
-
-	public String getBelueftung_wegen_Gas() {
-		return Belueftung_wegen_Gas;
+	
+	public int getUVV() {
+		return UVV;
 	}
 
-	public void setBelueftung_wegen_Gas(String belueftung_wegen_Gas) {
-		Belueftung_wegen_Gas = belueftung_wegen_Gas;
+	public void setUVV(int uvv) {
+		UVV = uvv;
+	}
+	
+	public int getFahrerunterweisung() {
+		return Fahrerunterweisung;
+	}
+
+	public void setFahrerunterweisung(int fahrerunterweisung) {
+		Fahrerunterweisung = fahrerunterweisung;
+	}
+	
+	public int getWerkstatteinrichtung() {
+		return Werkstatteinrichtung;
+	}
+
+	public void setWerkstatteinrichtung(int werkstatteinrichtung) {
+		Werkstatteinrichtung = werkstatteinrichtung;
+	}
+	
+	public int getBelueftung() {
+		return Belueftung;
+	}
+
+	public void setBelueftung(int belueftung) {
+		Belueftung = belueftung;
 	}
 	
 	public int getBearbeitet() {
@@ -519,4 +405,3 @@ public class Fahrzeug {
 		Bearbeitet = bearbeitet;
 	}
 }
-

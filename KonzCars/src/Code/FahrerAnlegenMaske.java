@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -32,6 +33,17 @@ import javax.swing.JTable;
 
 import java.awt.Color;
 
+import javax.mail.Authenticator;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.swing.ImageIcon;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
@@ -316,6 +328,7 @@ public class FahrerAnlegenMaske extends JFrame {
 					pst.setInt(14, 0);
 
 					pst.executeUpdate();
+					sendEmail();
 
 					show_hinzugefuegten_fahrer();
 
@@ -506,6 +519,56 @@ public class FahrerAnlegenMaske extends JFrame {
 	public void emptyTf(JTextField tf) throws Exception {
 		if (tf.getText().equals("!")) {
 			throw new Exception("Füllen sie bitte alle Felder aus!");
+		}
+	}
+	
+	private static Message prepareMessage(Session session, String myAccount, String empfaenger) throws Exception{
+		Message message = new MimeMessage(session);
+
+        message.setFrom(new InternetAddress(myAccount));
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(empfaenger));
+        message.setSubject("Fuhrpark Management System");
+
+        // Multipart-Message ("Wrapper") erstellen
+        Multipart multipart = new MimeMultipart();
+        // Body-Part setzen:
+        BodyPart messageBodyPart = new MimeBodyPart();
+        // Textteil des Body-Parts
+        messageBodyPart.setText("Hallo");
+        // Body-Part dem Multipart-Wrapper hinzufügen
+        multipart.addBodyPart(messageBodyPart);
+        // Message fertigstellen, indem sie mit dem Multipart-Content ausgestattet wird
+        message.setContent(multipart);
+
+        return message;
+}
+
+	public void sendEmail() {
+		Properties properties = new Properties();
+		properties.put("mail.transport.protocol", "smtp");
+		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.smtp.starttls.enable", "true");
+		properties.put("mail.smtp.host", "smtp-mail.outlook.com");
+		properties.put("mail.smtp.port", "587");
+
+		String myAccount = "tolga.soylu@konzmann.de";
+		String myPassword = "Tolga@Konz";
+		String empfaenger = "tolga.soylu@konzmann.de";
+
+		Session session = Session.getInstance(properties, new Authenticator() {
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(myAccount, myPassword);
+			}
+		});
+
+		// Message-Objekt erzeugen und senden!
+		try {
+			Message message = prepareMessage(session, myAccount, empfaenger);
+			Transport.send(message); // E-Mail senden!
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 }

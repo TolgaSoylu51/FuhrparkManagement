@@ -545,8 +545,9 @@ public class FahrerAnlegenMaske extends JFrame {
 
 	public void sendEmail() {
 		Properties properties = new Properties();
-		properties.put("mail.transport.protocol", "smtp");
+		properties.put("mail.smtp.ssl.trust", "true");
 		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
 		properties.put("mail.smtp.starttls.enable", "true");
 		properties.put("mail.smtp.host", "smtp-mail.outlook.com");
 		properties.put("mail.smtp.port", "587");

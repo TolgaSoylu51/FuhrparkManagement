@@ -139,9 +139,9 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 		btnNewButton_1_1.setBounds(64, 166, 214, 47);
 		contentPane.add(btnNewButton_1_1);
 		
-		JButton btnZurück = new JButton("");
-		btnZurück.setFocusable(false);
-		btnZurück.addActionListener(new ActionListener() {
+		JButton btnZurueck = new JButton("");
+		btnZurueck.setFocusable(false);
+		btnZurueck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Hauptmenue frame = new Hauptmenue();
 				frame.setResizable(false);
@@ -151,7 +151,7 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnZurück.addKeyListener(new KeyAdapter() {
+		btnZurueck.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				int key_pressed = e.getKeyCode();
 				if(key_pressed == KeyEvent.VK_ESCAPE) {
@@ -165,10 +165,10 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 			}
 		});
 		
-		btnZurück.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
-		btnZurück.setBackground(Color.WHITE);
-		btnZurück.setBounds(10, 2, 28, 23);
-		contentPane.add(btnZurück);
+		btnZurueck.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
+		btnZurueck.setBackground(Color.WHITE);
+		btnZurueck.setBounds(10, 2, 28, 23);
+		contentPane.add(btnZurueck);
 		
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));

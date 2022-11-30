@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class FahrerFunktionsAuswahlMaske extends JFrame {
+public class DokumentFunktionsAuswahlMaske extends JFrame {
 
 	/**
 	 * 
@@ -31,7 +31,7 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FahrerFunktionsAuswahlMaske frame = new FahrerFunktionsAuswahlMaske();
+					DokumentFunktionsAuswahlMaske frame = new DokumentFunktionsAuswahlMaske();
 					frame.setResizable(false);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -44,8 +44,8 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FahrerFunktionsAuswahlMaske() {
-		setTitle("KFM Fahrer Funktionsmenü");
+	public DokumentFunktionsAuswahlMaske() {
+		setTitle("KFM Dokument Funktionsmenü");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(360, 300);
 		setLocationRelativeTo(null);
@@ -55,13 +55,44 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Neuen Fahrer anlegen");
+		JButton btnZurueck = new JButton("");
+		btnZurueck.setFocusable(false);
+		btnZurueck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Hauptmenue frame = new Hauptmenue();
+				frame.setResizable(false);
+				ImageIcon icon = new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
+				frame.setIconImage(icon.getImage());
+				frame.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnZurueck.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				int key_pressed = e.getKeyCode();
+				if(key_pressed == KeyEvent.VK_ESCAPE) {
+					Hauptmenue frame = new Hauptmenue();
+					frame.setResizable(false);
+					ImageIcon icon = new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
+					frame.setIconImage(icon.getImage());
+					frame.setVisible(true);
+					setVisible(false);
+				}
+			}
+		});
+		
+		btnZurueck.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
+		btnZurueck.setBackground(Color.WHITE);
+		btnZurueck.setBounds(10, 2, 28, 23);
+		contentPane.add(btnZurueck);
+		
+		JButton btnNewButton = new JButton("Neues Dokument anlegen");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton.setFocusPainted(false);
 		btnNewButton.setBackground(SystemColor.inactiveCaption);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrerAnlegenMaske frame = new FahrerAnlegenMaske();
+				DokumentAnlegenMaske frame = new DokumentAnlegenMaske();
 				frame.setResizable(false);
 				ImageIcon icon = new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
 				frame.setIconImage(icon.getImage());
@@ -72,7 +103,7 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				int key_pressed = e.getKeyCode();
 				if(key_pressed == KeyEvent.VK_ENTER) {
-					FahrerAnlegenMaske frame = new FahrerAnlegenMaske();
+					DokumentAnlegenMaske frame = new DokumentAnlegenMaske();
 					frame.setResizable(false);
 					ImageIcon icon = new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
 					frame.setIconImage(icon.getImage());
@@ -83,13 +114,13 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 		btnNewButton.setBounds(64, 50, 214, 47);
 		contentPane.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Fahrer bearbeiten");
+		JButton btnNewButton_1 = new JButton("Dokument ansehen");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton_1.setFocusPainted(false);
 		btnNewButton_1.setBackground(SystemColor.inactiveCaption);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrerBearbeitenMaske frame = new FahrerBearbeitenMaske();
+				DokumentAnsehenMaske frame = new DokumentAnsehenMaske();
 				frame.setResizable(false);
 				ImageIcon icon = new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
 				frame.setIconImage(icon.getImage());
@@ -100,7 +131,7 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				int key_pressed = e.getKeyCode();
 				if(key_pressed == KeyEvent.VK_ENTER) {
-					FahrerBearbeitenMaske frame = new FahrerBearbeitenMaske();
+					DokumentAnsehenMaske frame = new DokumentAnsehenMaske();
 					frame.setResizable(false);
 					ImageIcon icon = new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
 					frame.setIconImage(icon.getImage());
@@ -111,13 +142,13 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 		btnNewButton_1.setBounds(64, 108, 214, 47);
 		contentPane.add(btnNewButton_1);
 		
-		JButton btnNewButton_1_1 = new JButton("Fahrer löschen");
+		JButton btnNewButton_1_1 = new JButton("Dokument löschen");
 		btnNewButton_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton_1_1.setFocusPainted(false);
 		btnNewButton_1_1.setBackground(SystemColor.inactiveCaption);
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrerLoeschenMaske frame = new FahrerLoeschenMaske();
+				DokumentLoeschenMaske frame = new DokumentLoeschenMaske();
 				frame.setResizable(false);
 				ImageIcon icon = new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
 				frame.setIconImage(icon.getImage());
@@ -128,7 +159,7 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				int key_pressed = e.getKeyCode();
 				if(key_pressed == KeyEvent.VK_ENTER) {
-					FahrerLoeschenMaske frame = new FahrerLoeschenMaske();
+					DokumentLoeschenMaske frame = new DokumentLoeschenMaske();
 					frame.setResizable(false);
 					ImageIcon icon = new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
 					frame.setIconImage(icon.getImage());
@@ -138,37 +169,6 @@ public class FahrerFunktionsAuswahlMaske extends JFrame {
 		});
 		btnNewButton_1_1.setBounds(64, 166, 214, 47);
 		contentPane.add(btnNewButton_1_1);
-		
-		JButton btnZurück = new JButton("");
-		btnZurück.setFocusable(false);
-		btnZurück.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Hauptmenue frame = new Hauptmenue();
-				frame.setResizable(false);
-				ImageIcon icon = new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
-				frame.setIconImage(icon.getImage());
-				frame.setVisible(true);
-				setVisible(false);
-			}
-		});
-		btnZurück.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				int key_pressed = e.getKeyCode();
-				if(key_pressed == KeyEvent.VK_ESCAPE) {
-					Hauptmenue frame = new Hauptmenue();
-					frame.setResizable(false);
-					ImageIcon icon = new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\Logo-weißesK-roterHintergrund.jpg");
-					frame.setIconImage(icon.getImage());
-					frame.setVisible(true);
-					setVisible(false);
-				}
-			}
-		});
-		
-		btnZurück.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
-		btnZurück.setBackground(Color.WHITE);
-		btnZurück.setBounds(10, 2, 28, 23);
-		contentPane.add(btnZurück);
 		
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));

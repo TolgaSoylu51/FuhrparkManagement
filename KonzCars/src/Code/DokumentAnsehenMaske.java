@@ -31,6 +31,7 @@ import javax.swing.RowFilter;
 
 import java.awt.SystemColor;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Insets;
 
 import javax.swing.JTextField;
@@ -48,6 +49,8 @@ public class DokumentAnsehenMaske extends JFrame {
 	PreparedStatement pst = null;
 	private static JTable tableFahrer;
 	private JTextField tfSuche;
+	private static String id;
+	static FahrzeugBearbeitenMaske2 f1;
 	/**
 	 * Launch the application.
 	 */
@@ -169,10 +172,11 @@ public class DokumentAnsehenMaske extends JFrame {
 		ArrayList<Dokument> dokumentliste = new ArrayList<>();
 //C:\Users\Tolga.Soylu\OneDrive - KHW Konzmann GmbH\Desktop\Controllinginstrumente.txt
 		try {
+			id = FahrzeugBearbeitenMaske2.id_Uebergabe;
 			con = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query1 = "Select * from DokumenteTest";
+			String query1 = "Select * from DokumenteTest where FahrzeugID=" + id;
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			Dokument dokument;

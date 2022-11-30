@@ -4,13 +4,14 @@ public class Login {
 
 	String UserName;
 	String Passwort;
-	int Rolle;
+	String LE;
+	int PWAendern;
 	
-	public Login(String userName, String passwort, int rolle) {
+	public Login(String userName, String passwort, String le) {
 		super();
 		UserName = userName;
 		Passwort = passwort;
-		Rolle = rolle;
+		LE = le;
 	}
 	public String getUserName() {
 		return UserName;
@@ -24,10 +25,16 @@ public class Login {
 	public void setPasswort(String passwort) {
 		Passwort = passwort;
 	}
-	public int getRolle() {
-		return Rolle;
+	public String getLE() {
+		return LE;
 	}
-	public void setRolle(int rolle) {
-		Rolle = rolle;
+	public void setLE(String le) {
+		LE = le;
+	}
+	public int getPWAendern() {
+		return PWAendern;
+	}
+	public void setPWAendern(int pWAendern) {
+		PWAendern = pWAendern;
 	}
 }

@@ -93,6 +93,10 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 	private JCheckBox chkbxUVV;
 	private JCheckBox chkbxWartung;
 	private JCheckBox chkbxWerkstatteinrichtung;
+	public static String id_Uebergabe;
+	// static FahrzeugBearbeitenMaske2 f1;
+	private static String LE_Sichtbarkeit;
+	static LoginMaske loginMaske;
 
 	/**
 	 * Launch the application
@@ -116,7 +120,7 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 	public FahrzeugBearbeitenMaske2() {
 		setTitle("KFM Fahrzeug Bearbeiten");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1278, 674);
+		setSize(1340, 674);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.control);
@@ -807,6 +811,19 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 				}
 			}
 		});
+
+		JButton btn_Dokumente = new JButton("Dokumente");
+		btn_Dokumente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				id_Uebergabe = tableFahrzeuge.getModel()
+						.getValueAt(tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow()), 0)
+						.toString();
+				DokumentAnsehenMaske frame = new DokumentAnsehenMaske();
+				frame.setVisible(true);
+			}
+		});
+		btn_Dokumente.setBounds(1262, 2, 45, 43);
+		contentPane.add(btn_Dokumente);
 		btn_Loeschen.setBounds(1207, 2, 45, 43);
 		contentPane.add(btn_Loeschen);
 
@@ -1205,10 +1222,16 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 	public static ArrayList<Fahrzeug> fahrzeug() {
 		ArrayList<Fahrzeug> fahrzeugliste = new ArrayList<>();
 		try {
+			LE_Sichtbarkeit = LoginMaske.LE_Sichtbarkeit_Uebergabe;
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query1 = "Select * from FuhrparkTest";
+			String query1;
+			if (LE_Sichtbarkeit.equals("Admin")) {
+				query1 = "Select * from FuhrparkTest";
+			} else {
+				query1 = "Select * from FuhrparkTest where FirmaNr=" + LE_Sichtbarkeit;
+			}
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			Fahrzeug fahrzeug;
@@ -1310,7 +1333,7 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(622, 50, 630, 574);
+		scrollPane.setBounds(622, 50, 692, 574);
 		contentPane.add(scrollPane);
 
 		JPanel panel = new JPanel();
@@ -1324,7 +1347,7 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(
 				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
-		lblBackground.setBounds(0, 0, 1262, 647);
+		lblBackground.setBounds(0, 0, 1285, 647);
 		contentPane.add(lblBackground);
 
 		addWindowStateListener(new WindowStateListener() {

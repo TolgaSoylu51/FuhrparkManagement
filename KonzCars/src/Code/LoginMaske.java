@@ -40,7 +40,7 @@ public class LoginMaske extends JFrame {
 	private JPasswordField tfPasswort;
 	private JLabel lblBackground;
 	public Login login;
-	int rolle;
+	public static String LE_Sichtbarkeit_Uebergabe;
 
 	/**
 	 * Launch the application.
@@ -129,9 +129,7 @@ public class LoginMaske extends JFrame {
 			rs = pst.executeQuery();
 
 			if (rs.next()) {
-				login = new Login(rs.getString("UserName"),rs.getString("Passwort"),rs.getInt("Rolle"));
-				if (login.Rolle == 1 || login.Rolle == 2 || login.Rolle == 3) {
-					rolle = login.Rolle;
+					LE_Sichtbarkeit_Uebergabe = rs.getString("LE");
 					Hauptmenue s = new Hauptmenue();
 					s.setResizable(false);
 					ImageIcon icon = new ImageIcon(
@@ -139,9 +137,6 @@ public class LoginMaske extends JFrame {
 					s.setIconImage(icon.getImage());
 					s.setVisible(true);
 					setVisible(false);
-				} else {
-					JOptionPane.showMessageDialog(null, "Zugriff verweigert!");
-				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Der Benutzername und das Passwort stimmen nicht überein!");
 			}

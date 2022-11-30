@@ -27,7 +27,6 @@ public class Hauptmenue extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	LoginMaske loginMaske = new LoginMaske();
-	int rolle = loginMaske.rolle;
 
 	/**
 	 * Launch the application.
@@ -106,7 +105,8 @@ public class Hauptmenue extends JFrame {
 		btnNewButton_1.setBackground(new Color(191, 205, 219));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrzeugFunktionsAuswahlMaske frame = new FahrzeugFunktionsAuswahlMaske();
+				FahrzeugBearbeitenMaske2 frame = new FahrzeugBearbeitenMaske2();
+				//FahrzeugFunktionsAuswahlMaske frame = new FahrzeugFunktionsAuswahlMaske();
 				frame.setResizable(false);
 				ImageIcon icon = new ImageIcon(
 						"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");

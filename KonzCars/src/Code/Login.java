@@ -30,5 +30,4 @@ public class Login {
 	public void setRolle(int rolle) {
 		Rolle = rolle;
 	}
-	
 }

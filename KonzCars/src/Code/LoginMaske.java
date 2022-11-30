@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +20,9 @@ import javax.swing.JPasswordField;
 import java.awt.SystemColor;
 import java.awt.Font;
 import java.awt.HeadlessException;
+import java.io.*;
+import java.util.*;
+import java.sql.*;
 
 public class LoginMaske extends JFrame {
 	/**
@@ -114,6 +118,7 @@ public class LoginMaske extends JFrame {
 	public void login() {
 		try {
 			String sql = "Select * from Login where UserName=? and Passwort=?";
+			Class.forName("com.mysql.jdbc.Driver"); 
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");

@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -44,6 +45,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
@@ -69,7 +71,6 @@ public class FahrerAnlegenMaske extends JFrame {
 	private JTextField tfKommentar1;
 	private JTextField tfKommentar2;
 	private static ArrayList<String> array = new ArrayList<String>();
-	JList theList = new JList();
 
 	static Connection con = null;
 	ResultSet rs = null;
@@ -395,12 +396,16 @@ public class FahrerAnlegenMaske extends JFrame {
 		wichtigTf(tfFirmaNr);
 		wichtigTf(tfNlNr);
 
-		JComboBox comboBox = new JComboBox();
+		fuelleArrayList(array);
+		String[] a = new String[array.size()];
+		
+		for (int i = 0; i < a.length; i++) {
+			a[i] = array.get(i);
+		}
+
+		JComboBox comboBox = new JComboBox(a);
 		comboBox.setBounds(223, 280, 143, 22);
 		contentPane.add(comboBox);
-//		for (int i = 0; i < array.size(); i++) {
-//			comboBox .add(array.get(i));
-//		}
 
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -439,17 +444,39 @@ public class FahrerAnlegenMaske extends JFrame {
 						rs.getString("Kommentar1"), rs.getString("Zweitprüfung"), rs.getString("Prüfungszeitpunkt2"),
 						rs.getString("Kommentar2"), rs.getInt("Bearbeitet"));
 				fahrerliste.add(fahrer);
+
 				array.add(
 						rs.getString("Personalnummer") + ", " + rs.getString("Name") + ", " + rs.getString("Vorname"));
 			}
 
-			System.out.println(array);
+			System.out.println(array.get(0));
 		}
 
 		catch (Exception e1) {
 			JOptionPane.showMessageDialog(null, e1);
 		}
 		return fahrerliste;
+
+	}
+
+	public static ArrayList<String> fuelleArrayList(ArrayList<String> arrayList) {
+		try {
+			con = DriverManager.getConnection(
+					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
+					"KonzCars", "KonzCars");
+			String query1 = "Select * from MitarbeiterTest where AktivKZ <> 4";
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query1);
+			while (rs.next()) {
+				array.add(
+						rs.getString("Personalnummer") + ", " + rs.getString("Name") + ", " + rs.getString("Vorname"));
+			}
+		}
+
+		catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, e1);
+		}
+		return arrayList;
 
 	}
 
@@ -521,27 +548,27 @@ public class FahrerAnlegenMaske extends JFrame {
 			throw new Exception("Füllen sie bitte alle Felder aus!");
 		}
 	}
-	
-	private static Message prepareMessage(Session session, String myAccount, String empfaenger) throws Exception{
+
+	private static Message prepareMessage(Session session, String myAccount, String empfaenger) throws Exception {
 		Message message = new MimeMessage(session);
 
-        message.setFrom(new InternetAddress(myAccount));
-        message.setRecipient(Message.RecipientType.TO, new InternetAddress(empfaenger));
-        message.setSubject("Fuhrpark Management System");
+		message.setFrom(new InternetAddress(myAccount));
+		message.setRecipient(Message.RecipientType.TO, new InternetAddress(empfaenger));
+		message.setSubject("Fuhrpark Management System");
 
-        // Multipart-Message ("Wrapper") erstellen
-        Multipart multipart = new MimeMultipart();
-        // Body-Part setzen:
-        BodyPart messageBodyPart = new MimeBodyPart();
-        // Textteil des Body-Parts
-        messageBodyPart.setText("Hallo");
-        // Body-Part dem Multipart-Wrapper hinzufügen
-        multipart.addBodyPart(messageBodyPart);
-        // Message fertigstellen, indem sie mit dem Multipart-Content ausgestattet wird
-        message.setContent(multipart);
+		// Multipart-Message ("Wrapper") erstellen
+		Multipart multipart = new MimeMultipart();
+		// Body-Part setzen:
+		BodyPart messageBodyPart = new MimeBodyPart();
+		// Textteil des Body-Parts
+		messageBodyPart.setText("Hallo");
+		// Body-Part dem Multipart-Wrapper hinzufügen
+		multipart.addBodyPart(messageBodyPart);
+		// Message fertigstellen, indem sie mit dem Multipart-Content ausgestattet wird
+		message.setContent(multipart);
 
-        return message;
-}
+		return message;
+	}
 
 	public void sendEmail() {
 		Properties properties = new Properties();

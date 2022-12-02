@@ -41,7 +41,7 @@ import javax.swing.table.TableRowSorter;
 
 import java.awt.SystemColor;
 
-public class FahrzeugBearbeitenMaske2 extends JFrame {
+public class FahrzeugDatenMaske extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -97,6 +97,8 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 	// static FahrzeugBearbeitenMaske2 f1;
 	private static String LE_Sichtbarkeit;
 	static LoginMaske loginMaske;
+	public JButton btn_Abbrechen;
+	public JButton btn_Save;
 
 	/**
 	 * Launch the application
@@ -105,7 +107,7 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FahrzeugBearbeitenMaske2 frame = new FahrzeugBearbeitenMaske2();
+					FahrzeugDatenMaske frame = new FahrzeugDatenMaske();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -117,7 +119,7 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FahrzeugBearbeitenMaske2() {
+	public FahrzeugDatenMaske() {
 		setTitle("KFM Fahrzeug Bearbeiten");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1340, 674);
@@ -141,17 +143,13 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 		tfSuche.setBounds(10, 26, 1060, 19);
 		contentPane.add(tfSuche);
 
-		JButton btnSave = new JButton("Speichern");
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnSave.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnSave.setFocusPainted(false);
-		btnSave.setBackground(SystemColor.inactiveCaption);
+		btn_Save = new JButton("Speichern");
+		btn_Save.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btn_Save.setFocusPainted(false);
+		btn_Save.setBackground(SystemColor.inactiveCaption);
 
-		btnSave.setBounds(10, 605, 180, 23);
-		contentPane.add(btnSave);
+		btn_Save.setBounds(10, 605, 180, 23);
+		contentPane.add(btn_Save);
 
 		JButton btnClear = new JButton("X");
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
@@ -681,6 +679,19 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 		lblBelueftung.setBounds(450, 567, 50, 13);
 		contentPane.add(lblBelueftung);
 
+		btn_Abbrechen = new JButton("Abbrechen");
+		btn_Abbrechen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearAllFields();
+				setAllFields(false);
+			}
+		});
+		btn_Abbrechen.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btn_Abbrechen.setFocusPainted(false);
+		btn_Abbrechen.setBackground(SystemColor.inactiveCaption);
+		btn_Abbrechen.setBounds(432, 605, 180, 23);
+		contentPane.add(btn_Abbrechen);
+
 		setAllFields(false);
 
 		JButton btnZurück = new JButton("");
@@ -711,7 +722,7 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 
 		tableFahrzeuge.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		scrollpane(btnSave, btnClear);
+		scrollpane(btn_Save, btnClear);
 
 		wichtigTf(tfIdentNr);
 		wichtigTf(tfFirmaNr);
@@ -789,25 +800,31 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 		JButton btn_Loeschen = new JButton("New button");
 		btn_Loeschen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
-				TableModel model = tableFahrzeuge.getModel();
-				id = model.getValueAt(i, 0).toString();
 
-				try {
-					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
-					conn = DriverManager.getConnection(url);
-					String query = "DELETE FROM FuhrparkTest WHERE ID=" + id;
-					PreparedStatement pst = conn.prepareStatement(query);
+				Object[] options = { "Ja", "Nein" };
+				int n = JOptionPane.showOptionDialog(null, "Sind Sie sich sicher?", "Datensatz löschen", JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.DEFAULT_OPTION, null, options, options[1]);
+				if (n == 0) {
+					try {
+						int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
+						TableModel model = tableFahrzeuge.getModel();
+						id = model.getValueAt(i, 0).toString();
 
-					pst.executeUpdate();
+						String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
+						conn = DriverManager.getConnection(url);
+						String query = "DELETE FROM FuhrparkTest WHERE ID=" + id;
+						PreparedStatement pst = conn.prepareStatement(query);
 
-					show_aktualisiertes_fahrzeug();
-					vergleichsliste = fahrzeug();
-					// JOptionPane.showMessageDialog(null, "Datensatz wurde gelÃ¶scht!");
-				}
+						pst.executeUpdate();
 
-				catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, e1);
+						show_aktualisiertes_fahrzeug();
+						vergleichsliste = fahrzeug();
+						JOptionPane.showMessageDialog(null, "Datensatz wurde gelöscht!");
+					}
+
+					catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, e1);
+					}
 				}
 			}
 		});
@@ -927,7 +944,7 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 
 		show_fahrzeug();
 
-		btnSave.addActionListener(new ActionListener() {
+		btn_Save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (modus == "bearbeiten") {
 					int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
@@ -1395,7 +1412,7 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 
 	public void emptyTf(JTextField tf) throws Exception {
 		if (tf.getText().equals("!")) {
-			throw new Exception("FÃ¼llen sie bitte alle Felder aus!");
+			throw new Exception("Füllen sie bitte alle Felder aus!");
 		}
 	}
 
@@ -1438,5 +1455,63 @@ public class FahrzeugBearbeitenMaske2 extends JFrame {
 		chkbxUVV.setEnabled(wert);
 		chkbxWartung.setEnabled(wert);
 		chkbxWerkstatteinrichtung.setEnabled(wert);
+		btn_Save.setEnabled(wert);
+		btn_Abbrechen.setEnabled(wert);
 	}
+
+	public void clearAllFields() {
+		tfIdentNr.setText("");
+		tfFirmaNr.setText("");
+		tfNL.setText("");
+		tfFZG_Marke.setText("");
+		tfFZG_Bezeichnung.setText("");
+		tfamtl_Kennzeichen.setText("");
+		tfFZG_Typ.setText("");
+		tfDatum_Erfassung_km_Stand.setText("");
+		tfAbmeldedatum.setText("");
+		tfFahrer.setText("");
+		tfFahrer2.setText("");
+		tfFinanzstatus.setText("");
+		tfBank_Leasinggesellschaft.setText("");
+		tfVertragsNr.setText("");
+		tfLeasingdauer_Monate.setText("");
+		tfVerlaengerung_Monate.setText("");
+		tfVertragsende.setText("");
+		tfLeasingrate_zzgl_MwSt_Fahrzeug.setText("");
+		tfBemerkung.setText("");
+		tfRestwert_Leasingende.setText("");
+		tfSoll_Laufleistung_Km.setText("");
+		tfkm_Stand.setText("");
+		tfAnschaffungswert__Netto.setText("");
+		tfFinanzierungsrate.setText("");
+		tfZulassungsart.setText("");
+		tfMotorleistung_KW_P_2.setText("");
+		tfSommerreifen.setText("");
+		tfWinterreifen.setText("");
+		tfKostenstelle.setText("");
+		tfTyp.setText("");
+		tfErstzulassung.setText("");
+		tfSuche.setText("");
+		chkbxBelueftung.setText("");
+		chkbxFahrerunterweisung.setText("");
+		chkbxFoliert.setText("");
+		chkbxUVV.setText("");
+		chkbxWartung.setText("");
+		chkbxWerkstatteinrichtung.setText("");
+		wichtigTf(tfIdentNr);
+		wichtigTf(tfFirmaNr);
+		wichtigTf(tfNL);
+		wichtigTf(tfFZG_Marke);
+		wichtigTf(tfFZG_Typ);
+		wichtigTf(tfFZG_Bezeichnung);
+		wichtigTf(tfamtl_Kennzeichen);
+		wichtigTf(tfErstzulassung);
+		wichtigTf(tfFahrer);
+		wichtigTf(tfFinanzstatus);
+		wichtigTf(tfkm_Stand);
+		wichtigTf(tfDatum_Erfassung_km_Stand);
+		wichtigTf(tfZulassungsart);
+		wichtigTf(tfMotorleistung_KW_P_2);
+		wichtigTf(tfKostenstelle);
+	};
 }

@@ -50,7 +50,7 @@ public class DokumentAnsehenMaske extends JFrame {
 	private static JTable tableFahrer;
 	private JTextField tfSuche;
 	private static String id;
-	static FahrzeugBearbeitenMaske2 f1;
+	static FahrzeugDatenMaske f1;
 	/**
 	 * Launch the application.
 	 */
@@ -172,7 +172,7 @@ public class DokumentAnsehenMaske extends JFrame {
 		ArrayList<Dokument> dokumentliste = new ArrayList<>();
 //C:\Users\Tolga.Soylu\OneDrive - KHW Konzmann GmbH\Desktop\Controllinginstrumente.txt
 		try {
-			id = FahrzeugBearbeitenMaske2.id_Uebergabe;
+			id = FahrzeugDatenMaske.id_Uebergabe;
 			con = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");

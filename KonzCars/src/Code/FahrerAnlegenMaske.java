@@ -110,6 +110,10 @@ public class FahrerAnlegenMaske extends JFrame {
 				filter(tfSuche.getText());
 			}
 		});
+		
+		JComboBox<?> comboBox = new JComboBox<Object>();
+		comboBox.setBounds(223, 280, 143, 22);
+		contentPane.add(comboBox);
 		tfSuche.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfSuche.setColumns(10);
 		tfSuche.setBackground(SystemColor.menu);
@@ -397,10 +401,6 @@ public class FahrerAnlegenMaske extends JFrame {
 		for (int i = 0; i < a.length; i++) {
 			a[i] = array.get(i);
 		}
-
-		JComboBox<?> comboBox = new JComboBox<Object>(a);
-		comboBox.setBounds(223, 280, 143, 22);
-		contentPane.add(comboBox);
 
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

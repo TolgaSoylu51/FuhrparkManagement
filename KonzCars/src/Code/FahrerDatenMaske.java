@@ -621,6 +621,7 @@ public class FahrerDatenMaske extends JFrame {
 						pst.setString(12, "");
 						pst.setString(13, tfKommentar2.getText());
 						pst.setInt(14, 0);
+						
 						pst.setString(15, "");
 
 						pst.executeUpdate();

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -61,7 +62,10 @@ public class FahrzeugDatenMaske extends JFrame {
 	private JTextField tfFZG_Typ;
 	private JTextField tfDatum_Erfassung_km_Stand;
 	private JTextField tfAbmeldedatum;
-	private JTextField tfFahrer;
+	
+//	private JTextField tfFahrer;
+	private static ArrayList<String> array = new ArrayList<String>();
+
 	private JTextField tfFahrer2;
 	private JTextField tfFinanzstatus;
 	private JTextField tfBank_Leasinggesellschaft;
@@ -311,13 +315,13 @@ public class FahrzeugDatenMaske extends JFrame {
 		lblFahrer.setBounds(10, 257, 64, 13);
 		contentPane.add(lblFahrer);
 
-		tfFahrer = new JTextField();
-		tfFahrer.setBackground(Color.WHITE);
-		tfFahrer.setForeground(Color.BLACK);
-		tfFahrer.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfFahrer.setColumns(10);
-		tfFahrer.setBounds(92, 254, 220, 19);
-		contentPane.add(tfFahrer);
+//		tfFahrer = new JTextField();
+//		tfFahrer.setBackground(Color.WHITE);
+//		tfFahrer.setForeground(Color.BLACK);
+//		tfFahrer.setFont(new Font("Tahoma", Font.PLAIN, 11));
+//		tfFahrer.setColumns(10);
+//		tfFahrer.setBounds(92, 254, 220, 19);
+//		contentPane.add(tfFahrer);
 
 		JLabel lblFahrer2 = new JLabel("Fahrer2");
 		lblFahrer2.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -731,7 +735,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		wichtigTf(tfFZG_Bezeichnung);
 		wichtigTf(tfamtl_Kennzeichen);
 		wichtigTf(tfErstzulassung);
-		wichtigTf(tfFahrer);
+//		wichtigTf(tfFahrer);
 		wichtigTf(tfFinanzstatus);
 		wichtigTf(tfkm_Stand);
 		wichtigTf(tfDatum_Erfassung_km_Stand);
@@ -752,7 +756,7 @@ public class FahrzeugDatenMaske extends JFrame {
 				wichtigTf(tfFZG_Bezeichnung);
 				wichtigTf(tfamtl_Kennzeichen);
 				wichtigTf(tfErstzulassung);
-				wichtigTf(tfFahrer);
+//				wichtigTf(tfFahrer);
 				wichtigTf(tfFinanzstatus);
 				wichtigTf(tfkm_Stand);
 				wichtigTf(tfDatum_Erfassung_km_Stand);
@@ -866,7 +870,7 @@ public class FahrzeugDatenMaske extends JFrame {
 				tfamtl_Kennzeichen.setText(model.getValueAt(i, 7).toString());
 				tfErstzulassung.setText(model.getValueAt(i, 8).toString());
 				tfAbmeldedatum.setText(model.getValueAt(i, 9).toString());
-				tfFahrer.setText(model.getValueAt(i, 10).toString());
+//	ToDo:		tfFahrer.setText(model.getValueAt(i, 10).toString()); 
 				tfFahrer2.setText(model.getValueAt(i, 11).toString());
 				tfFinanzstatus.setText(model.getValueAt(i, 12).toString());
 				tfBank_Leasinggesellschaft.setText(model.getValueAt(i, 13).toString());
@@ -948,6 +952,17 @@ public class FahrzeugDatenMaske extends JFrame {
 
 		vergleichsliste = fahrzeug();
 		show_fahrzeug();
+		
+		fuelleArrayList(array);
+		String[] a = new String[array.size()];
+		
+		for (int i = 0; i < a.length; i++) {
+			a[i] = array.get(i);
+		}
+		
+		JComboBox comboBox = new JComboBox(a);
+		comboBox.setBounds(92, 254, 220, 19);
+		contentPane.add(comboBox);
 
 		btn_Save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -970,7 +985,7 @@ public class FahrzeugDatenMaske extends JFrame {
 							emptyTf(tfamtl_Kennzeichen);
 							emptyTf(tfErstzulassung);
 							emptyTf(tfAbmeldedatum);
-							emptyTf(tfFahrer);
+//							emptyTf(tfFahrer);
 							emptyTf(tfFinanzstatus);
 							emptyTf(tfkm_Stand);
 							emptyTf(tfDatum_Erfassung_km_Stand);
@@ -1003,7 +1018,7 @@ public class FahrzeugDatenMaske extends JFrame {
 							pst.setString(7, tfamtl_Kennzeichen.getText());
 							pst.setString(8, tfErstzulassung.getText());
 							pst.setString(9, tfAbmeldedatum.getText());
-							pst.setString(10, tfFahrer.getText());
+//							pst.setString(10, tfFahrer.getText());
 							pst.setString(11, tfFahrer2.getText());
 							pst.setString(12, tfFinanzstatus.getText());
 							pst.setString(13, tfBank_Leasinggesellschaft.getText());
@@ -1118,7 +1133,7 @@ public class FahrzeugDatenMaske extends JFrame {
 						emptyTf(tfFZG_Bezeichnung);
 						emptyTf(tfamtl_Kennzeichen);
 						emptyTf(tfErstzulassung);
-						emptyTf(tfFahrer);
+//						emptyTf(tfFahrer);
 						emptyTf(tfFinanzstatus);
 						emptyTf(tfkm_Stand);
 						emptyTf(tfDatum_Erfassung_km_Stand);
@@ -1134,7 +1149,9 @@ public class FahrzeugDatenMaske extends JFrame {
 								+ "Wartung, Zulassungsart, Motorleistung_KW_P_2, Sommerreifen, Winterreifen, Kostenstelle, "
 								+ "Foliert, Typ, UVV, Fahrerunterweisung, Werkstatteinrichtung, Belueftung,"
 								+ "Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						String query1 = "insert into MitarbeiterTest (FahrzeugID) values "+id+" where ID = Fahrer";
 						PreparedStatement pst = conn.prepareStatement(query);
+						PreparedStatement pst1 = conn.prepareStatement(query1);
 
 						TableModel model = tableFahrzeuge.getModel();
 						int numOfRows = model.getRowCount();
@@ -1155,7 +1172,7 @@ public class FahrzeugDatenMaske extends JFrame {
 						pst.setString(7, tfamtl_Kennzeichen.getText());
 						pst.setString(8, tfErstzulassung.getText());
 						pst.setString(9, tfAbmeldedatum.getText());
-						pst.setString(10, tfFahrer.getText());
+//						pst.setString(10, tfFahrer.getText());
 						pst.setString(11, tfFahrer2.getText());
 						pst.setString(12, tfFinanzstatus.getText());
 						pst.setString(13, tfBank_Leasinggesellschaft.getText());
@@ -1234,6 +1251,8 @@ public class FahrzeugDatenMaske extends JFrame {
 						pst.setInt(38, 0);
 
 						pst.executeUpdate();
+						
+						
 
 						vergleichsliste = fahrzeug();
 						show_aktualisiertes_fahrzeug();
@@ -1440,7 +1459,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		tfFZG_Typ.setEnabled(wert);
 		tfDatum_Erfassung_km_Stand.setEnabled(wert);
 		tfAbmeldedatum.setEnabled(wert);
-		tfFahrer.setEnabled(wert);
+//		tfFahrer.setEnabled(wert);
 		tfFahrer2.setEnabled(wert);
 		tfFinanzstatus.setEnabled(wert);
 		tfBank_Leasinggesellschaft.setEnabled(wert);
@@ -1483,7 +1502,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		tfFZG_Typ.setText("");
 		tfDatum_Erfassung_km_Stand.setText("");
 		tfAbmeldedatum.setText("");
-		tfFahrer.setText("");
+//		tfFahrer.setText("");
 		tfFahrer2.setText("");
 		tfFinanzstatus.setText("");
 		tfBank_Leasinggesellschaft.setText("");
@@ -1520,7 +1539,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		wichtigTf(tfFZG_Bezeichnung);
 		wichtigTf(tfamtl_Kennzeichen);
 		wichtigTf(tfErstzulassung);
-		wichtigTf(tfFahrer);
+//		wichtigTf(tfFahrer);
 		wichtigTf(tfFinanzstatus);
 		wichtigTf(tfkm_Stand);
 		wichtigTf(tfDatum_Erfassung_km_Stand);
@@ -1528,4 +1547,58 @@ public class FahrzeugDatenMaske extends JFrame {
 		wichtigTf(tfMotorleistung_KW_P_2);
 		wichtigTf(tfKostenstelle);
 	};
+	
+	public static ArrayList<String> fuelleArrayList(ArrayList<String> arrayList) {
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
+					"KonzCars", "KonzCars");
+			String query1 = "Select * from MitarbeiterTest where AktivKZ <> 4";
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query1);
+			while (rs.next()) {
+				array.add(
+						rs.getString("Personalnummer") + ", " + rs.getString("Name") + ", " + rs.getString("Vorname"));
+			}
+		}
+
+		catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, e1);
+		}
+		return arrayList;
+
+	}
+	
+//	public static ArrayList<Fahrer> fahrer() {
+//		ArrayList<Fahrer> fahrerliste = new ArrayList<>();
+//
+//		try {
+//			conn = DriverManager.getConnection(
+//					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
+//					"KonzCars", "KonzCars");
+//			String query1 = "Select * from MitarbeiterTest where AktivKZ <> 4";
+//			Statement st = conn.createStatement();
+//			ResultSet rs = st.executeQuery(query1);
+//			Fahrer fahrer;
+//			while (rs.next()) {
+//				fahrer = new Fahrer(rs.getInt("ID"), rs.getInt("Personalnummer"), rs.getInt("AktivKZ"),
+//						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getInt("NL_Nr"),
+//						rs.getString("Fahrerlaubnis"), rs.getString("Erstprüfung"), rs.getString("Prüfungszeitpunkt1"),
+//						rs.getString("Kommentar1"), rs.getString("Zweitprüfung"), rs.getString("Prüfungszeitpunkt2"),
+//						rs.getString("Kommentar2"), rs.getInt("Bearbeitet"), rs.getString("FahrzeugID"));
+//				fahrerliste.add(fahrer);
+//
+//				array.add(
+//						rs.getString("Personalnummer") + ", " + rs.getString("Name") + ", " + rs.getString("Vorname"));
+//			}
+//
+//			System.out.println(array.get(0));
+//		}
+//
+//		catch (Exception e1) {
+//			JOptionPane.showMessageDialog(null, e1);
+//		}
+//		return fahrerliste;
+//
+//	}
 }

@@ -6,14 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.DriverManager;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Color;
@@ -72,8 +69,7 @@ public class Hauptmenue extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				FahrerFunktionsAuswahlMaske frame = new FahrerFunktionsAuswahlMaske();
-				frame.setResizable(false);
+				FahrerDatenMaske frame = new FahrerDatenMaske();
 				ImageIcon icon = new ImageIcon(
 						"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
 				frame.setIconImage(icon.getImage());
@@ -87,7 +83,6 @@ public class Hauptmenue extends JFrame {
 				int key_pressed = e.getKeyCode();
 				if (key_pressed == KeyEvent.VK_ENTER) {
 					FahrerDatenMaske frame = new FahrerDatenMaske();
-					frame.setResizable(false);
 					ImageIcon icon = new ImageIcon(
 							"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
 					frame.setIconImage(icon.getImage());
@@ -106,8 +101,6 @@ public class Hauptmenue extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FahrzeugDatenMaske frame = new FahrzeugDatenMaske();
-				//FahrzeugFunktionsAuswahlMaske frame = new FahrzeugFunktionsAuswahlMaske();
-				frame.setResizable(false);
 				ImageIcon icon = new ImageIcon(
 						"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
 				frame.setIconImage(icon.getImage());
@@ -119,8 +112,7 @@ public class Hauptmenue extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				int key_pressed = e.getKeyCode();
 				if (key_pressed == KeyEvent.VK_ENTER) {
-					FahrzeugFunktionsAuswahlMaske frame = new FahrzeugFunktionsAuswahlMaske();
-					frame.setResizable(false);
+					FahrzeugDatenMaske frame = new FahrzeugDatenMaske();
 					ImageIcon icon = new ImageIcon(
 							"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
 					frame.setIconImage(icon.getImage());
@@ -151,7 +143,7 @@ public class Hauptmenue extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				int key_pressed = e.getKeyCode();
 				if (key_pressed == KeyEvent.VK_ENTER) {
-					DokumentFunktionsAuswahlMaske frame = new DokumentFunktionsAuswahlMaske();
+					DokumenteMaske frame = new DokumenteMaske();
 					frame.setResizable(false);
 					ImageIcon icon = new ImageIcon(
 							"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");

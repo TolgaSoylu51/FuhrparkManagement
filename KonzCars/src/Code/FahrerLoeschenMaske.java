@@ -202,7 +202,7 @@ public class FahrerLoeschenMaske extends JFrame {
 						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getInt("NL_Nr"),
 						rs.getString("Fahrerlaubnis"), rs.getString("Erstprüfung"), rs.getString("Prüfungszeitpunkt1"),
 						rs.getString("Kommentar1"), rs.getString("Zweitprüfung"), rs.getString("Prüfungszeitpunkt2"),
-						rs.getString("Kommentar2"), rs.getInt("Bearbeitet"));
+						rs.getString("Kommentar2"), rs.getInt("Bearbeitet"), rs.getString("FahrzeugID"));
 				fahrerliste.add(fahrer);
 			}
 		}

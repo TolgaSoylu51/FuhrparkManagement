@@ -14,20 +14,16 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
@@ -45,7 +41,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
@@ -403,7 +398,7 @@ public class FahrerAnlegenMaske extends JFrame {
 			a[i] = array.get(i);
 		}
 
-		JComboBox comboBox = new JComboBox(a);
+		JComboBox<?> comboBox = new JComboBox<Object>(a);
 		comboBox.setBounds(223, 280, 143, 22);
 		contentPane.add(comboBox);
 
@@ -442,7 +437,7 @@ public class FahrerAnlegenMaske extends JFrame {
 						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getInt("NL_Nr"),
 						rs.getString("Fahrerlaubnis"), rs.getString("Erstprüfung"), rs.getString("Prüfungszeitpunkt1"),
 						rs.getString("Kommentar1"), rs.getString("Zweitprüfung"), rs.getString("Prüfungszeitpunkt2"),
-						rs.getString("Kommentar2"), rs.getInt("Bearbeitet"));
+						rs.getString("Kommentar2"), rs.getInt("Bearbeitet"), rs.getString("FahrzeugID"));
 				fahrerliste.add(fahrer);
 
 				array.add(

@@ -6,7 +6,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,10 +18,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.SystemColor;
 import java.awt.Font;
-import java.awt.HeadlessException;
-import java.io.*;
-import java.util.*;
-import java.sql.*;
 
 public class LoginMaske extends JFrame {
 	/**
@@ -107,6 +102,7 @@ public class LoginMaske extends JFrame {
 		btnAnmelden.setBounds(31, 160, 281, 40);
 		getContentPane().add(btnAnmelden);
 
+		
 		lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(
 				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));

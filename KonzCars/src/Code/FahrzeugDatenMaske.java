@@ -20,7 +20,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -38,7 +37,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import java.awt.SystemColor;
 
 public class FahrzeugDatenMaske extends JFrame {
@@ -93,7 +91,9 @@ public class FahrzeugDatenMaske extends JFrame {
 	private JCheckBox chkbxUVV;
 	private JCheckBox chkbxWartung;
 	private JCheckBox chkbxWerkstatteinrichtung;
-	public static String id_Uebergabe;
+	public static String id_Uebergabe_fahrzeug;
+	public static String id_Uebergabe_fahrer;
+	public static boolean herkunft_ueber_fahrzeug;
 	// static FahrzeugBearbeitenMaske2 f1;
 	private static String LE_Sichtbarkeit;
 	static LoginMaske loginMaske;
@@ -120,7 +120,7 @@ public class FahrzeugDatenMaske extends JFrame {
 	 * Create the frame.
 	 */
 	public FahrzeugDatenMaske() {
-		setTitle("KFM Fahrzeug Bearbeiten");
+		setTitle("KFM Fahrzeug");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1340, 674);
 		setLocationRelativeTo(null);
@@ -136,11 +136,10 @@ public class FahrzeugDatenMaske extends JFrame {
 				filter(tfSuche.getText());
 			}
 		});
-
 		tfSuche.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfSuche.setColumns(10);
 		tfSuche.setBackground(SystemColor.menu);
-		tfSuche.setBounds(10, 26, 1060, 19);
+		tfSuche.setBounds(10, 26, 1064, 19);
 		contentPane.add(tfSuche);
 
 		btn_Save = new JButton("Speichern");
@@ -155,7 +154,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnClear.setFocusPainted(false);
 		btnClear.setBackground(SystemColor.inactiveCaption);
-		btnClear.setBounds(1068, 26, 20, 18);
+		btnClear.setBounds(1074, 26, 20, 18);
 		btnClear.setMargin(new Insets(0, 0, 0, 0));
 		contentPane.add(btnClear);
 
@@ -691,21 +690,23 @@ public class FahrzeugDatenMaske extends JFrame {
 		btn_Abbrechen.setBackground(SystemColor.inactiveCaption);
 		btn_Abbrechen.setBounds(432, 605, 180, 23);
 		contentPane.add(btn_Abbrechen);
-
+		
 		setAllFields(false);
 
-		JButton btnZurück = new JButton("");
-		btnZurück.setFocusable(false);
-		btnZurück.setBackground(Color.WHITE);
-		btnZurück.addActionListener(new ActionListener() {
+		JButton btnZurueck = new JButton("");
+		btnZurueck.setFocusable(false);
+		btnZurueck.setBackground(Color.WHITE);
+		btnZurueck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Hauptmenue frame = new Hauptmenue();
+				frame.setVisible(true);
 				setVisible(false);
 			}
 		});
-		btnZurück.setIcon(new ImageIcon(
+		btnZurueck.setIcon(new ImageIcon(
 				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurÃ¼ck.png"));
-		btnZurück.setBounds(10, 2, 28, 23);
-		contentPane.add(btnZurück);
+		btnZurueck.setBounds(10, 2, 28, 23);
+		contentPane.add(btnZurueck);
 
 		tableFahrzeuge = new JTable();
 		tableFahrzeuge.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -721,8 +722,6 @@ public class FahrzeugDatenMaske extends JFrame {
 						"Werkstatteinrichtung", "Belueftung", "Bearbeitet" }));
 
 		tableFahrzeuge.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-		scrollpane(btn_Save, btnClear);
 
 		wichtigTf(tfIdentNr);
 		wichtigTf(tfFirmaNr);
@@ -784,8 +783,6 @@ public class FahrzeugDatenMaske extends JFrame {
 				chkbxBelueftung.setSelected(false);
 			}
 		});
-		btn_Anlegen.setBounds(1098, 2, 45, 43);
-		contentPane.add(btn_Anlegen);
 
 		JButton btn_Bearbeiten = new JButton("Bearbeiten");
 		btn_Bearbeiten.addActionListener(new ActionListener() {
@@ -794,8 +791,6 @@ public class FahrzeugDatenMaske extends JFrame {
 				setAllFields(true);
 			}
 		});
-		btn_Bearbeiten.setBounds(1153, 2, 45, 43);
-		contentPane.add(btn_Bearbeiten);
 
 		JButton btn_Loeschen = new JButton("New button");
 		btn_Loeschen.addActionListener(new ActionListener() {
@@ -832,17 +827,28 @@ public class FahrzeugDatenMaske extends JFrame {
 		JButton btn_Dokumente = new JButton("Dokumente");
 		btn_Dokumente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				id_Uebergabe = tableFahrzeuge.getModel()
+				id_Uebergabe_fahrzeug = tableFahrzeuge.getModel()
 						.getValueAt(tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow()), 0)
 						.toString();
+				id_Uebergabe_fahrer = tableFahrzeuge.getModel()
+						.getValueAt(tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow()), 10)
+						.toString();
+				herkunft_ueber_fahrzeug = true;
 				DokumentAnsehenMaske frame = new DokumentAnsehenMaske();
 				frame.setVisible(true);
 			}
 		});
-		btn_Dokumente.setBounds(1262, 2, 45, 43);
-		contentPane.add(btn_Dokumente);
-		btn_Loeschen.setBounds(1207, 2, 45, 43);
+		
+		btn_Anlegen.setBounds(1102, 2, 45, 43);
+		contentPane.add(btn_Anlegen);
+		btn_Bearbeiten.setBounds(1157, 2, 45, 43);
+		contentPane.add(btn_Bearbeiten);
+		btn_Loeschen.setBounds(1212, 2, 45, 43);
 		contentPane.add(btn_Loeschen);
+		btn_Dokumente.setBounds(1267, 2, 45, 43);
+		contentPane.add(btn_Dokumente);
+		
+		scrollpane(btn_Save, btnClear, btn_Abbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente);
 
 		tableFahrzeuge.addMouseListener(new MouseAdapter() {
 			@Override
@@ -941,7 +947,6 @@ public class FahrzeugDatenMaske extends JFrame {
 		});
 
 		vergleichsliste = fahrzeug();
-
 		show_fahrzeug();
 
 		btn_Save.addActionListener(new ActionListener() {
@@ -977,8 +982,17 @@ public class FahrzeugDatenMaske extends JFrame {
 							conn = DriverManager.getConnection(url);
 							String query = "UPDATE FuhrparkTest SET IdentNr=?, FirmaNr=?, NL=?, FZG_Marke=?, FZG_Typ=?, FZG_Bezeichnung=?, amtl_Kennzeichen=?, Erstzulassung=?, Abmeldedatum=?, Fahrer=?, Fahrer2=?, Finanzstatus=?, Bank_Leasinggesellschaft=?, VertragsNr=?, Leasingdauer_Monate=?, Verlaengerung_Monate=?, Leasingrate_zzgl_MwSt_Fahrzeug=?, Vertragsende=?, Bemerkung=?, Restwert_Leasingende=?, Soll_Laufleistung_Km=?, km_Stand=?, Datum_Erfassung_km_Stand=?, Anschaffungswert__Netto=?, Finanzierungsrate=?, Wartung=?, Zulassungsart=?, Motorleistung_KW_P_2=?, Sommerreifen=?, Winterreifen=?, Kostenstelle=?, Foliert=?, Typ=?, UVV=?, Fahrerunterweisung=?, Werkstatteinrichtung=?, Belueftung=?, Bearbeitet=? WHERE ID="
 									+ id;
-
 							PreparedStatement pst = conn.prepareStatement(query);
+							
+							TableModel model = tableFahrzeuge.getModel();
+							int numOfRows = model.getRowCount();
+
+							for (int j = 1; j < numOfRows; j++) {
+								String checkRow = model.getValueAt(j, 1).toString();
+								if (tfIdentNr.getText().equals(checkRow)) {
+									throw new Exception("Dieses Fahrzeug exisitiert bereits!");
+								}
+							}
 
 							pst.setString(1, tfIdentNr.getText());
 							pst.setString(2, tfFirmaNr.getText());
@@ -1074,13 +1088,14 @@ public class FahrzeugDatenMaske extends JFrame {
 							}
 							pst.executeUpdate();
 							show_aktualisiertes_fahrzeug();
-
+							
 							JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 						}
 
 						catch (IndexOutOfBoundsException e2) {
 							// JOptionPane.showMessageDialog(null, e);
-						} catch (Exception e2) {
+						} 
+						catch (Exception e2) {
 							// e2.printStackTrace();
 						}
 					} else {
@@ -1124,8 +1139,8 @@ public class FahrzeugDatenMaske extends JFrame {
 						TableModel model = tableFahrzeuge.getModel();
 						int numOfRows = model.getRowCount();
 
-						for (int i = 1; i < numOfRows; i++) {
-							String checkRow = model.getValueAt(i, 1).toString();
+						for (int k = 1; k < numOfRows; k++) {
+							String checkRow = model.getValueAt(k, 1).toString();
 							if (tfIdentNr.getText().equals(checkRow)) {
 								throw new Exception("Dieses Fahrzeug exisitiert bereits!");
 							}
@@ -1224,7 +1239,7 @@ public class FahrzeugDatenMaske extends JFrame {
 						show_aktualisiertes_fahrzeug();
 						setAllFields(false);
 						modus = "";
-						// JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
+						JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 					}
 
 					catch (Exception e1) {
@@ -1346,11 +1361,11 @@ public class FahrzeugDatenMaske extends JFrame {
 		;
 	}
 
-	public void scrollpane(JButton btnSave, JButton btnClear) {
+	public void scrollpane(JButton btnSave, JButton btnClear, JButton btn_Abbrechen, JButton btn_Anlegen, JButton btn_Bearbeiten, JButton btn_Loeschen, JButton btn_Dokumente) {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(622, 50, 692, 574);
+		scrollPane.setBounds(621, 50, 692, 574);
 		contentPane.add(scrollPane);
 
 		JPanel panel = new JPanel();
@@ -1361,30 +1376,29 @@ public class FahrzeugDatenMaske extends JFrame {
 		lblBackground_2.setIcon(new ImageIcon(
 				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
 
-		JLabel lblBackground = new JLabel("");
-		lblBackground.setIcon(new ImageIcon(
-				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
-		lblBackground.setBounds(0, 0, 1285, 647);
-		contentPane.add(lblBackground);
-
 		addWindowStateListener(new WindowStateListener() {
 			public void windowStateChanged(final WindowEvent evt) {
 				if (evt.getNewState() == MAXIMIZED_BOTH) {
-					contentPane.remove(lblBackground);
-					scrollPane.setBounds(635, 50, 1272, 956);
+					scrollPane.setBounds(620, 50, 1288, 956);
 					btnSave.setBounds(10, 986, 180, 23);
-					btnClear.setBounds(1619, 26, 19, 18);
-					lblBackground_2.setBounds(658, 0, 1262, 651);
-					lblBackground.setBounds(0, 0, 1262, 651);
-					contentPane.add(lblBackground_2);
-					contentPane.add(lblBackground);
-					tfSuche.setBounds(10, 26, 1609, 19);
+					btn_Abbrechen.setBounds(200, 986, 180, 23);
+					btn_Anlegen.setBounds(1698, 2, 45, 43);
+					btn_Bearbeiten.setBounds(1753, 2, 45, 43);
+					btn_Loeschen.setBounds(1807, 2, 45, 43);
+					btn_Dokumente.setBounds(1862, 2, 45, 43);
+					btnClear.setBounds(1670, 26, 19, 18);
+					tfSuche.setBounds(10, 26, 1660, 19);
+					
 				} else {
-					scrollPane.setBounds(622, 50, 630, 574);
+					scrollPane.setBounds(621, 50, 692, 574);
 					btnSave.setBounds(10, 605, 180, 23);
-					lblBackground.setBounds(0, 0, 1262, 647);
-					contentPane.remove(lblBackground_2);
-					tfSuche.setBounds(10, 26, 980, 19);
+					btn_Abbrechen.setBounds(200, 605, 180, 23);				
+					btn_Anlegen.setBounds(1102, 2, 45, 43);
+					btn_Bearbeiten.setBounds(1157, 2, 45, 43);
+					btn_Loeschen.setBounds(1212, 2, 45, 43);
+					btn_Dokumente.setBounds(1267, 2, 45, 43);
+					btnClear.setBounds(1074, 26, 20, 18);
+					tfSuche.setBounds(10, 26, 1064, 19);
 				}
 			}
 		});

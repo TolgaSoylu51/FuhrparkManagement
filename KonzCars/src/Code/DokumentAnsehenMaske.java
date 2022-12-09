@@ -31,7 +31,6 @@ import javax.swing.RowFilter;
 
 import java.awt.SystemColor;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Insets;
 
 import javax.swing.JTextField;
@@ -49,8 +48,9 @@ public class DokumentAnsehenMaske extends JFrame {
 	PreparedStatement pst = null;
 	private static JTable tableFahrer;
 	private JTextField tfSuche;
-	private static String id;
-	static FahrzeugDatenMaske f1;
+	private static String fahrzeugid;
+	private static String fahrerid;
+
 	/**
 	 * Launch the application.
 	 */
@@ -101,7 +101,7 @@ public class DokumentAnsehenMaske extends JFrame {
 				}
 			}
 		});
-		
+
 		tfSuche = new JTextField();
 		tfSuche.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
@@ -122,10 +122,11 @@ public class DokumentAnsehenMaske extends JFrame {
 		btnZurueck.setBackground(Color.WHITE);
 		btnZurueck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				FahrzeugDatenMaske.herkunft_ueber_fahrzeug = false;
+				FahrerDatenMaske.herkunft_ueber_fahrer = false;
 			}
 		});
-		
+
 		JButton btnClear = new JButton("X");
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnClear.setFocusPainted(false);
@@ -133,16 +134,16 @@ public class DokumentAnsehenMaske extends JFrame {
 		btnClear.setBounds(974, 26, 19, 18);
 		btnClear.setMargin(new Insets(0, 0, 0, 0));
 		contentPane.add(btnClear);
-		
+
 		btnClear.addActionListener(new ActionListener() {
-			public void actionPerformed (ActionEvent evt){
+			public void actionPerformed(ActionEvent evt) {
 				tfSuche.setText("");
 				filter(tfSuche.getText());
 			}
 		});
-		
-		btnZurueck.setIcon(
-				new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
+
+		btnZurueck.setIcon(new ImageIcon(
+				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurück.png"));
 		btnZurueck.setBounds(10, 2, 28, 23);
 		contentPane.add(btnZurueck);
 
@@ -158,9 +159,10 @@ public class DokumentAnsehenMaske extends JFrame {
 		tableFahrer.setBorder(null);
 		tableFahrer.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "DokumentName", "Pfad", "Dokument", "Extension" }));
-		
+
 		JLabel lblBackground = new JLabel("");
-		lblBackground.setIcon(new ImageIcon("C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		lblBackground.setIcon(new ImageIcon(
+				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
 		lblBackground.setBounds(0, 0, 1262, 647);
 		contentPane.add(lblBackground);
 
@@ -172,11 +174,24 @@ public class DokumentAnsehenMaske extends JFrame {
 		ArrayList<Dokument> dokumentliste = new ArrayList<>();
 //C:\Users\Tolga.Soylu\OneDrive - KHW Konzmann GmbH\Desktop\Controllinginstrumente.txt
 		try {
-			id = FahrzeugDatenMaske.id_Uebergabe;
+			if (FahrzeugDatenMaske.herkunft_ueber_fahrzeug == true) {
+				fahrzeugid = FahrzeugDatenMaske.id_Uebergabe_fahrzeug;
+				fahrerid = FahrzeugDatenMaske.id_Uebergabe_fahrer;
+			}
+			if (FahrerDatenMaske.herkunft_ueber_fahrer == true) {
+				fahrzeugid = FahrerDatenMaske.id_Uebergabe_fahrzeug;
+				fahrerid = FahrerDatenMaske.id_Uebergabe_fahrer;
+			}
 			con = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query1 = "Select * from DokumenteTest where FahrzeugID=" + id;
+			String query1 = null;
+			if (FahrzeugDatenMaske.herkunft_ueber_fahrzeug == true) {
+				query1 = "Select * from DokumenteTest where FahrzeugID=" + fahrzeugid + " or FahrerID=" + fahrerid;
+			}
+			if (FahrerDatenMaske.herkunft_ueber_fahrer == true) {
+				query1 = "Select * from DokumenteTest where FahrzeugID=" + fahrzeugid + " or FahrerID=" + fahrerid;
+			}
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			Dokument dokument;
@@ -193,12 +208,12 @@ public class DokumentAnsehenMaske extends JFrame {
 
 		return dokumentliste;
 	}
-	
+
 	public void filter(String str) {
 		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
 		TableRowSorter<DefaultTableModel> rowFilter = new TableRowSorter<DefaultTableModel>(model);
 		tableFahrer.setRowSorter(rowFilter);
-		
+
 		rowFilter.setRowFilter(RowFilter.regexFilter("(?i)" + str));
 	}
 

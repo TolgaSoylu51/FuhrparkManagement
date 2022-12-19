@@ -1,3 +1,4 @@
+
 package Code;
 
 public class Login {
@@ -6,12 +7,14 @@ public class Login {
 	String Passwort;
 	String LE;
 	int PWAendern;
+	int ID;
 	
-	public Login(String userName, String passwort, String le) {
+	public Login(String userName, String passwort, String le, int id) {
 		super();
 		UserName = userName;
 		Passwort = passwort;
 		LE = le;
+		ID = id;
 	}
 	public String getUserName() {
 		return UserName;
@@ -36,5 +39,11 @@ public class Login {
 	}
 	public void setPWAendern(int pWAendern) {
 		PWAendern = pWAendern;
+	}
+	public int getID() {
+		return ID;
+	}
+	public void setID(int iD) {
+		ID = iD;
 	}
 }

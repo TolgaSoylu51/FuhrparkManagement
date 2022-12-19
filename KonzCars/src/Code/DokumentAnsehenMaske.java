@@ -123,7 +123,7 @@ public class DokumentAnsehenMaske extends JFrame {
 		btnZurueck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FahrzeugDatenMaske.herkunft_ueber_fahrzeug = false;
-				FahrerDatenMaske.herkunft_ueber_fahrer = false;
+				FahrerDatenMaske.herkunft_ueber_fahrzeug = false;
 			}
 		});
 
@@ -178,7 +178,7 @@ public class DokumentAnsehenMaske extends JFrame {
 				fahrzeugid = FahrzeugDatenMaske.id_Uebergabe_fahrzeug;
 				fahrerid = FahrzeugDatenMaske.id_Uebergabe_fahrer;
 			}
-			if (FahrerDatenMaske.herkunft_ueber_fahrer == true) {
+			if (FahrerDatenMaske.herkunft_ueber_fahrzeug == true) {
 				fahrzeugid = FahrerDatenMaske.id_Uebergabe_fahrzeug;
 				fahrerid = FahrerDatenMaske.id_Uebergabe_fahrer;
 			}
@@ -189,7 +189,7 @@ public class DokumentAnsehenMaske extends JFrame {
 			if (FahrzeugDatenMaske.herkunft_ueber_fahrzeug == true) {
 				query1 = "Select * from DokumenteTest where FahrzeugID=" + fahrzeugid + " or FahrerID=" + fahrerid;
 			}
-			if (FahrerDatenMaske.herkunft_ueber_fahrer == true) {
+			if (FahrerDatenMaske.herkunft_ueber_fahrzeug == true) {
 				query1 = "Select * from DokumenteTest where FahrzeugID=" + fahrzeugid + " or FahrerID=" + fahrerid;
 			}
 			Statement st = con.createStatement();

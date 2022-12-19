@@ -48,7 +48,7 @@ public class Hauptmenue extends JFrame {
 	 */
 	public Hauptmenue() {
 
-		setTitle("KFM Hauptmenü");
+		setTitle("KFM Hauptmenue");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(780, 420);
 		setLocationRelativeTo(null);
@@ -63,7 +63,7 @@ public class Hauptmenue extends JFrame {
 		lblWillkommen.setBounds(355, 21, 379, 82);
 		contentPane.add(lblWillkommen);
 
-		JButton btnNewButton = new JButton("Fahrerdaten verwalten");
+		JButton btnNewButton = new JButton("Fahrer verwalten");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton.setBackground(SystemColor.inactiveCaption);
 		btnNewButton.addActionListener(new ActionListener() {

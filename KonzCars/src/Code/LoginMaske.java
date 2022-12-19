@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +19,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.SystemColor;
 import java.awt.Font;
+import java.awt.HeadlessException;
+import java.io.*;
+import java.util.*;
+import java.sql.*;
 
 public class LoginMaske extends JFrame {
 	/**
@@ -102,7 +107,6 @@ public class LoginMaske extends JFrame {
 		btnAnmelden.setBounds(31, 160, 281, 40);
 		getContentPane().add(btnAnmelden);
 
-		
 		lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(
 				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
@@ -114,7 +118,7 @@ public class LoginMaske extends JFrame {
 	public void login() {
 		try {
 			String sql = "Select * from Login where UserName=? and Passwort=?";
-			Class.forName("com.mysql.jdbc.Driver"); 
+//			Class.forName("com.mysql.jdbc.Driver"); 
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
@@ -125,18 +129,44 @@ public class LoginMaske extends JFrame {
 			rs = pst.executeQuery();
 
 			if (rs.next()) {
-					LE_Sichtbarkeit_Uebergabe = rs.getString("LE");
-					Hauptmenue s = new Hauptmenue();
-					s.setResizable(false);
-					ImageIcon icon = new ImageIcon(
-							"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
-					s.setIconImage(icon.getImage());
-					s.setVisible(true);
-					setVisible(false);
+				if (rs.getInt("PWAendern") == 1) {
+					JFrame frame = new JFrame("InputDialog");
+					String s = JOptionPane.showInputDialog(frame, "Neues Passwort eingeben", "Passwort festlegen",
+							JOptionPane.WARNING_MESSAGE);
+					// if the user presses Cancel, this will be null
+					if (s == null) {
+						System.exit(0);
+					} else {
+						int id = rs.getInt("ID");
+						String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
+						conn = DriverManager.getConnection(url);
+						String query = "UPDATE Login SET Passwort=?, PWAendern=? WHERE ID="
+								+ id;
+						
+						PreparedStatement pst = conn.prepareStatement(query);
+
+						pst.setString(1, s);
+						pst.setInt(2,0);
+						
+						pst.executeUpdate();
+						JOptionPane.showMessageDialog(null, "Das neue Passwort wurde gespeichert!");
+					}
+
+				}
+				LE_Sichtbarkeit_Uebergabe = rs.getString("LE");
+				Hauptmenue s = new Hauptmenue();
+				s.setResizable(false);
+				ImageIcon icon = new ImageIcon(
+						"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-weißesK-roterHintergrund.jpg");
+				s.setIconImage(icon.getImage());
+				s.setVisible(true);
+				setVisible(false);
 			} else {
 				JOptionPane.showMessageDialog(null, "Der Benutzername und das Passwort stimmen nicht überein!");
 			}
-		} catch (Exception e1) {
+		} catch (
+
+		Exception e1) {
 			JOptionPane.showMessageDialog(null, e1);
 		}
 	}

@@ -514,8 +514,7 @@ public class FahrerAnlegenMaske extends JFrame {
 			show_fahrer();
 		} catch (IndexOutOfBoundsException e) {
 			// JOptionPane.showMessageDialog(null, e);
-		}
-		;
+		};
 	}
 
 	public void wichtigTf(JTextField tf) {

@@ -446,8 +446,8 @@ public class FahrerBearbeitenMaske extends JFrame {
 			while (rs.next()) {
 				fahrer = new Fahrer(rs.getInt("ID"), rs.getInt("Personalnummer"), rs.getInt("AktivKZ"),
 						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getInt("NL_Nr"),
-						rs.getString("Fahrerlaubnis"), rs.getString("ErstprÃ¼fung"), rs.getString("PrÃ¼fungszeitpunkt1"),
-						rs.getString("Kommentar1"), rs.getString("ZweitprÃ¼fung"), rs.getString("PrÃ¼fungszeitpunkt2"),
+						rs.getString("Fahrerlaubnis"), rs.getString("Erstprüfung"), rs.getString("Prüfungszeitpunkt1"),
+						rs.getString("Kommentar1"), rs.getString("Zweitprüfung"), rs.getString("Prüfungszeitpunkt2"),
 						rs.getString("Kommentar2"), rs.getInt("Bearbeitet"), rs.getString("FahrzeugID"));
 				fahrerliste.add(fahrer);
 			}

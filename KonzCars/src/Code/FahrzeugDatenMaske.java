@@ -20,6 +20,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.swing.ImageIcon;
@@ -35,7 +37,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.RowSorter;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SortOrder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -55,6 +59,7 @@ public class FahrzeugDatenMaske extends JFrame {
 	boolean erweitern = false;
 	private static int id;
 	private static ArrayList<String> array = new ArrayList<String>();
+	private static ArrayList<String> maxID_array = new ArrayList<String>();
 
 	private JTextField tfIdentNr;
 	private JTextField tfFirmaNr;
@@ -93,7 +98,7 @@ public class FahrzeugDatenMaske extends JFrame {
 	private JCheckBox chkbxUVV;
 	private JCheckBox chkbxWartung;
 	private JCheckBox chkbxWerkstatteinrichtung;
-	
+
 	private String modus;
 	public static String id_Uebergabe_fahrzeug;
 	public static String id_Uebergabe_fahrer;
@@ -719,6 +724,7 @@ public class FahrzeugDatenMaske extends JFrame {
 						"Werkstatteinrichtung", "Belueftung", "Bearbeitet" }));
 
 		tableFahrzeuge.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tableFahrzeuge.setAutoCreateRowSorter(true);
 
 		wichtigTf(tfIdentNr);
 		wichtigTf(tfFirmaNr);
@@ -987,14 +993,13 @@ public class FahrzeugDatenMaske extends JFrame {
 							emptyTf(tfKostenstelle);
 
 							TableModel model = tableFahrzeuge.getModel();
-							int numOfRows = model.getRowCount();
 							id = (int) model.getValueAt(i, 0);
 
 							String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 							conn = DriverManager.getConnection(url);
 							String query = "UPDATE FuhrparkTest SET IdentNr=?, FirmaNr=?, NL=?, FZG_Marke=?, FZG_Typ=?, FZG_Bezeichnung=?, amtl_Kennzeichen=?, Erstzulassung=?, Abmeldedatum=?, Fahrer=?, Fahrer2=?, Finanzstatus=?, Bank_Leasinggesellschaft=?, VertragsNr=?, Leasingdauer_Monate=?, Verlaengerung_Monate=?, Leasingrate_zzgl_MwSt_Fahrzeug=?, Vertragsende=?, Bemerkung=?, Restwert_Leasingende=?, Soll_Laufleistung_Km=?, km_Stand=?, Datum_Erfassung_km_Stand=?, Anschaffungswert__Netto=?, Finanzierungsrate=?, Wartung=?, Zulassungsart=?, Motorleistung_KW_P_2=?, Sommerreifen=?, Winterreifen=?, Kostenstelle=?, Foliert=?, Typ=?, UVV=?, Fahrerunterweisung=?, Werkstatteinrichtung=?, Belueftung=?, Bearbeitet=? WHERE ID="
 									+ id;
-							
+
 							Object object = comboBox.getSelectedItem();
 							String selectedItem = object.toString();
 
@@ -1002,20 +1007,12 @@ public class FahrzeugDatenMaske extends JFrame {
 
 							String item[] = new String[1];
 
-								item[0] = strings.nextElement().toString();
-
-							String query2 = "update MitarbeiterTest set FahrzeugID = " + id + " where ID =" + item[0]; 
+							item[0] = strings.nextElement().toString();
+							String query2 = "update MitarbeiterTest set FahrzeugID = " + id + " where ID =" + item[0];
 //							+ idFahrer.getString("ID");
-							
+
 							PreparedStatement pst = conn.prepareStatement(query);
 							PreparedStatement pst2 = conn.prepareStatement(query2);
-
-							for (int j = 1; j < numOfRows; j++) {
-								String checkRow = model.getValueAt(j, 1).toString();
-								if (tfIdentNr.getText().equals(checkRow)) {
-									throw new Exception("Dieses Fahrzeug exisitiert bereits!");
-								}
-							}
 
 							pst.setString(1, tfIdentNr.getText());
 							pst.setString(2, tfFirmaNr.getText());
@@ -1102,7 +1099,7 @@ public class FahrzeugDatenMaske extends JFrame {
 							} else {
 								pst.setString(37, "0");
 							}
-							
+
 							try {
 								fahrzeugliste = fahrzeug();
 								// tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
@@ -1160,7 +1157,19 @@ public class FahrzeugDatenMaske extends JFrame {
 								+ "Foliert, Typ, UVV, Fahrerunterweisung, Werkstatteinrichtung, Belueftung,"
 								+ "Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-						id = (int) model.getValueAt(numOfRows -1, 0) +1;
+						fuelleArraymaxIDList(maxID_array);
+						
+						int maxID = Integer.parseInt(maxID_array.get(0));
+
+						for (int i = 1; i < maxID_array.size(); i++) {
+							if (maxID < Integer.parseInt(maxID_array.get(i))) {
+								maxID = Integer.parseInt(maxID_array.get(i));
+							}
+						}
+
+						maxID +=1;
+						
+//						id = (int) model.getValueAt(numOfRows - 1, 0) + 1;
 
 						Object object = comboBox.getSelectedItem();
 						String selectedItem = object.toString();
@@ -1169,9 +1178,9 @@ public class FahrzeugDatenMaske extends JFrame {
 
 						String item[] = new String[1];
 
-							item[0] = strings.nextElement().toString();
+						item[0] = strings.nextElement().toString();
 
-						String query2 = "update MitarbeiterTest set FahrzeugID = " + id + " where ID =" + item[0]; 
+						String query2 = "update MitarbeiterTest set FahrzeugID = " + maxID + " where ID =" + item[0];
 //						+ idFahrer.getString("ID");
 
 						PreparedStatement pst = conn.prepareStatement(query);
@@ -1396,7 +1405,8 @@ public class FahrzeugDatenMaske extends JFrame {
 			show_fahrzeug();
 		} catch (IndexOutOfBoundsException e) {
 			// JOptionPane.showMessageDialog(null, e);
-		};
+		}
+		;
 	}
 
 	public void scrollpane(JButton btnSave, JButton btnClear, JButton btn_Abbrechen, JButton btn_Anlegen,
@@ -1576,12 +1586,29 @@ public class FahrzeugDatenMaske extends JFrame {
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			while (rs.next()) {
-				array.add(
-						rs.getString("ID") + ", " + rs.getString("Personalnummer") + ", " + rs.getString("Name") + ", " + rs.getString("Vorname"));
+				array.add(rs.getString("ID") + ", " + rs.getString("Personalnummer") + ", " + rs.getString("Name")
+						+ ", " + rs.getString("Vorname"));
 			}
 		}
 
 		catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, e1);
+		}
+		return arrayList;
+	}
+
+	public static ArrayList<String> fuelleArraymaxIDList(ArrayList<String> arrayList) {
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
+					"KonzCars", "KonzCars");
+			String query1 = "Select * from FuhrparkTest";
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query1);
+			while (rs.next()) {
+				maxID_array.add(rs.getString("ID"));
+			}
+		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(null, e1);
 		}
 		return arrayList;

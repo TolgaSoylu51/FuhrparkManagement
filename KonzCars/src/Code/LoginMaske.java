@@ -24,7 +24,7 @@ import java.io.*;
 import java.util.*;
 import java.sql.*;
 
-public class LoginMaske extends JFrame {
+public class LoginMaske extends JFrame { 
 	/**
 	 * 
 	 */

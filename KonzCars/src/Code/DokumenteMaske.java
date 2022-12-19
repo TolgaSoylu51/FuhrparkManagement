@@ -121,9 +121,8 @@ public class DokumenteMaske extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				FahrzeugDatenMaske.herkunft_ueber_fahrzeug = false;
 				FahrerDatenMaske.herkunft_ueber_fahrzeug = false;
-				Hauptmenue frame = new Hauptmenue();
-				frame.setVisible(true);
 				setVisible(false);
+				Hauptmenue frame = new Hauptmenue();
 			}
 		});
 		btnZurueck.setIcon(new ImageIcon(

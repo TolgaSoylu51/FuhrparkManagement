@@ -341,7 +341,7 @@ public class FahrerDatenMaske extends JFrame {
 		tableFahrer.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "Personalnummer", "AktivKZ", "Name", "Vorname", "FirmaNr", "NL_Nr",
 						"Fahrerlaubnis", "Erstpruefung", "Pruefungszeitpunkt1", "Kommentar1", "Zweitpruefung",
-						"Pruefungszeitpunkt2", "Kommentar2" }));
+						"Pruefungszeitpunkt2", "Kommentar2", "FahrzeugID", "Bearbeitet"}));
 		
 		tableFahrer.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
@@ -416,13 +416,13 @@ public class FahrerDatenMaske extends JFrame {
 		btn_Dokumente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				id_Uebergabe_fahrzeug = tableFahrer.getModel()
-						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 0)
+						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 14)
 						.toString();
 				id_Uebergabe_fahrer = tableFahrer.getModel()
-						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 15)
+						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 0)
 						.toString();
 				herkunft_ueber_fahrzeug = true;
-				DokumentAnsehenMaske frame = new DokumentAnsehenMaske();
+				DokumenteMaske frame = new DokumenteMaske();
 				frame.setVisible(true);
 			}
 		});
@@ -724,7 +724,7 @@ public class FahrerDatenMaske extends JFrame {
 	public static void show_fahrer() {
 		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
 		ArrayList<Fahrer> fahrer = fahrer();
-		Object[] row = new Object[15];
+		Object[] row = new Object[16];
 		for (int i = 0; i < fahrer.size(); i++) {
 			row[0] = fahrer.get(i).getID();
 			row[1] = fahrer.get(i).getPersonalnummer();
@@ -740,7 +740,8 @@ public class FahrerDatenMaske extends JFrame {
 			row[11] = fahrer.get(i).getZweitpruefung();
 			row[12] = fahrer.get(i).getPruefungszeitpunkt2();
 			row[13] = fahrer.get(i).getKommentar2();
-			row[14] = fahrer.get(i).getBearbeitet();
+			row[14] = fahrer.get(i).getFahrzeugID();
+			row[15] = fahrer.get(i).getBearbeitet();
 			model.addRow(row);
 		}
 	}

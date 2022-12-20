@@ -69,7 +69,7 @@ public class DokumenteMaske extends JFrame{
 	 * Create the frame.
 	 */
 	public DokumenteMaske() {
-		setTitle("KFM Dokument Ansehen");
+		setTitle("KFM Dokumente");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1278, 674);
 		setLocationRelativeTo(null);
@@ -228,5 +228,4 @@ public class DokumenteMaske extends JFrame{
 			model.addRow(row);
 		}
 	}
-
 }

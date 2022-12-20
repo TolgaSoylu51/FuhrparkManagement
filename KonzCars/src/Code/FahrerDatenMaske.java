@@ -25,46 +25,20 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.RowFilter;
 import javax.swing.ScrollPaneConstants;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.table.*;
 import java.awt.SystemColor;
 import java.awt.Font;
 import java.awt.Insets;
 import javax.swing.UIManager;
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Properties;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JCheckBox;
-import javax.swing.JTable;
-import java.awt.Color;
 import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -76,19 +50,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.swing.ImageIcon;
 import javax.swing.ListSelectionModel;
-import javax.swing.RowFilter;
-import java.awt.SystemColor;
-import java.awt.Font;
-import java.awt.Insets;
-import javax.swing.JComboBox;
 
 public class FahrerDatenMaske extends JFrame {
-
-	/**
-	 * 
-	 */
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -96,11 +60,16 @@ public class FahrerDatenMaske extends JFrame {
 	static Connection conn = null;
 	PreparedStatement pst = null;
 	ResultSet rs = null;
+	
 	ArrayList<Fahrer> vergleichsliste = new ArrayList<>();
-	boolean erweitern = false;
+	
 	private static JTable tableFahrer;
 	private static int id;
+	
 	private static ArrayList<String> array = new ArrayList<String>();
+	private static ArrayList<String> maxID_array = new ArrayList<String>();
+	
+	boolean erweitern = false;
 
 	private JTextField tfPersonalnummer;
 	private JTextField tfVorname;
@@ -117,14 +86,15 @@ public class FahrerDatenMaske extends JFrame {
 	private JCheckBox chckbxFahrerlaubnis;
 
 	private String modus;
+	
+	public static boolean herkunft_ueber_fahrzeug;
 	public static String id_Uebergabe_fahrzeug;
 	public static String id_Uebergabe_fahrer;
-	public static boolean herkunft_ueber_fahrzeug;
-	// static FahrzeugBearbeitenMaske2 f1;
 	private static String LE_Sichtbarkeit;
 	static LoginMaske loginMaske;
-	public JButton btn_Abbrechen;
-	public JButton btn_Save;
+	
+	public JButton btnAbbrechen;
+	public JButton btnSave;
 
 	/**
 	 * Launch the application.
@@ -198,13 +168,13 @@ public class FahrerDatenMaske extends JFrame {
 		lblErstePrfung.setBounds(50, 328, 75, 14);
 		contentPane.add(lblErstePrfung);
 
-		btn_Save = new JButton("Speichern");
-		btn_Save.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btn_Save.setFocusPainted(false);
-		btn_Save.setBackground(SystemColor.inactiveCaption);
+		btnSave = new JButton("Speichern");
+		btnSave.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnSave.setFocusPainted(false);
+		btnSave.setBackground(SystemColor.inactiveCaption);
 
-		btn_Save.setBounds(10, 605, 180, 23);
-		contentPane.add(btn_Save);
+		btnSave.setBounds(10, 605, 180, 23);
+		contentPane.add(btnSave);
 
 		tfPersonalnummer = new JTextField();
 		tfPersonalnummer.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -305,18 +275,18 @@ public class FahrerDatenMaske extends JFrame {
 		chckbxFahrerlaubnis.setBounds(10, 280, 20, 20);
 		contentPane.add(chckbxFahrerlaubnis);
 		
-		btn_Abbrechen = new JButton("Abbrechen");
-		btn_Abbrechen.addActionListener(new ActionListener() {
+		btnAbbrechen = new JButton("Abbrechen");
+		btnAbbrechen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				clearAllFields();
 				setAllFields(false);
 			}
 		});
-		btn_Abbrechen.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btn_Abbrechen.setFocusPainted(false);
-		btn_Abbrechen.setBackground(SystemColor.inactiveCaption);
-		btn_Abbrechen.setBounds(200, 605, 180, 23);
-		contentPane.add(btn_Abbrechen);
+		btnAbbrechen.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnAbbrechen.setFocusPainted(false);
+		btnAbbrechen.setBackground(SystemColor.inactiveCaption);
+		btnAbbrechen.setBounds(200, 605, 180, 23);
+		contentPane.add(btnAbbrechen);
 
 		setAllFields(false);
 
@@ -436,7 +406,7 @@ public class FahrerDatenMaske extends JFrame {
 		btn_Dokumente.setBounds(1267, 2, 45, 43);
 		contentPane.add(btn_Dokumente);
 
-		scrollpane(btn_Save, btnClear, btn_Abbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente);
+		scrollpane(btnSave, btnClear, btnAbbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente);
 		
 		tableFahrer.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -486,7 +456,7 @@ public class FahrerDatenMaske extends JFrame {
 		vergleichsliste = fahrer();
 		show_fahrer();
 
-		btn_Save.addActionListener(new ActionListener() {
+		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (modus == "bearbeiten") {
 					int i = tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow());
@@ -566,7 +536,7 @@ public class FahrerDatenMaske extends JFrame {
 
 							show_aktualisierte_fahrerliste();
 
-							// JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
+							JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 						} catch (IndexOutOfBoundsException e2) {
 							// JOptionPane.showMessageDialog(null, e);
 						}
@@ -867,8 +837,8 @@ public class FahrerDatenMaske extends JFrame {
 		properties.put("mail.smtp.host", "smtp-mail.outlook.com");
 		properties.put("mail.smtp.port", "587");
 
-		String myAccount = "tolga.soylu@konzmann.de";
-		String myPassword = "Tolga@Konz";
+		String myAccount = "konzcars@konzmann.de";
+		String myPassword = "KnzCars#2022";
 		String empfaenger = "tolga.soylu@konzmann.de";
 
 		Session session = Session.getInstance(properties, new Authenticator() {
@@ -901,8 +871,8 @@ public class FahrerDatenMaske extends JFrame {
 		chckbxPruefung1.setEnabled(wert);
 		chckbxPruefung2.setEnabled(wert);
 		chckbxFahrerlaubnis.setEnabled(wert);
-		btn_Save.setEnabled(wert);
-		btn_Abbrechen.setEnabled(wert);
+		btnSave.setEnabled(wert);
+		btnAbbrechen.setEnabled(wert);
 	}
 
 	public void clearAllFields() {

@@ -20,10 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.StringTokenizer;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -37,9 +34,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
-import javax.swing.RowSorter;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SortOrder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -54,12 +49,16 @@ public class FahrzeugDatenMaske extends JFrame {
 	static Connection conn = null;
 	PreparedStatement pst = null;
 	ResultSet rs = null;
+	
 	ArrayList<Fahrzeug> vergleichsliste = new ArrayList<>();
+	
 	private static JTable tableFahrzeuge;
-	boolean erweitern = false;
 	private static int id;
+	
 	private static ArrayList<String> array = new ArrayList<String>();
 	private static ArrayList<String> maxID_array = new ArrayList<String>();
+	
+	boolean erweitern = false;
 
 	private JTextField tfIdentNr;
 	private JTextField tfFirmaNr;
@@ -92,24 +91,28 @@ public class FahrzeugDatenMaske extends JFrame {
 	private JTextField tfTyp;
 	private JTextField tfErstzulassung;
 	private JTextField tfSuche;
+	
 	private JCheckBox chkbxBelueftung;
 	private JCheckBox chkbxFahrerunterweisung;
 	private JCheckBox chkbxFoliert;
 	private JCheckBox chkbxUVV;
 	private JCheckBox chkbxWartung;
 	private JCheckBox chkbxWerkstatteinrichtung;
+	private JCheckBox chkbxPruefung1;
+	private JCheckBox chkbxPruefung2;
 	
 	private JComboBox<?> comboBox;
 
 	private String modus;
+	
+	public static boolean herkunft_ueber_fahrzeug;
 	public static String id_Uebergabe_fahrzeug;
 	public static String id_Uebergabe_fahrer;
-	public static boolean herkunft_ueber_fahrzeug;
-	// static FahrzeugBearbeitenMaske2 f1;
 	private static String LE_Sichtbarkeit;
 	static LoginMaske loginMaske;
-	public JButton btn_Abbrechen;
-	public JButton btn_Save;
+	
+	public JButton btnAbbrechen;
+	public JButton btnSave;
 
 	/**
 	 * Launch the application
@@ -131,7 +134,7 @@ public class FahrzeugDatenMaske extends JFrame {
 	 * Create the frame.
 	 */
 	public FahrzeugDatenMaske() {
-		setTitle("KFM Fahrzeug");
+		setTitle("KFM Fahrzeuge");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1340, 674);
 		setLocationRelativeTo(null);
@@ -154,13 +157,13 @@ public class FahrzeugDatenMaske extends JFrame {
 		tfSuche.setBounds(10, 26, 1064, 19);
 		contentPane.add(tfSuche);
 
-		btn_Save = new JButton("Speichern");
-		btn_Save.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btn_Save.setFocusPainted(false);
-		btn_Save.setBackground(SystemColor.inactiveCaption);
+		btnSave = new JButton("Speichern");
+		btnSave.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnSave.setFocusPainted(false);
+		btnSave.setBackground(SystemColor.inactiveCaption);
 
-		btn_Save.setBounds(10, 605, 180, 23);
-		contentPane.add(btn_Save);
+		btnSave.setBounds(10, 605, 180, 23);
+		contentPane.add(btnSave);
 
 		JButton btnClear = new JButton("X");
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
@@ -682,18 +685,44 @@ public class FahrzeugDatenMaske extends JFrame {
 		lblBelueftung.setBounds(450, 567, 50, 13);
 		contentPane.add(lblBelueftung);
 
-		btn_Abbrechen = new JButton("Abbrechen");
-		btn_Abbrechen.addActionListener(new ActionListener() {
+		btnAbbrechen = new JButton("Abbrechen");
+		btnAbbrechen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				clearAllFields();
 				setAllFields(false);
 			}
 		});
-		btn_Abbrechen.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btn_Abbrechen.setFocusPainted(false);
-		btn_Abbrechen.setBackground(SystemColor.inactiveCaption);
-		btn_Abbrechen.setBounds(432, 605, 180, 23);
-		contentPane.add(btn_Abbrechen);
+		btnAbbrechen.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnAbbrechen.setFocusPainted(false);
+		btnAbbrechen.setBackground(SystemColor.inactiveCaption);
+		btnAbbrechen.setBounds(432, 605, 180, 23);
+		contentPane.add(btnAbbrechen);
+		
+		JLabel lblPruefung1 = new JLabel("Pruefung1");
+		lblPruefung1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblPruefung1.setForeground(Color.BLACK);
+		lblPruefung1.setBounds(333, 300, 50, 13);
+		contentPane.add(lblPruefung1);
+
+		chkbxPruefung1 = new JCheckBox("");
+		chkbxPruefung1.setOpaque(false);
+		chkbxPruefung1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		chkbxPruefung1.setForeground(Color.BLACK);
+		chkbxPruefung1.setBounds(390, 297, 20, 20);
+		contentPane.add(chkbxPruefung1);
+		
+		JLabel lblPruefung2 = new JLabel("Pruefung2");
+		lblPruefung2.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblPruefung2.setForeground(Color.BLACK);
+		lblPruefung2.setBounds(420, 300, 50, 13);
+		contentPane.add(lblPruefung2);
+
+		chkbxPruefung2 = new JCheckBox("");
+		chkbxPruefung2.setOpaque(false);
+		chkbxPruefung2.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		chkbxPruefung2.setForeground(Color.BLACK);
+		chkbxPruefung2.setBounds(477, 297, 20, 20);
+		contentPane.add(chkbxPruefung2);
 
 		setAllFields(false);
 
@@ -723,7 +752,7 @@ public class FahrzeugDatenMaske extends JFrame {
 						"Soll_Laufleistung_Km", "km_Stand", "Datum_Erfassung_km_Stand", "Anschaffungswert__Netto",
 						"Finanzierungsrate", "Wartung", "Zulassungsart", "Motorleistung_KW_P_2", "Sommerreifen",
 						"Winterreifen", "Kostenstelle", "Foliert", "Typ", "UVV", "Fahrerunterweisung",
-						"Werkstatteinrichtung", "Belueftung", "Bearbeitet" }));
+						"Werkstatteinrichtung", "Belueftung", "Pruefung1", "Pruefung2", "Bearbeitet" }));
 
 		tableFahrzeuge.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tableFahrzeuge.setAutoCreateRowSorter(true);
@@ -785,6 +814,8 @@ public class FahrzeugDatenMaske extends JFrame {
 				chkbxFahrerunterweisung.setSelected(false);
 				chkbxWerkstatteinrichtung.setSelected(false);
 				chkbxBelueftung.setSelected(false);
+				chkbxPruefung1.setSelected(false);
+				chkbxPruefung2.setSelected(false);
 			}
 		});
 
@@ -853,7 +884,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		btn_Dokumente.setBounds(1267, 2, 45, 43);
 		contentPane.add(btn_Dokumente);
 
-		scrollpane(btn_Save, btnClear, btn_Abbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente);
+		scrollpane(btnSave, btnClear, btnAbbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente);
 
 		tableFahrzeuge.addMouseListener(new MouseAdapter() {
 			@Override
@@ -963,6 +994,24 @@ public class FahrzeugDatenMaske extends JFrame {
 					chkbxBelueftung.setSelected(false);
 					break;
 				}
+				String pruefung1 = model.getValueAt(i, 37).toString();
+				switch (pruefung1) {
+				case "1":
+					chkbxPruefung1.setSelected(true);
+					break;
+				case "0":
+					chkbxPruefung1.setSelected(false);
+					break;
+				}
+				String pruefung2 = model.getValueAt(i, 38).toString();
+				switch (pruefung2) {
+				case "1":
+					chkbxPruefung2.setSelected(true);
+					break;
+				case "0":
+					chkbxPruefung2.setSelected(false);
+					break;
+				}
 
 			}
 		});
@@ -983,7 +1032,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		comboBox.setBounds(92, 254, 220, 19);
 		contentPane.add(comboBox);
 
-		btn_Save.addActionListener(new ActionListener() {
+		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (modus == "bearbeiten") {
 					int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
@@ -1122,6 +1171,15 @@ public class FahrzeugDatenMaske extends JFrame {
 								pst.setString(37, "1");
 							} else {
 								pst.setString(37, "0");
+							}
+							boolean pruefung1 = false;
+							if (chkbxPruefung1.isSelected()) {
+								pruefung1 = true;
+							}
+							if (pruefung1) {
+								pst.setString(38, "1");
+							} else {
+								pst.setString(38, "0");
 							}
 
 							try {
@@ -1548,8 +1606,8 @@ public class FahrzeugDatenMaske extends JFrame {
 		chkbxUVV.setEnabled(wert);
 		chkbxWartung.setEnabled(wert);
 		chkbxWerkstatteinrichtung.setEnabled(wert);
-		btn_Save.setEnabled(wert);
-		btn_Abbrechen.setEnabled(wert);
+		btnSave.setEnabled(wert);
+		btnAbbrechen.setEnabled(wert);
 	}
 
 	public void clearAllFields() {

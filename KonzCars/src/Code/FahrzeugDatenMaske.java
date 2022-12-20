@@ -98,6 +98,8 @@ public class FahrzeugDatenMaske extends JFrame {
 	private JCheckBox chkbxUVV;
 	private JCheckBox chkbxWartung;
 	private JCheckBox chkbxWerkstatteinrichtung;
+	
+	private JComboBox<?> comboBox;
 
 	private String modus;
 	public static String id_Uebergabe_fahrzeug;
@@ -869,7 +871,23 @@ public class FahrzeugDatenMaske extends JFrame {
 				tfamtl_Kennzeichen.setText(model.getValueAt(i, 7).toString());
 				tfErstzulassung.setText(model.getValueAt(i, 8).toString());
 				tfAbmeldedatum.setText(model.getValueAt(i, 9).toString());
-//				tfFahrer.setText(model.getValueAt(i, 10).toString());
+				
+				String item[] = new String[1];
+				String s1;
+				String s2 = model.getValueAt(i,10).toString();
+				for(int j = 1; j < comboBox.getItemCount(); j++) {
+					s1 = comboBox.getItemAt(j).toString();
+					StringTokenizer strings = new StringTokenizer(s1, ",");
+ 					item[0] = strings.nextElement().toString();
+					if(item[0].equals(s2)) {
+						comboBox.setSelectedIndex(j);
+					}
+				}
+				
+				if (model.getValueAt(i,10).toString().equals("")) {
+					comboBox.setSelectedIndex(0);
+				}
+				
 				tfFahrer2.setText(model.getValueAt(i, 11).toString());
 				tfFinanzstatus.setText(model.getValueAt(i, 12).toString());
 				tfBank_Leasinggesellschaft.setText(model.getValueAt(i, 13).toString());
@@ -953,13 +971,15 @@ public class FahrzeugDatenMaske extends JFrame {
 		show_fahrzeug();
 
 		fuelleArrayList(array);
-		String[] a = new String[array.size()];
+		String[] a = new String[array.size()+1];
 
-		for (int i = 0; i < a.length; i++) {
-			a[i] = array.get(i);
+		a[0] = "";
+		
+		for (int i = 1; i < a.length; i++) {
+			a[i] = array.get(i-1);
 		}
 
-		JComboBox<?> comboBox = new JComboBox<Object>(a);
+		comboBox = new JComboBox<Object>(a);
 		comboBox.setBounds(92, 254, 220, 19);
 		contentPane.add(comboBox);
 
@@ -1008,11 +1028,15 @@ public class FahrzeugDatenMaske extends JFrame {
 							String item[] = new String[1];
 
 							item[0] = strings.nextElement().toString();
-							String query2 = "update MitarbeiterTest set FahrzeugID = " + id + " where ID =" + item[0];
+							String query2 = "UPDATE FuhrparkTest SET Fahrer = '' where Fahrer = " + item[0];
+							String query3 = "update MitarbeiterTest set FahrzeugID = " + id + " where ID =" + item[0];
+							String query4 = "UPDATE FuhrparkTest SET Fahrer = " + item[0] + " where ID = " + id;
 //							+ idFahrer.getString("ID");
 
 							PreparedStatement pst = conn.prepareStatement(query);
 							PreparedStatement pst2 = conn.prepareStatement(query2);
+							PreparedStatement pst3 = conn.prepareStatement(query3);
+							PreparedStatement pst4 = conn.prepareStatement(query4);
 
 							pst.setString(1, tfIdentNr.getText());
 							pst.setString(2, tfFirmaNr.getText());
@@ -1109,6 +1133,8 @@ public class FahrzeugDatenMaske extends JFrame {
 							}
 							pst.executeUpdate();
 							pst2.executeUpdate();
+							pst3.executeUpdate();
+							pst4.executeUpdate();
 
 							vergleichsliste = fahrzeug();
 							show_aktualisiertes_fahrzeug();
@@ -1157,17 +1183,16 @@ public class FahrzeugDatenMaske extends JFrame {
 								+ "Foliert, Typ, UVV, Fahrerunterweisung, Werkstatteinrichtung, Belueftung,"
 								+ "Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-						fuelleArraymaxIDList(maxID_array);
+						fuelleArrayMaxIDList(maxID_array);
 						
-						int maxID = Integer.parseInt(maxID_array.get(0));
+						int maxID = 0;
 
-						for (int i = 1; i < maxID_array.size(); i++) {
-							if (maxID < Integer.parseInt(maxID_array.get(i))) {
+						for (int i = 0; i < maxID_array.size(); i++) {
+							if (maxID <= Integer.parseInt(maxID_array.get(i))) {
 								maxID = Integer.parseInt(maxID_array.get(i));
 							}
 						}
-
-						maxID +=1;
+						id = maxID + 1;
 						
 //						id = (int) model.getValueAt(numOfRows - 1, 0) + 1;
 
@@ -1179,12 +1204,16 @@ public class FahrzeugDatenMaske extends JFrame {
 						String item[] = new String[1];
 
 						item[0] = strings.nextElement().toString();
-
-						String query2 = "update MitarbeiterTest set FahrzeugID = " + maxID + " where ID =" + item[0];
+						
+						String query2 = "UPDATE FuhrparkTest SET Fahrer = '' where Fahrer = " + item[0];
+						String query3 = "update MitarbeiterTest set FahrzeugID = " + id + " where ID =" + item[0];
+						String query4 = "UPDATE FuhrparkTest SET Fahrer = " + item[0] + " where ID = " + id;
 //						+ idFahrer.getString("ID");
 
 						PreparedStatement pst = conn.prepareStatement(query);
 						PreparedStatement pst2 = conn.prepareStatement(query2);
+						PreparedStatement pst3 = conn.prepareStatement(query3);
+						PreparedStatement pst4 = conn.prepareStatement(query4);
 
 						for (int k = 1; k < numOfRows; k++) {
 							String checkRow = model.getValueAt(k, 1).toString();
@@ -1282,6 +1311,8 @@ public class FahrzeugDatenMaske extends JFrame {
 
 						pst.executeUpdate();
 						pst2.executeUpdate();
+						pst3.executeUpdate();
+						pst4.executeUpdate();
 
 						vergleichsliste = fahrzeug();
 						show_aktualisiertes_fahrzeug();
@@ -1597,14 +1628,14 @@ public class FahrzeugDatenMaske extends JFrame {
 		return arrayList;
 	}
 
-	public static ArrayList<String> fuelleArraymaxIDList(ArrayList<String> arrayList) {
+	public static ArrayList<String> fuelleArrayMaxIDList(ArrayList<String> arrayList) {
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query1 = "Select * from FuhrparkTest";
+			String query = "Select * from FuhrparkTest";
 			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(query1);
+			ResultSet rs = st.executeQuery(query);
 			while (rs.next()) {
 				maxID_array.add(rs.getString("ID"));
 			}

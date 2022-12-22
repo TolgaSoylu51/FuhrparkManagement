@@ -41,6 +41,22 @@ public class Fahrer {
 		FahrzeugID = fahrzeugID;
 	}
 
+	public String getPruefungszeitpunkt1() {
+		return Pruefungszeitpunkt1;
+	}
+
+	public void setPruefungszeitpunkt1(String pruefungszeitpunkt1) {
+		Pruefungszeitpunkt1 = pruefungszeitpunkt1;
+	}
+
+	public String getPruefungszeitpunkt2() {
+		return Pruefungszeitpunkt2;
+	}
+
+	public void setPruefungszeitpunkt2(String pruefungszeitpunkt2) {
+		Pruefungszeitpunkt2 = pruefungszeitpunkt2;
+	}
+
 	public int getID() {
 		return ID;
 	}
@@ -113,14 +129,6 @@ public class Fahrer {
 		Erstpruefung = erstpruefung;
 	}
 
-	public String getPruefungszeitpunkt1() {
-		return Pruefungszeitpunkt1;
-	}
-
-	public void setPruefungszeitpunkt1(String pruefungszeitpunkt1) {
-		Pruefungszeitpunkt1 = pruefungszeitpunkt1;
-	}
-
 	public String getKommentar1() {
 		return Kommentar1;
 	}
@@ -135,14 +143,6 @@ public class Fahrer {
 
 	public void setZweitpruefung(String zweitpruefung) {
 		Zweitpruefung = zweitpruefung;
-	}
-
-	public String getPruefungszeitpunkt2() {
-		return Pruefungszeitpunkt2;
-	}
-
-	public void setPruefungszeitpunkt2(String pruefungszeitpunkt2) {
-		Pruefungszeitpunkt2 = pruefungszeitpunkt2;
 	}
 
 	public String getKommentar2() {

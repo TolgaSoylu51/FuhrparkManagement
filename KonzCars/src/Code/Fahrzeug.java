@@ -42,6 +42,9 @@ public class Fahrzeug {
 	private int Fahrerunterweisung;
 	private int Werkstatteinrichtung;
 	private int Belueftung;
+	private int Pruefung1;
+	private int Pruefung2;
+	private int Fahrerlaubnis;
 	private int Bearbeitet;
 	
 	public Fahrzeug(int iD, String identNr, String FirmaNr, String NL, String FZG_Marke, String FZG_Typ, String FZG_Bezeichnung,
@@ -52,7 +55,7 @@ public class Fahrzeug {
 			String km_Stand, String Datum_Erfassung_km_Stand, String Anschaffungswert_Netto,
 			String Finanzierungsrate, String Wartung, String Zulassungsart,
 			String Motorleistung_KW_P_2, String Sommerreifen, String Winterreifen, String Kostenstelle, String Foliert, String Typ, 
-			int UVV, int Fahrerunterweisung, int Werkstatteinrichtung, int Belueftung, int Bearbeitet) {
+			int UVV, int Fahrerunterweisung, int Werkstatteinrichtung, int Belueftung, int Pruefung1, int Pruefung2, int Fahrerlaubnis, int Bearbeitet) {
 		super();
 		this.ID = iD;
 		this.IdentNr = identNr;
@@ -92,6 +95,9 @@ public class Fahrzeug {
 		this.Fahrerunterweisung = Fahrerunterweisung;
 		this.Werkstatteinrichtung = Werkstatteinrichtung;
 		this.Belueftung = Belueftung;
+		this.Pruefung1 = Pruefung1;
+		this.Pruefung2 = Pruefung2;
+		this.Fahrerlaubnis = Fahrerlaubnis;
 		this.Bearbeitet = Bearbeitet;
 	}
 	
@@ -397,6 +403,30 @@ public class Fahrzeug {
 
 	public void setBelueftung(int belueftung) {
 		Belueftung = belueftung;
+	}
+	
+	public int getPruefung1() {
+		return Pruefung1;
+	}
+
+	public void setPruefung1(int pruefung1) {
+		Pruefung1 = pruefung1;
+	}
+	
+	public int getPruefung2() {
+		return Pruefung2;
+	}
+
+	public void setPruefung2(int fahrerlaubnis) {
+		Fahrerlaubnis = fahrerlaubnis;
+	}
+	
+	public int getFahrerlaubnis() {
+		return Fahrerlaubnis;
+	}
+
+	public void setFahrerlaubnis(int fahrerlaubnis) {
+		Fahrerlaubnis = fahrerlaubnis;
 	}
 	
 	public int getBearbeitet() {

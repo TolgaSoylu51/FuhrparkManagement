@@ -57,6 +57,7 @@ public class FahrzeugDatenMaske extends JFrame {
 	
 	private static ArrayList<String> array = new ArrayList<String>();
 	private static ArrayList<String> maxID_array = new ArrayList<String>();
+	private static ArrayList<String> arrayFahrer = new ArrayList<String>();
 	
 	boolean erweitern = false;
 
@@ -100,14 +101,19 @@ public class FahrzeugDatenMaske extends JFrame {
 	private JCheckBox chkbxWerkstatteinrichtung;
 	private JCheckBox chkbxPruefung1;
 	private JCheckBox chkbxPruefung2;
+	private JCheckBox chkbxFahrerlaubnis;
 	
 	private JComboBox<?> comboBox;
+	
+	private int checkPruefung1, checkPruefung2, checkFahrerlaubnis;
 
 	private String modus;
 	
 	public static boolean herkunft_ueber_fahrzeug;
 	public static String id_Uebergabe_fahrzeug;
 	public static String id_Uebergabe_fahrer;
+	public static int Uebergabe_Pruefung1;
+	public static int Uebergabe_Pruefung2;
 	private static String LE_Sichtbarkeit;
 	static LoginMaske loginMaske;
 	
@@ -701,28 +707,41 @@ public class FahrzeugDatenMaske extends JFrame {
 		JLabel lblPruefung1 = new JLabel("Pruefung1");
 		lblPruefung1.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblPruefung1.setForeground(Color.BLACK);
-		lblPruefung1.setBounds(333, 300, 50, 13);
+		lblPruefung1.setBounds(343, 300, 50, 13);
 		contentPane.add(lblPruefung1);
 
 		chkbxPruefung1 = new JCheckBox("");
 		chkbxPruefung1.setOpaque(false);
 		chkbxPruefung1.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		chkbxPruefung1.setForeground(Color.BLACK);
-		chkbxPruefung1.setBounds(390, 297, 20, 20);
+		chkbxPruefung1.setBounds(410, 297, 20, 20);
 		contentPane.add(chkbxPruefung1);
 		
 		JLabel lblPruefung2 = new JLabel("Pruefung2");
 		lblPruefung2.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblPruefung2.setForeground(Color.BLACK);
-		lblPruefung2.setBounds(420, 300, 50, 13);
+		lblPruefung2.setBounds(343, 320, 50, 13);
 		contentPane.add(lblPruefung2);
 
 		chkbxPruefung2 = new JCheckBox("");
 		chkbxPruefung2.setOpaque(false);
 		chkbxPruefung2.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		chkbxPruefung2.setForeground(Color.BLACK);
-		chkbxPruefung2.setBounds(477, 297, 20, 20);
+		chkbxPruefung2.setBounds(410, 317, 20, 20);
 		contentPane.add(chkbxPruefung2);
+		
+		JLabel lblFahrerlaubnis= new JLabel("Fahrerlaubnis");
+		lblFahrerlaubnis.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblFahrerlaubnis.setForeground(Color.BLACK);
+		lblFahrerlaubnis.setBounds(503, 300, 80, 13);
+		contentPane.add(lblFahrerlaubnis);
+
+		chkbxFahrerlaubnis = new JCheckBox("");
+		chkbxFahrerlaubnis.setOpaque(false);
+		chkbxFahrerlaubnis.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		chkbxFahrerlaubnis.setForeground(Color.BLACK);
+		chkbxFahrerlaubnis.setBounds(590, 297, 20, 20);
+		contentPane.add(chkbxFahrerlaubnis);
 
 		setAllFields(false);
 
@@ -752,7 +771,7 @@ public class FahrzeugDatenMaske extends JFrame {
 						"Soll_Laufleistung_Km", "km_Stand", "Datum_Erfassung_km_Stand", "Anschaffungswert__Netto",
 						"Finanzierungsrate", "Wartung", "Zulassungsart", "Motorleistung_KW_P_2", "Sommerreifen",
 						"Winterreifen", "Kostenstelle", "Foliert", "Typ", "UVV", "Fahrerunterweisung",
-						"Werkstatteinrichtung", "Belueftung", "Pruefung1", "Pruefung2", "Bearbeitet" }));
+						"Werkstatteinrichtung", "Belueftung", "Pruefung1", "Pruefung2", "Fahrerlaubnis", "Bearbeitet"}));
 
 		tableFahrzeuge.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tableFahrzeuge.setAutoCreateRowSorter(true);
@@ -816,6 +835,7 @@ public class FahrzeugDatenMaske extends JFrame {
 				chkbxBelueftung.setSelected(false);
 				chkbxPruefung1.setSelected(false);
 				chkbxPruefung2.setSelected(false);
+				chkbxFahrerlaubnis.setSelected(false);
 			}
 		});
 
@@ -985,7 +1005,7 @@ public class FahrzeugDatenMaske extends JFrame {
 					chkbxWerkstatteinrichtung.setSelected(false);
 					break;
 				}
-				String belueftung = model.getValueAt(i, 36).toString();
+				String belueftung = model.getValueAt(i, 37).toString();
 				switch (belueftung) {
 				case "1":
 					chkbxBelueftung.setSelected(true);
@@ -994,7 +1014,7 @@ public class FahrzeugDatenMaske extends JFrame {
 					chkbxBelueftung.setSelected(false);
 					break;
 				}
-				String pruefung1 = model.getValueAt(i, 37).toString();
+				String pruefung1 = model.getValueAt(i, 38).toString();
 				switch (pruefung1) {
 				case "1":
 					chkbxPruefung1.setSelected(true);
@@ -1003,7 +1023,7 @@ public class FahrzeugDatenMaske extends JFrame {
 					chkbxPruefung1.setSelected(false);
 					break;
 				}
-				String pruefung2 = model.getValueAt(i, 38).toString();
+				String pruefung2 = model.getValueAt(i, 39).toString();
 				switch (pruefung2) {
 				case "1":
 					chkbxPruefung2.setSelected(true);
@@ -1012,14 +1032,23 @@ public class FahrzeugDatenMaske extends JFrame {
 					chkbxPruefung2.setSelected(false);
 					break;
 				}
-
+				String fahrerlaubnis = model.getValueAt(i, 40).toString();
+				switch (fahrerlaubnis) {
+				case "1":
+					chkbxFahrerlaubnis.setSelected(true);
+					break;
+				case "0":
+					chkbxFahrerlaubnis.setSelected(false);
+					break;
+				}
 			}
 		});
 
 		vergleichsliste = fahrzeug();
 		show_fahrzeug();
+		
 
-		fuelleArrayList(array);
+		fuelleArrayList(array);		
 		String[] a = new String[array.size()+1];
 
 		a[0] = "";
@@ -1031,6 +1060,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		comboBox = new JComboBox<Object>(a);
 		comboBox.setBounds(92, 254, 220, 19);
 		contentPane.add(comboBox);
+		
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1038,8 +1068,6 @@ public class FahrzeugDatenMaske extends JFrame {
 					int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
 					int aktualisiert;
 					aktualisiert = vergleichsliste.get(i).getBearbeitet();
-					// System.out.print(aktualisiert); // DARF NICHT MITHOCHGERECHNET WERDEN
-					// System.out.print(vergleichsliste.get(i).getBearbeitet());
 					ArrayList<Fahrzeug> fahrzeugliste = fahrzeug();
 					if (aktualisiert == fahrzeugliste.get(i).getBearbeitet()) {
 						try {
@@ -1066,7 +1094,7 @@ public class FahrzeugDatenMaske extends JFrame {
 
 							String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 							conn = DriverManager.getConnection(url);
-							String query = "UPDATE FuhrparkTest SET IdentNr=?, FirmaNr=?, NL=?, FZG_Marke=?, FZG_Typ=?, FZG_Bezeichnung=?, amtl_Kennzeichen=?, Erstzulassung=?, Abmeldedatum=?, Fahrer=?, Fahrer2=?, Finanzstatus=?, Bank_Leasinggesellschaft=?, VertragsNr=?, Leasingdauer_Monate=?, Verlaengerung_Monate=?, Leasingrate_zzgl_MwSt_Fahrzeug=?, Vertragsende=?, Bemerkung=?, Restwert_Leasingende=?, Soll_Laufleistung_Km=?, km_Stand=?, Datum_Erfassung_km_Stand=?, Anschaffungswert__Netto=?, Finanzierungsrate=?, Wartung=?, Zulassungsart=?, Motorleistung_KW_P_2=?, Sommerreifen=?, Winterreifen=?, Kostenstelle=?, Foliert=?, Typ=?, UVV=?, Fahrerunterweisung=?, Werkstatteinrichtung=?, Belueftung=?, Bearbeitet=? WHERE ID="
+							String qry1 = "UPDATE FuhrparkTest SET IdentNr=?, FirmaNr=?, NL=?, FZG_Marke=?, FZG_Typ=?, FZG_Bezeichnung=?, amtl_Kennzeichen=?, Erstzulassung=?, Abmeldedatum=?, Fahrer=?, Fahrer2=?, Finanzstatus=?, Bank_Leasinggesellschaft=?, VertragsNr=?, Leasingdauer_Monate=?, Verlaengerung_Monate=?, Leasingrate_zzgl_MwSt_Fahrzeug=?, Vertragsende=?, Bemerkung=?, Restwert_Leasingende=?, Soll_Laufleistung_Km=?, km_Stand=?, Datum_Erfassung_km_Stand=?, Anschaffungswert__Netto=?, Finanzierungsrate=?, Wartung=?, Zulassungsart=?, Motorleistung_KW_P_2=?, Sommerreifen=?, Winterreifen=?, Kostenstelle=?, Foliert=?, Typ=?, UVV=?, Fahrerunterweisung=?, Werkstatteinrichtung=?, Belueftung=?, Pruefung1=?, Pruefung2=?, Fahrerlaubnis=?, Bearbeitet=? WHERE ID="
 									+ id;
 
 							Object object = comboBox.getSelectedItem();
@@ -1077,63 +1105,63 @@ public class FahrzeugDatenMaske extends JFrame {
 							String item[] = new String[1];
 
 							item[0] = strings.nextElement().toString();
-							String query2 = "UPDATE FuhrparkTest SET Fahrer = '' where Fahrer = " + item[0];
-							String query3 = "update MitarbeiterTest set FahrzeugID = " + id + " where ID =" + item[0];
-							String query4 = "UPDATE FuhrparkTest SET Fahrer = " + item[0] + " where ID = " + id;
-//							+ idFahrer.getString("ID");
+							
+							String qry2 = "UPDATE FuhrparkTest SET Fahrer = '' where Fahrer = " + item[0];
+							String qry3 = "UPDATE MitarbeiterTest set FahrzeugID = " + id + " where ID =" + item[0];
+							String qry4 = "UPDATE FuhrparkTest SET Fahrer = " + item[0] + " where ID = " + id;
 
-							PreparedStatement pst = conn.prepareStatement(query);
-							PreparedStatement pst2 = conn.prepareStatement(query2);
-							PreparedStatement pst3 = conn.prepareStatement(query3);
-							PreparedStatement pst4 = conn.prepareStatement(query4);
+							PreparedStatement pst1 = conn.prepareStatement(qry1);
+							PreparedStatement pst2 = conn.prepareStatement(qry2);
+							PreparedStatement pst3 = conn.prepareStatement(qry3);
+							PreparedStatement pst4 = conn.prepareStatement(qry4);
 
-							pst.setString(1, tfIdentNr.getText());
-							pst.setString(2, tfFirmaNr.getText());
-							pst.setString(3, tfNL.getText());
-							pst.setString(4, tfFZG_Marke.getText());
-							pst.setString(5, tfFZG_Typ.getText());
-							pst.setString(6, tfFZG_Bezeichnung.getText());
-							pst.setString(7, tfamtl_Kennzeichen.getText());
-							pst.setString(8, tfErstzulassung.getText());
-							pst.setString(9, tfAbmeldedatum.getText());
-							pst.setString(10, item[0]);
-							pst.setString(11, tfFahrer2.getText());
-							pst.setString(12, tfFinanzstatus.getText());
-							pst.setString(13, tfBank_Leasinggesellschaft.getText());
-							pst.setString(14, tfVertragsNr.getText());
-							pst.setString(15, tfLeasingdauer_Monate.getText());
-							pst.setString(16, tfVerlaengerung_Monate.getText());
-							pst.setString(17, tfLeasingrate_zzgl_MwSt_Fahrzeug.getText());
-							pst.setString(18, tfVertragsende.getText());
-							pst.setString(19, tfBemerkung.getText());
-							pst.setString(20, tfRestwert_Leasingende.getText());
-							pst.setString(21, tfSoll_Laufleistung_Km.getText());
-							pst.setString(22, tfkm_Stand.getText());
-							pst.setString(23, tfDatum_Erfassung_km_Stand.getText());
-							pst.setString(24, tfAnschaffungswert__Netto.getText());
-							pst.setString(25, tfFinanzierungsrate.getText());
+							pst1.setString(1, tfIdentNr.getText());
+							pst1.setString(2, tfFirmaNr.getText());
+							pst1.setString(3, tfNL.getText());
+							pst1.setString(4, tfFZG_Marke.getText());
+							pst1.setString(5, tfFZG_Typ.getText());
+							pst1.setString(6, tfFZG_Bezeichnung.getText());
+							pst1.setString(7, tfamtl_Kennzeichen.getText());
+							pst1.setString(8, tfErstzulassung.getText());
+							pst1.setString(9, tfAbmeldedatum.getText());
+							pst1.setString(10, item[0]);
+							pst1.setString(11, tfFahrer2.getText());
+							pst1.setString(12, tfFinanzstatus.getText());
+							pst1.setString(13, tfBank_Leasinggesellschaft.getText());
+							pst1.setString(14, tfVertragsNr.getText());
+							pst1.setString(15, tfLeasingdauer_Monate.getText());
+							pst1.setString(16, tfVerlaengerung_Monate.getText());
+							pst1.setString(17, tfLeasingrate_zzgl_MwSt_Fahrzeug.getText());
+							pst1.setString(18, tfVertragsende.getText());
+							pst1.setString(19, tfBemerkung.getText());
+							pst1.setString(20, tfRestwert_Leasingende.getText());
+							pst1.setString(21, tfSoll_Laufleistung_Km.getText());
+							pst1.setString(22, tfkm_Stand.getText());
+							pst1.setString(23, tfDatum_Erfassung_km_Stand.getText());
+							pst1.setString(24, tfAnschaffungswert__Netto.getText());
+							pst1.setString(25, tfFinanzierungsrate.getText());
 							boolean wartung = false;
 							if (chkbxWartung.isSelected()) {
 								wartung = true;
 							}
 							if (wartung) {
-								pst.setString(26, "1");
+								pst1.setString(26, "1");
 							} else {
-								pst.setString(26, "0");
+								pst1.setString(26, "0");
 							}
-							pst.setString(27, tfZulassungsart.getText());
-							pst.setString(28, tfMotorleistung_KW_P_2.getText());
-							pst.setString(29, tfSommerreifen.getText());
-							pst.setString(30, tfWinterreifen.getText());
-							pst.setString(31, tfKostenstelle.getText());
+							pst1.setString(27, tfZulassungsart.getText());
+							pst1.setString(28, tfMotorleistung_KW_P_2.getText());
+							pst1.setString(29, tfSommerreifen.getText());
+							pst1.setString(30, tfWinterreifen.getText());
+							pst1.setString(31, tfKostenstelle.getText());
 							boolean foliert = false;
 							if (chkbxFoliert.isSelected()) {
 								foliert = true;
 							}
 							if (foliert) {
-								pst.setString(32, "1");
+								pst1.setString(32, "1");
 							} else {
-								pst.setString(32, "0");
+								pst1.setString(32, "0");
 							}
 							pst.setString(33, tfTyp.getText());
 							boolean uvv = false;
@@ -1141,58 +1169,86 @@ public class FahrzeugDatenMaske extends JFrame {
 								uvv = true;
 							}
 							if (uvv) {
-								pst.setString(34, "1");
+								pst1.setString(34, "1");
 							} else {
-								pst.setString(34, "0");
+								pst1.setString(34, "0");
 							}
 							boolean fahrerunterweisung = false;
 							if (chkbxFahrerunterweisung.isSelected()) {
 								fahrerunterweisung = true;
 							}
 							if (fahrerunterweisung) {
-								pst.setString(35, "1");
+								pst1.setString(35, "1");
 							} else {
-								pst.setString(35, "0");
+								pst1.setString(35, "0");
 							}
 							boolean werkstatteinrichtung = false;
 							if (chkbxWerkstatteinrichtung.isSelected()) {
 								werkstatteinrichtung = true;
 							}
 							if (werkstatteinrichtung) {
-								pst.setString(36, "1");
+								pst1.setString(36, "1");
 							} else {
-								pst.setString(36, "0");
+								pst1.setString(36, "0");
 							}
 							boolean belueftung = false;
 							if (chkbxBelueftung.isSelected()) {
 								belueftung = true;
 							}
 							if (belueftung) {
-								pst.setString(37, "1");
+								pst1.setString(37, "1");
 							} else {
-								pst.setString(37, "0");
-							}
+								pst1.setString(37, "0");
+							}	
 							boolean pruefung1 = false;
 							if (chkbxPruefung1.isSelected()) {
 								pruefung1 = true;
 							}
 							if (pruefung1) {
-								pst.setString(38, "1");
+								pst1.setString(38, "1");
+								checkPruefung1= 1;
 							} else {
-								pst.setString(38, "0");
+								pst1.setString(38, "0");
+								checkPruefung1= 0;
+							}
+							boolean pruefung2 = false;
+							if (chkbxPruefung2.isSelected()) {
+								pruefung2 = true;
+							}
+							if (pruefung2) {
+								pst1.setString(39, "1");
+								checkPruefung2= 1;
+							} else {
+								pst1.setString(39, "0");
+								checkPruefung2= 0;
+							}
+							boolean fahrerlaubnis = false;
+							if (chkbxFahrerlaubnis.isSelected()) {
+								fahrerlaubnis = true;
+							}
+							if (fahrerlaubnis) {
+								pst1.setString(40, "1");
+								checkFahrerlaubnis = 1;
+							} else {
+								pst1.setString(40, "0");
+								checkFahrerlaubnis = 0;
 							}
 
 							try {
 								fahrzeugliste = fahrzeug();
 								// tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
-								pst.setInt(38, fahrzeugliste.get(i).getBearbeitet() + 1);
+								pst1.setInt(41, fahrzeugliste.get(i).getBearbeitet() + 1);
 							} catch (IndexOutOfBoundsException e1) {
 								//
 							}
-							pst.executeUpdate();
+							pst1.executeUpdate();
 							pst2.executeUpdate();
 							pst3.executeUpdate();
 							pst4.executeUpdate();
+							
+							String query5 = "UPDATE MitarbeiterTest SET Erstpruefung=" + checkPruefung1 + ", Zweitpruefung=" + checkPruefung2 + ", Fahrerlaubnis=" + checkFahrerlaubnis + " WHERE ID=" + item[0];
+							PreparedStatement pst5 = conn.prepareStatement(query5);
+							pst5.executeUpdate();
 
 							vergleichsliste = fahrzeug();
 							show_aktualisiertes_fahrzeug();
@@ -1208,7 +1264,7 @@ public class FahrzeugDatenMaske extends JFrame {
 						}
 					} else {
 						JOptionPane.showMessageDialog(null,
-								"Ihre Änderungen wurden nicht gespeichert, bitte Ueberarbeiten Sie die Daten gegebenfalls noch einmal.");
+								"Ihre Aenderungen wurden nicht gespeichert, bitte Ueberarbeiten Sie die Daten gegebenfalls noch einmal.");
 					}
 				} else if (modus == "anlegen") {
 					try {
@@ -1234,12 +1290,12 @@ public class FahrzeugDatenMaske extends JFrame {
 
 						String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 						conn = DriverManager.getConnection(url);
-						String query = "insert into FuhrparkTest (IdentNr, FirmaNr, NL, FZG_Marke, FZG_Typ, FZG_Bezeichnung, amtl_Kennzeichen, Erstzulassung, Abmeldedatum, "
+						String qry1 = "insert into FuhrparkTest (IdentNr, FirmaNr, NL, FZG_Marke, FZG_Typ, FZG_Bezeichnung, amtl_Kennzeichen, Erstzulassung, Abmeldedatum, "
 								+ "Fahrer, Fahrer2, Finanzstatus, Bank_Leasinggesellschaft, VertragsNr, Leasingdauer_Monate, Verlaengerung_Monate, Leasingrate_zzgl_MwSt_Fahrzeug, "
 								+ "Vertragsende, Bemerkung, Restwert_Leasingende, Soll_Laufleistung_Km, km_Stand, Datum_Erfassung_km_Stand, Anschaffungswert__Netto, Finanzierungsrate, "
 								+ "Wartung, Zulassungsart, Motorleistung_KW_P_2, Sommerreifen, Winterreifen, Kostenstelle, "
-								+ "Foliert, Typ, UVV, Fahrerunterweisung, Werkstatteinrichtung, Belueftung,"
-								+ "Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+								+ "Foliert, Typ, UVV, Fahrerunterweisung, Werkstatteinrichtung, Belueftung, Pruefung1, Pruefung2, Fahrerlaubnis,"
+								+ "Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 						fuelleArrayMaxIDList(maxID_array);
 						
@@ -1263,15 +1319,16 @@ public class FahrzeugDatenMaske extends JFrame {
 
 						item[0] = strings.nextElement().toString();
 						
-						String query2 = "UPDATE FuhrparkTest SET Fahrer = '' where Fahrer = " + item[0];
-						String query3 = "update MitarbeiterTest set FahrzeugID = " + id + " where ID =" + item[0];
-						String query4 = "UPDATE FuhrparkTest SET Fahrer = " + item[0] + " where ID = " + id;
-//						+ idFahrer.getString("ID");
-
-						PreparedStatement pst = conn.prepareStatement(query);
-						PreparedStatement pst2 = conn.prepareStatement(query2);
-						PreparedStatement pst3 = conn.prepareStatement(query3);
-						PreparedStatement pst4 = conn.prepareStatement(query4);
+						String qry2 = "UPDATE FuhrparkTest SET Fahrer = '' where Fahrer = " + item[0];
+						String qry3 = "UPDATE FuhrparkTest SET Fahrer = " + item[0] + " where ID = " + id;
+						String qry4 = "UPDATE MitarbeiterTest SET FahrzeugID = '' where FahrzeugID = " + id;
+						String qry5 = "UPDATE MitarbeiterTest SET FahrzeugID = " + id + " where ID =" + item[0];
+		
+						PreparedStatement pst1 = conn.prepareStatement(qry1);
+						PreparedStatement pst2 = conn.prepareStatement(qry2);
+						PreparedStatement pst3 = conn.prepareStatement(qry3);
+						PreparedStatement pst4 = conn.prepareStatement(qry4);
+						PreparedStatement pst5 = conn.prepareStatement(qry5);
 
 						for (int k = 1; k < numOfRows; k++) {
 							String checkRow = model.getValueAt(k, 1).toString();
@@ -1279,98 +1336,136 @@ public class FahrzeugDatenMaske extends JFrame {
 								throw new Exception("Dieses Fahrzeug exisitiert bereits!");
 							}
 						}
-
-						pst.setString(1, tfIdentNr.getText());
-						pst.setString(2, tfFirmaNr.getText());
-						pst.setString(3, tfNL.getText());
-						pst.setString(4, tfFZG_Marke.getText());
-						pst.setString(5, tfFZG_Typ.getText());
-						pst.setString(6, tfFZG_Bezeichnung.getText());
-						pst.setString(7, tfamtl_Kennzeichen.getText());
-						pst.setString(8, tfErstzulassung.getText());
-						pst.setString(9, tfAbmeldedatum.getText());
-						pst.setString(10, item[0]);
-						pst.setString(11, tfFahrer2.getText());
-						pst.setString(12, tfFinanzstatus.getText());
-						pst.setString(13, tfBank_Leasinggesellschaft.getText());
-						pst.setString(14, tfVertragsNr.getText());
-						pst.setString(15, tfLeasingdauer_Monate.getText());
-						pst.setString(16, tfVerlaengerung_Monate.getText());
-						pst.setString(17, tfLeasingrate_zzgl_MwSt_Fahrzeug.getText());
-						pst.setString(18, tfVertragsende.getText());
-						pst.setString(19, tfBemerkung.getText());
-						pst.setString(20, tfRestwert_Leasingende.getText());
-						pst.setString(21, tfSoll_Laufleistung_Km.getText());
-						pst.setString(22, tfkm_Stand.getText());
-						pst.setString(23, tfDatum_Erfassung_km_Stand.getText());
-						pst.setString(24, tfAnschaffungswert__Netto.getText());
-						pst.setString(25, tfFinanzierungsrate.getText());
+						
+						pst1.setString(1, tfIdentNr.getText());
+						pst1.setString(2, tfFirmaNr.getText());
+						pst1.setString(3, tfNL.getText());
+						pst1.setString(4, tfFZG_Marke.getText());
+						pst1.setString(5, tfFZG_Typ.getText());
+						pst1.setString(6, tfFZG_Bezeichnung.getText());
+						pst1.setString(7, tfamtl_Kennzeichen.getText());
+						pst1.setString(8, tfErstzulassung.getText());
+						pst1.setString(9, tfAbmeldedatum.getText());
+						pst1.setString(10, item[0]);
+						pst1.setString(11, tfFahrer2.getText());
+						pst1.setString(12, tfFinanzstatus.getText());
+						pst1.setString(13, tfBank_Leasinggesellschaft.getText());
+						pst1.setString(14, tfVertragsNr.getText());
+						pst1.setString(15, tfLeasingdauer_Monate.getText());
+						pst1.setString(16, tfVerlaengerung_Monate.getText());
+						pst1.setString(17, tfLeasingrate_zzgl_MwSt_Fahrzeug.getText());
+						pst1.setString(18, tfVertragsende.getText());
+						pst1.setString(19, tfBemerkung.getText());
+						pst1.setString(20, tfRestwert_Leasingende.getText());
+						pst1.setString(21, tfSoll_Laufleistung_Km.getText());
+						pst1.setString(22, tfkm_Stand.getText());
+						pst1.setString(23, tfDatum_Erfassung_km_Stand.getText());
+						pst1.setString(24, tfAnschaffungswert__Netto.getText());
+						pst1.setString(25, tfFinanzierungsrate.getText());
 						boolean wartung = false;
 						if (chkbxWartung.isSelected()) {
 							wartung = true;
 						}
 						if (wartung) {
-							pst.setString(26, "1");
+							pst1.setString(26, "1");
 						} else {
-							pst.setString(26, "0");
+							pst1.setString(26, "0");
 						}
-						pst.setString(27, tfZulassungsart.getText());
-						pst.setString(28, tfMotorleistung_KW_P_2.getText());
-						pst.setString(29, tfSommerreifen.getText());
-						pst.setString(30, tfWinterreifen.getText());
-						pst.setString(31, tfKostenstelle.getText());
+						pst1.setString(27, tfZulassungsart.getText());
+						pst1.setString(28, tfMotorleistung_KW_P_2.getText());
+						pst1.setString(29, tfSommerreifen.getText());
+						pst1.setString(30, tfWinterreifen.getText());
+						pst1.setString(31, tfKostenstelle.getText());
 						boolean foliert = false;
 						if (chkbxFoliert.isSelected()) {
 							foliert = true;
 						}
 						if (foliert) {
-							pst.setString(32, "1");
+							pst1.setString(32, "1");
 						} else {
-							pst.setString(32, "0");
+							pst1.setString(32, "0");
 						}
-						pst.setString(33, tfTyp.getText());
+						pst1.setString(33, tfTyp.getText());
 						boolean uvv = false;
 						if (chkbxUVV.isSelected()) {
 							uvv = true;
 						}
 						if (uvv) {
-							pst.setString(34, "1");
+							pst1.setString(34, "1");
 						} else {
-							pst.setString(34, "0");
+							pst1.setString(34, "0");
 						}
 						boolean fahrerunterweisung = false;
 						if (chkbxFahrerunterweisung.isSelected()) {
 							fahrerunterweisung = true;
 						}
 						if (fahrerunterweisung) {
-							pst.setString(35, "1");
+							pst1.setString(35, "1");
 						} else {
-							pst.setString(35, "0");
+							pst1.setString(35, "0");
 						}
 						boolean werkstatteinrichtung = false;
 						if (chkbxWerkstatteinrichtung.isSelected()) {
 							werkstatteinrichtung = true;
 						}
 						if (werkstatteinrichtung) {
-							pst.setString(36, "1");
+							pst1.setString(36, "1");
 						} else {
-							pst.setString(36, "0");
+							pst1.setString(36, "0");
 						}
 						boolean belueftung = false;
 						if (chkbxBelueftung.isSelected()) {
 							belueftung = true;
 						}
 						if (belueftung) {
-							pst.setString(37, "1");
+							pst1.setString(37, "1");
 						} else {
-							pst.setString(37, "0");
+							pst1.setString(37, "0");
 						}
-						pst.setInt(38, 0);
+						boolean pruefung1 = false;
+						if (chkbxPruefung1.isSelected()) {
+							pruefung1 = true;
+						}
+						if (pruefung1) {
+							pst1.setString(38, "1");
+							checkPruefung1 = 1;
+						} else {
+							pst1.setString(38, "0");
+							checkPruefung1 = 0;
+						}
+						boolean pruefung2 = false;
+						if (chkbxPruefung2.isSelected()) {
+							pruefung2 = true;
+						}
+						if (pruefung2) {
+							pst1.setString(39, "1");
+							checkPruefung2 = 1;
+						} else {
+							pst1.setString(39, "0");
+							checkPruefung2 = 0;
+						}
+						boolean fahrerlaubnis = false;
+						if (chkbxFahrerlaubnis.isSelected()) {
+							fahrerlaubnis = true;
+						}
+						if (fahrerlaubnis) {
+							pst1.setString(40, "1");
+							checkFahrerlaubnis = 1;
+						} else {
+							pst1.setString(40, "0");
+							checkFahrerlaubnis = 0;
+						}
+						pst1.setInt(41, 0);
 
-						pst.executeUpdate();
+						pst1.executeUpdate();
 						pst2.executeUpdate();
 						pst3.executeUpdate();
 						pst4.executeUpdate();
+						pst5.executeUpdate();
+						
+						String qry6 = "UPDATE MitarbeiterTest SET Erstpruefung=" + checkPruefung1 + ", Zweitpruefung=" + checkPruefung2 + ", Fahrerlaubnis=" + checkFahrerlaubnis + " WHERE ID=" + item[0];
+						PreparedStatement pst6 = conn.prepareStatement(qry6);
+						pst6.executeUpdate();
 
 						vergleichsliste = fahrzeug();
 						show_aktualisiertes_fahrzeug();
@@ -1395,16 +1490,28 @@ public class FahrzeugDatenMaske extends JFrame {
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query1;
+			
+			String qry1, qry2;
+			
 			if (LE_Sichtbarkeit.equals("Admin")) {
-				query1 = "Select * from FuhrparkTest";
+				qry1 = "UPDATE FuhrparkTest SET Pruefung1 = MitarbeiterTest.Erstpruefung, Pruefung2 = MitarbeiterTest.Zweitpruefung, Fahrerlaubnis = MitarbeiterTest.Fahrerlaubnis FROM FuhrparkTest INNER JOIN MitarbeiterTest ON FuhrparkTest.ID = MitarbeiterTest.FahrzeugID";
+				qry2 = "SELECT * FROM FuhrparkTest";
+				
 			} else {
-				query1 = "Select * from FuhrparkTest where FirmaNr=" + LE_Sichtbarkeit;
+				qry1 = "UPDATE FuhrparkTest SET Pruefung1 = MitarbeiterTest.Erstpruefung, Pruefung2 = MitarbeiterTest.Zweitpruefung, Fahrerlaubnis = MitarbeiterTest.Fahrerlaubnis FROM FuhrparkTest INNER JOIN MitarbeiterTest ON FuhrparkTest.ID = MitarbeiterTest.FahrzeugID";
+				qry2 = "SELECT * FROM FuhrparkTest WHERE FirmaNr=" + LE_Sichtbarkeit;
 			}
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(query1);
+			
+			PreparedStatement pst = conn.prepareStatement(qry1);
+			pst.executeUpdate();
+			
+			Statement st = conn.createStatement();	
+			ResultSet rs = st.executeQuery(qry2);
+			
 			Fahrzeug fahrzeug;
+			
 			while (rs.next()) {
+				
 				fahrzeug = new Fahrzeug(rs.getInt("ID"), rs.getString("IdentNr"), rs.getString("FirmaNr"),
 						rs.getString("NL"), rs.getString("FZG_Marke"), rs.getString("FZG_Typ"),
 						rs.getString("FZG_Bezeichnung"), rs.getString("amtl_Kennzeichen"),
@@ -1419,7 +1526,10 @@ public class FahrzeugDatenMaske extends JFrame {
 						rs.getString("Motorleistung_KW_P_2"), rs.getString("Sommerreifen"),
 						rs.getString("Winterreifen"), rs.getString("Kostenstelle"), rs.getString("Foliert"),
 						rs.getString("Typ"), rs.getInt("UVV"), rs.getInt("Fahrerunterweisung"),
-						rs.getInt("Werkstatteinrichtung"), rs.getInt("Belueftung"), rs.getInt("Bearbeitet"));
+						rs.getInt("Werkstatteinrichtung"), rs.getInt("Belueftung"),						
+						rs.getInt("Pruefung1"), rs.getInt("Pruefung2"), rs.getInt("Fahrerlaubnis"),
+						rs.getInt("Bearbeitet"));
+				
 				fahrzeugliste.add(fahrzeug);
 			}
 		}
@@ -1442,7 +1552,7 @@ public class FahrzeugDatenMaske extends JFrame {
 	public static void show_fahrzeug() {
 		DefaultTableModel model = (DefaultTableModel) tableFahrzeuge.getModel();
 		ArrayList<Fahrzeug> fahrzeug = fahrzeug();
-		Object[] row = new Object[39];
+		Object[] row = new Object[42];
 		for (int i = 0; i < fahrzeug.size(); i++) {
 			row[0] = fahrzeug.get(i).getID();
 			row[1] = fahrzeug.get(i).getIdentNr();
@@ -1482,7 +1592,10 @@ public class FahrzeugDatenMaske extends JFrame {
 			row[35] = fahrzeug.get(i).getFahrerunterweisung();
 			row[36] = fahrzeug.get(i).getWerkstatteinrichtung();
 			row[37] = fahrzeug.get(i).getBelueftung();
-			row[38] = fahrzeug.get(i).getBearbeitet();
+			row[38] = fahrzeug.get(i).getPruefung1();
+			row[39] = fahrzeug.get(i).getPruefung2();
+			row[40] = fahrzeug.get(i).getFahrerlaubnis();
+			row[41] = fahrzeug.get(i).getBearbeitet();
 			model.addRow(row);
 		}
 	}
@@ -1606,6 +1719,9 @@ public class FahrzeugDatenMaske extends JFrame {
 		chkbxUVV.setEnabled(wert);
 		chkbxWartung.setEnabled(wert);
 		chkbxWerkstatteinrichtung.setEnabled(wert);
+		chkbxPruefung1.setEnabled(wert);
+		chkbxPruefung2.setEnabled(wert);
+		chkbxFahrerlaubnis.setEnabled(wert);
 		btnSave.setEnabled(wert);
 		btnAbbrechen.setEnabled(wert);
 	}
@@ -1649,6 +1765,9 @@ public class FahrzeugDatenMaske extends JFrame {
 		chkbxUVV.setText("");
 		chkbxWartung.setText("");
 		chkbxWerkstatteinrichtung.setText("");
+		chkbxPruefung1.setText("");
+		chkbxPruefung2.setText("");
+		chkbxFahrerlaubnis.setText("");
 		wichtigTf(tfIdentNr);
 		wichtigTf(tfFirmaNr);
 		wichtigTf(tfNL);

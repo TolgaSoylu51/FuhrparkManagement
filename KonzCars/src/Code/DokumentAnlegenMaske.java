@@ -133,12 +133,16 @@ public class DokumentAnlegenMaske extends JFrame {
 					pst.setString(1,
 							"C://Users//Tolga.Soylu//OneDrive - KHW Konzmann GmbH//Desktop//FuhrparkManagement/"
 									+ tfDokumentName.getText() + endung);
-					// JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
+					tfDokument.setText("");
+					tfDokumentName.setText("");
+					JOptionPane.showMessageDialog(null, "Das Dokument wurde gespeichert!");
 				} catch (Exception e1) {
 //					JOptionPane.showMessageDialog(null, e1);
 				}
 			}
 		});
+		
+		
 
 		JButton btnClear = new JButton("X");
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
@@ -444,7 +448,7 @@ public class DokumentAnlegenMaske extends JFrame {
 			con = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query = "insert into DokumenteTest (DokumentName, Pfad, Dokument, Extension)values (?,?,?,?)";
+			String query = "insert into DokumenteTest (DokumentName, Pfad, Dokument, Extension, Firma)values (?,?,?,?)";
 			PreparedStatement pst = con.prepareStatement(query);
 			pst.setString(1, tfDokumentName.getText());
 			File theFile = new File(tfDokument.getText());

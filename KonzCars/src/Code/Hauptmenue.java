@@ -24,6 +24,7 @@ public class Hauptmenue extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	LoginMaske loginMaske = new LoginMaske();
+	public static boolean herkunft_ueber_hauptmenue;
 
 	/**
 	 * Launch the application.
@@ -130,6 +131,7 @@ public class Hauptmenue extends JFrame {
 		btnNewButton_2.setBackground(new Color(191, 205, 219));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				herkunft_ueber_hauptmenue = true;
 				DokumenteMaske frame = new DokumenteMaske();
 				frame.setResizable(false);
 				ImageIcon icon = new ImageIcon(

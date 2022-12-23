@@ -14,6 +14,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,6 +28,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -104,6 +108,7 @@ public class FahrzeugDatenMaske extends JFrame {
 	private JCheckBox chkbxFahrerlaubnis;
 	
 	private JComboBox<?> comboBox;
+	JButton btnExport;
 	
 	private int checkPruefung1, checkPruefung2, checkFahrerlaubnis;
 
@@ -742,6 +747,19 @@ public class FahrzeugDatenMaske extends JFrame {
 		chkbxFahrerlaubnis.setForeground(Color.BLACK);
 		chkbxFahrerlaubnis.setBounds(590, 297, 20, 20);
 		contentPane.add(chkbxFahrerlaubnis);
+		
+		fuelleArrayList(array);		
+		String[] a = new String[array.size()+1];
+
+		a[0] = "";
+		
+		for (int i = 1; i < a.length; i++) {
+			a[i] = array.get(i-1);
+		}
+
+		comboBox = new JComboBox<Object>(a);
+		comboBox.setBounds(92, 254, 220, 19);
+		contentPane.add(comboBox);
 
 		setAllFields(false);
 
@@ -905,6 +923,27 @@ public class FahrzeugDatenMaske extends JFrame {
 		contentPane.add(btn_Dokumente);
 
 		scrollpane(btnSave, btnClear, btnAbbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente);
+		
+		btnExport = new JButton("Exportieren");
+		btnExport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnExport) {
+					JFileChooser fchoose = new JFileChooser();
+					int option = fchoose.showSaveDialog(FahrzeugDatenMaske.this);
+					if (option == JFileChooser.APPROVE_OPTION) {
+						String name = fchoose.getSelectedFile().getName();
+						String path = fchoose.getSelectedFile().getParentFile().getPath();
+						String file = path + "\\" + name + ".xls";
+						export(tableFahrzeuge, new File(file));
+					}
+				}
+			}
+		});
+		btnExport.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnExport.setFocusPainted(false);
+		btnExport.setBackground(SystemColor.inactiveCaption);
+		btnExport.setBounds(1134, 605, 180, 23);
+		contentPane.add(btnExport);
 
 		tableFahrzeuge.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1046,20 +1085,6 @@ public class FahrzeugDatenMaske extends JFrame {
 
 		vergleichsliste = fahrzeug();
 		show_fahrzeug();
-		
-
-		fuelleArrayList(array);		
-		String[] a = new String[array.size()+1];
-
-		a[0] = "";
-		
-		for (int i = 1; i < a.length; i++) {
-			a[i] = array.get(i-1);
-		}
-
-		comboBox = new JComboBox<Object>(a);
-		comboBox.setBounds(92, 254, 220, 19);
-		contentPane.add(comboBox);
 		
 
 		btnSave.addActionListener(new ActionListener() {
@@ -1616,7 +1641,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(621, 50, 692, 574);
+		scrollPane.setBounds(621, 50, 692, 542);
 		contentPane.add(scrollPane);
 
 		JPanel panel = new JPanel();
@@ -1691,6 +1716,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		tfFZG_Typ.setEnabled(wert);
 		tfDatum_Erfassung_km_Stand.setEnabled(wert);
 		tfAbmeldedatum.setEnabled(wert);
+		comboBox.setEnabled(wert);
 		tfFahrer2.setEnabled(wert);
 		tfFinanzstatus.setEnabled(wert);
 		tfBank_Leasinggesellschaft.setEnabled(wert);
@@ -1820,5 +1846,25 @@ public class FahrzeugDatenMaske extends JFrame {
 			JOptionPane.showMessageDialog(null, e1);
 		}
 		return arrayList;
+	}
+	
+	public void export(JTable table, File file) {
+		try {
+			TableModel m = table.getModel();
+			FileWriter fw = new FileWriter(file);
+			for (int i = 0; i < m.getColumnCount(); i++) {
+				fw.write(m.getColumnName(i) + "\t");
+			}
+			fw.write("\n");
+			for (int i = 0; i < m.getRowCount(); i++) {
+				for (int j = 0; j < m.getColumnCount(); j++) {
+					fw.write(m.getValueAt(i, j).toString() + "\t");
+				}
+				fw.write("\n");
+			}
+			fw.close();
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 }

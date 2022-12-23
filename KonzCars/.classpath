@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Hermann.Zelesnov/Downloads/mssql-jdbc-10.2.1.jre17.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hermann.Zelesnov/Downloads/javax.mail.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hermann.Zelesnov/Downloads/activation.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tolga.Soylu/Downloads/sqljdbc_10.2.1.0_deu/sqljdbc_10.2/deu/mssql-jdbc-10.2.1.jre17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tolga.Soylu/Downloads/javax.mail.jar/javax.mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tolga.Soylu/Downloads/activation.jar/activation.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Hermann.Zelesnov/Downloads/mysql-connector-java-5.1.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tolga.Soylu/Downloads/mysql-connector-java-5.1.15.jar/mysql-connector-java-5.1.15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

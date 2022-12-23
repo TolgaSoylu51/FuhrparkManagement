@@ -22,6 +22,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import java.awt.Color;
+
+import javax.mail.Authenticator;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.swing.ImageIcon;
 import javax.swing.RowFilter;
 import javax.swing.ScrollPaneConstants;
@@ -39,17 +51,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.util.Properties;
-import javax.mail.Authenticator;
-import javax.mail.BodyPart;
-import javax.mail.Message;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import javax.swing.ListSelectionModel;
 
 public class FahrerDatenMaske extends JFrame {
@@ -60,34 +61,34 @@ public class FahrerDatenMaske extends JFrame {
 	static Connection conn = null;
 	PreparedStatement pst = null;
 	ResultSet rs = null;
-	
+
 	ArrayList<Fahrer> vergleichsliste = new ArrayList<>();
-	
+
 	private static JTable tableFahrer;
 	private static int id;
-	
+
 	private static ArrayList<String> maxID_array = new ArrayList<String>();
-	
+
 	boolean erweitern = false;
 
-	private JTextField tfPersonalnummer;
-	private JTextField tfAktivKz;
-	private JTextField tfNachname;
-	private JTextField tfVorname;
-	private JTextField tfFirmaNr;
-	private JTextField tfNlNr;
-	private JCheckBox chckbxFahrerlaubnis;
-	private JCheckBox chckbxPruefung1;
+	public static JTextField tfPersonalnummer;
+	private static JTextField tfAktivKz;
+	private static JTextField tfNachname;
+	private static JTextField tfVorname;
+	private static JTextField tfFirmaNr;
+	private static JTextField tfNlNr;
+	private static JCheckBox chckbxFahrerlaubnis;
+	private static JCheckBox chckbxPruefung1;
 	// Pruefungszeitpunkt1
-	private JTextField tfKommentar1;
-	private JCheckBox chckbxPruefung2;
+	private static JTextField tfKommentar1;
+	private static JCheckBox chckbxPruefung2;
 	// Pruefungszeitpunkt2
-	private JTextField tfKommentar2;
-	
+	private static JTextField tfKommentar2;
+
 	private JTextField tfSuche;
 
 	private String modus;
-	
+
 	public static boolean herkunft_ueber_fahrzeug;
 	public static String id_Uebergabe_fahrzeug;
 	public static String id_Uebergabe_fahrer;
@@ -95,7 +96,7 @@ public class FahrerDatenMaske extends JFrame {
 	public static int Uebergabe_Pruefung2;
 	private static String LE_Sichtbarkeit;
 	static LoginMaske loginMaske;
-	
+
 	public JButton btnAbbrechen;
 	public JButton btnSave;
 
@@ -277,7 +278,7 @@ public class FahrerDatenMaske extends JFrame {
 		chckbxFahrerlaubnis.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		chckbxFahrerlaubnis.setBounds(10, 280, 20, 20);
 		contentPane.add(chckbxFahrerlaubnis);
-		
+
 		btnAbbrechen = new JButton("Abbrechen");
 		btnAbbrechen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -307,23 +308,23 @@ public class FahrerDatenMaske extends JFrame {
 				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurueck.png"));
 		btnZurueck.setBounds(10, 2, 28, 23);
 		contentPane.add(btnZurueck);
-		
+
 		tableFahrer = new JTable();
 		tableFahrer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableFahrer.setBorder(null);
 		tableFahrer.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "Personalnummer", "AktivKZ", "Name", "Vorname", "FirmaNr", "NL_Nr",
 						"Fahrerlaubnis", "Erstpruefung", "Pruefungszeitpunkt1", "Kommentar1", "Zweitpruefung",
-						"Pruefungszeitpunkt2", "Kommentar2", "FahrzeugID", "Bearbeitet"}));
-		
+						"Pruefungszeitpunkt2", "Kommentar2", "FahrzeugID", "Bearbeitet" }));
+
 		tableFahrer.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
+
 		wichtigTf(tfPersonalnummer);
 		wichtigTf(tfNachname);
 		wichtigTf(tfAktivKz);
 		wichtigTf(tfFirmaNr);
 		wichtigTf(tfNlNr);
-		
+
 		JButton btn_Anlegen = new JButton("Anlegen");
 		btn_Anlegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -343,7 +344,7 @@ public class FahrerDatenMaske extends JFrame {
 				chckbxFahrerlaubnis.setSelected(false);
 			}
 		});
-		
+
 		JButton btn_Bearbeiten = new JButton("Bearbeiten");
 		btn_Bearbeiten.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -389,11 +390,9 @@ public class FahrerDatenMaske extends JFrame {
 		btn_Dokumente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				id_Uebergabe_fahrzeug = tableFahrer.getModel()
-						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 14)
-						.toString();
+						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 14).toString();
 				id_Uebergabe_fahrer = tableFahrer.getModel()
-						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 0)
-						.toString();
+						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 0).toString();
 				herkunft_ueber_fahrzeug = true;
 				DokumenteMaske frame = new DokumenteMaske();
 				frame.setVisible(true);
@@ -410,7 +409,7 @@ public class FahrerDatenMaske extends JFrame {
 		contentPane.add(btn_Dokumente);
 
 		scrollpane(btnSave, btnClear, btnAbbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente);
-		
+
 		tableFahrer.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				int i = tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow());
@@ -454,7 +453,7 @@ public class FahrerDatenMaske extends JFrame {
 				tfKommentar2.setText(model.getValueAt(i, 13).toString());
 			}
 		});
-		
+
 		vergleichsliste = fahrer();
 		show_fahrer();
 
@@ -467,7 +466,7 @@ public class FahrerDatenMaske extends JFrame {
 					ArrayList<Fahrer> fahrerliste = fahrer();
 					if (aktualisiert == fahrerliste.get(i).getBearbeitet()) {
 						try {
-							
+
 							emptyTf(tfPersonalnummer);
 							emptyTf(tfNachname);
 							emptyTf(tfAktivKz);
@@ -478,7 +477,7 @@ public class FahrerDatenMaske extends JFrame {
 							conn = DriverManager.getConnection(url);
 							String query = "UPDATE MitarbeiterTest SET Personalnummer=?,AktivKZ=?,Name=?,Vorname=?,FirmaNr=?,NL_Nr=?,Fahrerlaubnis=?,Erstpruefung=?,Pruefungszeitpunkt1=?,Kommentar1=?,Zweitpruefung=?,Pruefungszeitpunkt2=?,Kommentar2=?, Bearbeitet=? WHERE ID="
 									+ id;
-							
+
 							PreparedStatement pst = conn.prepareStatement(query);
 							pst.setString(1, tfPersonalnummer.getText());
 							pst.setString(2, "2");
@@ -553,7 +552,7 @@ public class FahrerDatenMaske extends JFrame {
 					show_aktualisierte_fahrerliste();
 					setAllFields(false);
 					modus = "";
-					
+
 				} else if (modus == "anlegen") {
 					try {
 						emptyTf(tfPersonalnummer);
@@ -561,16 +560,16 @@ public class FahrerDatenMaske extends JFrame {
 						emptyTf(tfAktivKz);
 						emptyTf(tfFirmaNr);
 						emptyTf(tfNlNr);
-						
+
 						TableModel model = tableFahrer.getModel();
 						int numOfRows = model.getRowCount();
 
 						String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 						conn = DriverManager.getConnection(url);
 						String query = "insert into MitarbeiterTest (Personalnummer,AktivKZ,Name,Vorname,FirmaNr,NL_Nr,Fahrerlaubnis,Erstpruefung,Pruefungszeitpunkt1,Kommentar1,Zweitpruefung,Pruefungszeitpunkt2,Kommentar2, Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-						
+
 						fuelleArrayMaxIDList(maxID_array);
-						
+
 						PreparedStatement pst = conn.prepareStatement(query);
 
 						for (int i = 1; i < numOfRows; i++) {
@@ -628,17 +627,17 @@ public class FahrerDatenMaske extends JFrame {
 						pst.setInt(14, 0);
 
 						pst.executeUpdate();
-						
+
 //						String query2 = "UPDATE FuhrparkTest SET Pruefung1=" + checkPruefung1 + ", Pruefung2=" + checkPruefung2 + ", Fahrerlaubnis=" + checkFahrerlaubnis + " WHERE ID= FahrzeugID";
 //						PreparedStatement pst2 = conn.prepareStatement(query2);
 //						pst2.executeUpdate();
-						
+
 						vergleichsliste = fahrer();
 						show_aktualisierte_fahrerliste();
 						setAllFields(false);
 						modus = "";
 						JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
-						
+
 						sendEmail();
 						show_hinzugefuegten_fahrer();
 
@@ -677,9 +676,10 @@ public class FahrerDatenMaske extends JFrame {
 			while (rs.next()) {
 				fahrer = new Fahrer(rs.getInt("ID"), rs.getInt("Personalnummer"), rs.getInt("AktivKZ"),
 						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getInt("NL_Nr"),
-						rs.getString("Fahrerlaubnis"), rs.getString("Erstpruefung"), rs.getString("Pruefungszeitpunkt1"),
-						rs.getString("Kommentar1"), rs.getString("Zweitpruefung"), rs.getString("Pruefungszeitpunkt2"),
-						rs.getString("Kommentar2"), rs.getInt("Bearbeitet"), rs.getString("FahrzeugID"));
+						rs.getString("Fahrerlaubnis"), rs.getString("Erstpruefung"),
+						rs.getString("Pruefungszeitpunkt1"), rs.getString("Kommentar1"), rs.getString("Zweitpruefung"),
+						rs.getString("Pruefungszeitpunkt2"), rs.getString("Kommentar2"), rs.getInt("Bearbeitet"),
+						rs.getString("FahrzeugID"));
 				fahrerliste.add(fahrer);
 			}
 		}
@@ -731,9 +731,9 @@ public class FahrerDatenMaske extends JFrame {
 			show_fahrer();
 		} catch (IndexOutOfBoundsException e) {
 			// JOptionPane.showMessageDialog(null, e);
-		};
+		}
+		;
 	}
-	
 
 	public void scrollpane(JButton btnSave, JButton btnClear, JButton btn_Abbrechen, JButton btn_Anlegen,
 			JButton btn_Bearbeiten, JButton btn_Loeschen, JButton btn_Dokumente) {
@@ -778,7 +778,7 @@ public class FahrerDatenMaske extends JFrame {
 			}
 		});
 	}
-	
+
 	public static void show_hinzugefuegten_fahrer() {
 		try {
 			DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
@@ -786,7 +786,8 @@ public class FahrerDatenMaske extends JFrame {
 			show_fahrer();
 		} catch (IndexOutOfBoundsException e) {
 			// JOptionPane.showMessageDialog(null, e);
-		};
+		}
+		;
 	}
 
 	public void wichtigTf(JTextField tf) {
@@ -814,7 +815,7 @@ public class FahrerDatenMaske extends JFrame {
 			throw new Exception("Fuellen sie bitte alle Felder aus!");
 		}
 	}
-	
+
 	private static Message prepareMessage(Session session, String myAccount, String empfaenger) throws Exception {
 		Message message = new MimeMessage(session);
 
@@ -827,7 +828,9 @@ public class FahrerDatenMaske extends JFrame {
 		// Body-Part setzen:
 		BodyPart messageBodyPart = new MimeBodyPart();
 		// Textteil des Body-Parts
-		messageBodyPart.setText("Hallo");
+		messageBodyPart.setText("Der Fahrer\nPersonalnummer: " + tfPersonalnummer.getText() + "\nVorname: "
+				+ tfVorname.getText() + "\nNachname: " + tfNachname.getText() + "\nFirmaNr: " + tfFirmaNr.getText()
+				+ "\nNiederlassungsnummer: " + tfNlNr.getText() + "\nwurde angelegt");
 		// Body-Part dem Multipart-Wrapper hinzufuegen
 		multipart.addBodyPart(messageBodyPart);
 		// Message fertigstellen, indem sie mit dem Multipart-Content ausgestattet wird
@@ -865,7 +868,7 @@ public class FahrerDatenMaske extends JFrame {
 			e1.printStackTrace();
 		}
 	}
-	
+
 	public void setAllFields(boolean wert) {
 		tfPersonalnummer.setEnabled(wert);
 		tfVorname.setEnabled(wert);
@@ -902,7 +905,7 @@ public class FahrerDatenMaske extends JFrame {
 		wichtigTf(tfFirmaNr);
 		wichtigTf(tfNlNr);
 	};
-	
+
 	public static ArrayList<String> fuelleArrayMaxIDList(ArrayList<String> arrayList) {
 		try {
 			conn = DriverManager.getConnection(

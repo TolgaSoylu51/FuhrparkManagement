@@ -53,7 +53,7 @@ public class LoginMaske extends JFrame {
 					LoginMaske frame = new LoginMaske();
 					frame.setResizable(false);		
 					ImageIcon icon = new ImageIcon(
-							ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+							ImageIO.read(this.getClass().getResource("/res/Logo-weiﬂesK-roterHintergrund.jpg")));
 					frame.setIconImage(icon.getImage());
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -112,7 +112,7 @@ public class LoginMaske extends JFrame {
 		lblBackground = new JLabel("");
 		try {
 			lblBackground.setIcon(new ImageIcon(
-					ImageIO.read(getClass().getResource("../res/Vorschlag1.jpg"))));
+					ImageIO.read(this.getClass().getResource("/res/Vorschlag1.jpg"))));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -124,8 +124,26 @@ public class LoginMaske extends JFrame {
 	@SuppressWarnings("deprecation")
 	public void login() {
 		try {
+			
+//			Class cl = Class.forName("GetResourceAsStreamOfClass");
+//            ClassLoader loader = cl.getClassLoader();
+//
+//            // By using getResourceAsStream() method is to take the resource
+//            // and convert it into InputStream
+//            InputStream is = loader.getResourceAsStream(res);
+//            InputStreamReader isr = new InputStreamReader(is);
+//            BufferedReader br = new BufferedReader(isr);
+
+            
 			String sql = "Select * from Login where UserName =? COLLATE SQL_Latin1_General_Cp1_CS_AS and Passwort =? COLLATE SQL_Latin1_General_Cp1_CS_AS";
 //			Class.forName("com.mysql.jdbc.Driver"); 
+			
+			conn = DriverManager.getConnection(
+					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
+					"KonzCars", "KonzCars");
+			
+			
+			
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
@@ -164,7 +182,7 @@ public class LoginMaske extends JFrame {
 				Hauptmenue s = new Hauptmenue();
 				s.setResizable(false);
 				ImageIcon icon = new ImageIcon(
-						ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+						ImageIO.read(this.getClass().getResource("/res/Logo-weiﬂesK-roterHintergrund.jpg")));
 				s.setIconImage(icon.getImage());
 				s.setVisible(true);
 				setVisible(false);

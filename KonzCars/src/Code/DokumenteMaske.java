@@ -202,7 +202,7 @@ public class DokumenteMaske extends JFrame {
 		});
 		try {
 			btnZurueck.setIcon(new ImageIcon(
-					ImageIO.read(getClass().getResource("../res/pfeil-zurueck.png"))));
+					ImageIO.read(getClass().getResource("/res/pfeil-zurueck.png"))));
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -351,7 +351,7 @@ public class DokumenteMaske extends JFrame {
 		JLabel lblBackground = new JLabel("");
 		try {
 			lblBackground.setIcon(new ImageIcon(
-					ImageIO.read(getClass().getResource("../res/Vorschlag1.jpg"))));
+					ImageIO.read(getClass().getResource("/res/Vorschlag1.jpg"))));
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();

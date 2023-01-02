@@ -77,7 +77,7 @@ public class Hauptmenue extends JFrame {
 				ImageIcon icon = null;
 				try {
 					icon = new ImageIcon(
-							ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+							ImageIO.read(getClass().getResource("/res/Logo-weiﬂesK-roterHintergrund.jpg")));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -96,7 +96,7 @@ public class Hauptmenue extends JFrame {
 					ImageIcon icon = null;
 					try {
 						icon = new ImageIcon(
-								ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+								ImageIO.read(getClass().getResource("/res/Logo-weiﬂesK-roterHintergrund.jpg")));
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -120,7 +120,7 @@ public class Hauptmenue extends JFrame {
 				ImageIcon icon = null;
 				try {
 					icon = new ImageIcon(
-							ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+							ImageIO.read(getClass().getResource("/res/Logo-weiﬂesK-roterHintergrund.jpg")));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -138,7 +138,7 @@ public class Hauptmenue extends JFrame {
 					ImageIcon icon = null;
 					try {
 						icon = new ImageIcon(
-								ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+								ImageIO.read(getClass().getResource("/res/Logo-weiﬂesK-roterHintergrund.jpg")));
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -164,7 +164,7 @@ public class Hauptmenue extends JFrame {
 				ImageIcon icon = null;
 				try {
 					icon = new ImageIcon(
-							ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+							ImageIO.read(getClass().getResource("/res/Logo-weiﬂesK-roterHintergrund.jpg")));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -183,7 +183,7 @@ public class Hauptmenue extends JFrame {
 					ImageIcon icon = null;
 					try {
 						icon = new ImageIcon(
-								ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+								ImageIO.read(getClass().getResource("/res/Logo-weiﬂesK-roterHintergrund.jpg")));
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -210,7 +210,7 @@ public class Hauptmenue extends JFrame {
 				ImageIcon icon = null;
 				try {
 					icon = new ImageIcon(
-							ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+							ImageIO.read(getClass().getResource("/res/Logo-weiﬂesK-roterHintergrund.jpg")));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -229,7 +229,7 @@ public class Hauptmenue extends JFrame {
 					ImageIcon icon = null;
 					try {
 						icon = new ImageIcon(
-								ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+								ImageIO.read(getClass().getResource("/res/Logo-weiﬂesK-roterHintergrund.jpg")));
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -248,7 +248,7 @@ public class Hauptmenue extends JFrame {
 		lbl_img.setDoubleBuffered(true);
 		try {
 			lbl_img.setIcon(new ImageIcon(
-					ImageIO.read(getClass().getResource("../res/KONZMANN_HOLDING_LOGO_FLOW_GRAU_RGB.png"))));
+					ImageIO.read(getClass().getResource("/res/KONZMANN_HOLDING_LOGO_FLOW_GRAU_RGB.png"))));
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -259,7 +259,7 @@ public class Hauptmenue extends JFrame {
 		JLabel lblBackground = new JLabel("");
 		try {
 			lblBackground.setIcon(new ImageIcon(
-					ImageIO.read(getClass().getResource("../res/Vorschlag1.jpg"))));
+					ImageIO.read(getClass().getResource("/res/Vorschlag1.jpg"))));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

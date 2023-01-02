@@ -777,7 +777,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		});
 		try {
 			btnZurueck.setIcon(new ImageIcon(
-					ImageIO.read(getClass().getResource("../res/pfeil-zurueck.png"))));
+					ImageIO.read(getClass().getResource("/res/pfeil-zurueck.png"))));
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
@@ -1658,7 +1658,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		JLabel lblBackground_2 = new JLabel("");
 		try {
 			lblBackground_2.setIcon(new ImageIcon(
-					ImageIO.read(getClass().getResource("../res/Vorschlag1.jpg"))));
+					ImageIO.read(getClass().getResource("/res/Vorschlag1.jpg"))));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

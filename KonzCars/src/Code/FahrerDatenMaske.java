@@ -23,6 +23,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import java.awt.Color;
 
+import javax.imageio.ImageIO;
 import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -41,6 +42,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.io.IOException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.SystemColor;
@@ -304,8 +306,13 @@ public class FahrerDatenMaske extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnZurueck.setIcon(new ImageIcon(
-				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurueck.png"));
+		try {
+			btnZurueck.setIcon(new ImageIcon(
+					ImageIO.read(getClass().getResource("../res/pfeil-zurueck.png"))));
+		} catch (IOException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
 		btnZurueck.setBounds(10, 2, 28, 23);
 		contentPane.add(btnZurueck);
 
@@ -389,8 +396,8 @@ public class FahrerDatenMaske extends JFrame {
 		JButton btn_Dokumente = new JButton("Dokumente");
 		btn_Dokumente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				id_Uebergabe_fahrzeug = tableFahrer.getModel()
-						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 14).toString();
+//				id_Uebergabe_fahrzeug = tableFahrer.getModel()
+//						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 14).toString();
 				id_Uebergabe_fahrer = tableFahrer.getModel()
 						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 0).toString();
 				herkunft_ueber_fahrzeug = true;
@@ -748,8 +755,13 @@ public class FahrerDatenMaske extends JFrame {
 		scrollPane.setViewportView(tableFahrer);
 
 		JLabel lblBackground_2 = new JLabel("");
-		lblBackground_2.setIcon(new ImageIcon(
-				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		try {
+			lblBackground_2.setIcon(new ImageIcon(
+					ImageIO.read(getClass().getResource("../res/Vorschlag1.jpg"))));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		addWindowStateListener(new WindowStateListener() {
 			public void windowStateChanged(final WindowEvent evt) {

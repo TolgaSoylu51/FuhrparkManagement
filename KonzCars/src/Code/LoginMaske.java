@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import javax.swing.JTextField;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -50,9 +51,9 @@ public class LoginMaske extends JFrame {
 			public void run() {
 				try {
 					LoginMaske frame = new LoginMaske();
-					frame.setResizable(false);
+					frame.setResizable(false);		
 					ImageIcon icon = new ImageIcon(
-							"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-wei√üesK-roterHintergrund.jpg");
+							ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
 					frame.setIconImage(icon.getImage());
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -64,6 +65,7 @@ public class LoginMaske extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws IOException 
 	 */
 
 	public LoginMaske() {
@@ -108,8 +110,13 @@ public class LoginMaske extends JFrame {
 		getContentPane().add(btnAnmelden);
 
 		lblBackground = new JLabel("");
-		lblBackground.setIcon(new ImageIcon(
-				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		try {
+			lblBackground.setIcon(new ImageIcon(
+					ImageIO.read(getClass().getResource("../res/Vorschlag1.jpg"))));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		lblBackground.setBounds(0, 0, 344, 221);
 		getContentPane().add(lblBackground);
 	}
@@ -157,7 +164,7 @@ public class LoginMaske extends JFrame {
 				Hauptmenue s = new Hauptmenue();
 				s.setResizable(false);
 				ImageIcon icon = new ImageIcon(
-						"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-wei√üesK-roterHintergrund.jpg");
+						ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
 				s.setIconImage(icon.getImage());
 				s.setVisible(true);
 				setVisible(false);

@@ -24,6 +24,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -773,8 +775,13 @@ public class FahrzeugDatenMaske extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnZurueck.setIcon(new ImageIcon(
-				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurueck.png"));
+		try {
+			btnZurueck.setIcon(new ImageIcon(
+					ImageIO.read(getClass().getResource("../res/pfeil-zurueck.png"))));
+		} catch (IOException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
 		btnZurueck.setBounds(10, 2, 28, 23);
 		contentPane.add(btnZurueck);
 
@@ -904,9 +911,9 @@ public class FahrzeugDatenMaske extends JFrame {
 				id_Uebergabe_fahrzeug = tableFahrzeuge.getModel()
 						.getValueAt(tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow()), 0)
 						.toString();
-				id_Uebergabe_fahrer = tableFahrzeuge.getModel()
-						.getValueAt(tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow()), 10)
-						.toString();
+//				id_Uebergabe_fahrer = tableFahrzeuge.getModel()
+//						.getValueAt(tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow()), 10)
+//						.toString();
 				herkunft_ueber_fahrzeug = true;
 				DokumenteMaske frame = new DokumenteMaske();
 				frame.setVisible(true);
@@ -1649,8 +1656,13 @@ public class FahrzeugDatenMaske extends JFrame {
 		scrollPane.setViewportView(tableFahrzeuge);
 
 		JLabel lblBackground_2 = new JLabel("");
-		lblBackground_2.setIcon(new ImageIcon(
-				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		try {
+			lblBackground_2.setIcon(new ImageIcon(
+					ImageIO.read(getClass().getResource("../res/Vorschlag1.jpg"))));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		addWindowStateListener(new WindowStateListener() {
 			public void windowStateChanged(final WindowEvent evt) {

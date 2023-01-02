@@ -11,7 +11,10 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -71,8 +74,14 @@ public class Hauptmenue extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				FahrerDatenMaske frame = new FahrerDatenMaske();
-				ImageIcon icon = new ImageIcon(
-						"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-wei√üesK-roterHintergrund.jpg");
+				ImageIcon icon = null;
+				try {
+					icon = new ImageIcon(
+							ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				frame.setIconImage(icon.getImage());
 				frame.setVisible(true);
 				setVisible(false);
@@ -84,8 +93,14 @@ public class Hauptmenue extends JFrame {
 				int key_pressed = e.getKeyCode();
 				if (key_pressed == KeyEvent.VK_ENTER) {
 					FahrerDatenMaske frame = new FahrerDatenMaske();
-					ImageIcon icon = new ImageIcon(
-							"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-wei√üesK-roterHintergrund.jpg");
+					ImageIcon icon = null;
+					try {
+						icon = new ImageIcon(
+								ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					frame.setIconImage(icon.getImage());
 					frame.setVisible(true);
 					setVisible(false);
@@ -102,8 +117,14 @@ public class Hauptmenue extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FahrzeugDatenMaske frame = new FahrzeugDatenMaske();
-				ImageIcon icon = new ImageIcon(
-						"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-wei√üesK-roterHintergrund.jpg");
+				ImageIcon icon = null;
+				try {
+					icon = new ImageIcon(
+							ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				frame.setIconImage(icon.getImage());
 				frame.setVisible(true);
 				setVisible(false);
@@ -114,8 +135,14 @@ public class Hauptmenue extends JFrame {
 				int key_pressed = e.getKeyCode();
 				if (key_pressed == KeyEvent.VK_ENTER) {
 					FahrzeugDatenMaske frame = new FahrzeugDatenMaske();
-					ImageIcon icon = new ImageIcon(
-							"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-wei√üesK-roterHintergrund.jpg");
+					ImageIcon icon = null;
+					try {
+						icon = new ImageIcon(
+								ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					frame.setIconImage(icon.getImage());
 					frame.setVisible(true);
 					setVisible(false);
@@ -134,8 +161,14 @@ public class Hauptmenue extends JFrame {
 				herkunft_ueber_hauptmenue = true;
 				DokumenteMaske frame = new DokumenteMaske();
 				frame.setResizable(false);
-				ImageIcon icon = new ImageIcon(
-						"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-wei√üesK-roterHintergrund.jpg");
+				ImageIcon icon = null;
+				try {
+					icon = new ImageIcon(
+							ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				frame.setIconImage(icon.getImage());
 				frame.setVisible(true);
 				setVisible(false);
@@ -147,8 +180,14 @@ public class Hauptmenue extends JFrame {
 				if (key_pressed == KeyEvent.VK_ENTER) {
 					DokumenteMaske frame = new DokumenteMaske();
 					frame.setResizable(false);
-					ImageIcon icon = new ImageIcon(
-							"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-wei√üesK-roterHintergrund.jpg");
+					ImageIcon icon = null;
+					try {
+						icon = new ImageIcon(
+								ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					frame.setIconImage(icon.getImage());
 					frame.setVisible(true);
 					setVisible(false);
@@ -168,8 +207,14 @@ public class Hauptmenue extends JFrame {
 				
 				LoginMaske frame = new LoginMaske();
 				frame.setResizable(false);
-				ImageIcon icon = new ImageIcon(
-						"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-wei√üesK-roterHintergrund.jpg");
+				ImageIcon icon = null;
+				try {
+					icon = new ImageIcon(
+							ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				frame.setIconImage(icon.getImage());
 				frame.setVisible(true);
 				setVisible(false);
@@ -181,8 +226,14 @@ public class Hauptmenue extends JFrame {
 				if (key_pressed == KeyEvent.VK_ENTER) {
 					LoginMaske frame = new LoginMaske();
 					frame.setResizable(false);
-					ImageIcon icon = new ImageIcon(
-							"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\Logo-wei√üesK-roterHintergrund.jpg");
+					ImageIcon icon = null;
+					try {
+						icon = new ImageIcon(
+								ImageIO.read(getClass().getResource("../res/Logo-weiﬂesK-roterHintergrund.jpg")));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					frame.setIconImage(icon.getImage());
 					frame.setVisible(true);
 					setVisible(false);
@@ -195,14 +246,24 @@ public class Hauptmenue extends JFrame {
 
 		JLabel lbl_img = new JLabel("");
 		lbl_img.setDoubleBuffered(true);
-		lbl_img.setIcon(new ImageIcon(
-				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\grafiken\\KONZMANN_HOLDING_LOGO_FLOW_GRAU_RGB.png"));
+		try {
+			lbl_img.setIcon(new ImageIcon(
+					ImageIO.read(getClass().getResource("../res/KONZMANN_HOLDING_LOGO_FLOW_GRAU_RGB.png"))));
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		lbl_img.setBounds(44, 32, 293, 60);
 		contentPane.add(lbl_img);
 
 		JLabel lblBackground = new JLabel("");
-		lblBackground.setIcon(new ImageIcon(
-				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
+		try {
+			lblBackground.setIcon(new ImageIcon(
+					ImageIO.read(getClass().getResource("../res/Vorschlag1.jpg"))));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		lblBackground.setBounds(0, 0, 764, 381);
 		contentPane.add(lblBackground);
 		

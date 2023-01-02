@@ -35,6 +35,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.awt.Color;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
@@ -133,7 +134,7 @@ public class DokumenteMaske extends JFrame {
 
 					PreparedStatement pst = con.prepareStatement(query);
 					pst.setString(1,
-							"C://Users//Tolga.Soylu//OneDrive - KHW Konzmann GmbH//Desktop//FuhrparkManagement/"
+							System.getProperty("user.home") + "/FuhrparkManagement_Dokumente/"
 									+ tfDokumentName.getText() + endung);
 					// JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 				} catch (Exception e1) {
@@ -196,10 +197,16 @@ public class DokumenteMaske extends JFrame {
 				FahrerDatenMaske.herkunft_ueber_fahrzeug = false;
 				setVisible(false);
 				Hauptmenue frame = new Hauptmenue();
+				frame.setVisible(true);
 			}
 		});
-		btnZurueck.setIcon(new ImageIcon(
-				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\icons\\pfeil-zurueck.png"));
+		try {
+			btnZurueck.setIcon(new ImageIcon(
+					ImageIO.read(getClass().getResource("../res/pfeil-zurueck.png"))));
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		btnZurueck.setBounds(10, 2, 28, 23);
 		contentPane.add(btnZurueck);
 		
@@ -230,12 +237,6 @@ public class DokumenteMaske extends JFrame {
 		tableFahrer.setBorder(null);
 		tableFahrer.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "DokumentName", "Pfad", "Dokument", "Extension" }));
-
-		JLabel lblBackground = new JLabel("");
-		lblBackground.setIcon(new ImageIcon(
-				"C:\\Users\\Hermann.Zelesnov\\OneDrive - KHW Konzmann GmbH\\Dokumente\\bilder\\hintergrund\\Vorschlag1.jpg"));
-		lblBackground.setBounds(0, 0, 1262, 647);
-		contentPane.add(lblBackground);
 		
 		tfDokument = new JTextField();
 		tfDokument.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -347,7 +348,16 @@ public class DokumenteMaske extends JFrame {
 		lblDokument.setBounds(10, 103, 45, 13);
 		contentPane.add(lblDokument);
 
-	
+		JLabel lblBackground = new JLabel("");
+		try {
+			lblBackground.setIcon(new ImageIcon(
+					ImageIO.read(getClass().getResource("../res/Vorschlag1.jpg"))));
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		lblBackground.setBounds(0, 0, 1262, 647);
+		contentPane.add(lblBackground);
 
 		show_Dokument();
 
@@ -373,10 +383,10 @@ public class DokumenteMaske extends JFrame {
 					"KonzCars", "KonzCars");
 			String query1 = null;
 			if (FahrzeugDatenMaske.herkunft_ueber_fahrzeug == true) {
-				query1 = "Select * from DokumenteTest where FahrzeugID=" + fahrzeugid + " or FahrerID=" + fahrerid;
+				query1 = "Select * from DokumenteTest where FahrzeugID=" + fahrzeugid;// + " or FahrerID=" + fahrerid;
 			}
 			if (FahrerDatenMaske.herkunft_ueber_fahrzeug == true) {
-				query1 = "Select * from DokumenteTest where FahrzeugID=" + fahrzeugid + " or FahrerID=" + fahrerid;
+				query1 = "Select * from DokumenteTest where FahrerID=" + fahrerid;// + " or FahrerID=" + fahrerid;
 			}
 			if (Hauptmenue.herkunft_ueber_hauptmenue == true) {
 				if (LE_Sichtbarkeit.equals("Admin")) {

@@ -124,7 +124,7 @@ public class LoginMaske extends JFrame {
 	@SuppressWarnings("deprecation")
 	public void login() {
 		try {
-			String sql = "Select * from Login where UserName=? and Passwort=?";
+			String sql = "Select * from Login where UserName =? COLLATE SQL_Latin1_General_Cp1_CS_AS and Passwort =? COLLATE SQL_Latin1_General_Cp1_CS_AS";
 //			Class.forName("com.mysql.jdbc.Driver"); 
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
@@ -169,7 +169,7 @@ public class LoginMaske extends JFrame {
 				s.setVisible(true);
 				setVisible(false);
 			} else {
-				JOptionPane.showMessageDialog(null, "Der Benutzername und das Passwort stimmen nicht Ã¼berein!");
+				JOptionPane.showMessageDialog(null, "Der Benutzername und das Passwort stimmen nicht überein!");
 			}
 		} catch (
 

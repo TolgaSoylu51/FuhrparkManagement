@@ -2,7 +2,7 @@ package Code;
 
 public class Fahrer {
 	private int ID; 
-	private int Personalnummer;
+	private String Personalnummer;
 	private int AktivKZ;
 	private String Name;
 	private String Vorname;
@@ -18,7 +18,7 @@ public class Fahrer {
 	private int Bearbeitet;
 	private String FahrzeugID;
 	
-	public Fahrer(int iD, int personalnummer, int aktivkz, String name, String vorname, String firmaNr, int nlnr,
+	public Fahrer(int iD, String personalnummer, int aktivkz, String name, String vorname, String firmaNr, int nlnr,
 			String fahrerlaubnis, String erstpruefung, String pruefungszeitpunkt1, String kommentar1, String zweitpruefung,
 			String pruefungszeitpunkt2, String kommentar2, int bearbeitet, String fahrzeugID
 			) {
@@ -65,11 +65,11 @@ public class Fahrer {
 		ID = iD;
 	}
 
-	public int getPersonalnummer() {
+	public String getPersonalnummer() {
 		return Personalnummer;
 	}
 
-	public void setPersonalnummer(int personalnummer) {
+	public void setPersonalnummer(String personalnummer) {
 		Personalnummer = personalnummer;
 	}
 

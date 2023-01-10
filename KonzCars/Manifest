@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Class-Path: mssql-jdbc-10.2.1.jre17.jar
-Created-By: 1.7.0_06 (Oracle Corporation)
+Main-Class: Code.LoginMaske
+

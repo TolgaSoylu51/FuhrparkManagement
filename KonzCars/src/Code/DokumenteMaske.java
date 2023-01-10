@@ -25,6 +25,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -49,6 +50,7 @@ import java.awt.Font;
 import java.awt.Insets;
 
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
 
 public class DokumenteMaske extends JFrame {
 
@@ -68,6 +70,8 @@ public class DokumenteMaske extends JFrame {
 	private static String fahrerid;
 	private static String LE_Sichtbarkeit;
 	static LoginMaske loginMaske;
+	private JComboBox<?> comboBox;
+	private static ArrayList<String> array = new ArrayList<String>();
 
 	/**
 	 * Launch the application.
@@ -130,20 +134,17 @@ public class DokumenteMaske extends JFrame {
 				try {
 					String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 					con = DriverManager.getConnection(url);
-					String query = "UPDATE DokumenteTest SET Pfad=? WHERE ID=" + letzteZeile;
+					String query = "UPDATE Dokumente SET Pfad=? WHERE ID=" + letzteZeile;
 
 					PreparedStatement pst = con.prepareStatement(query);
-					pst.setString(1,
-							System.getProperty("user.home") + "/FuhrparkManagement_Dokumente/"
-									+ tfDokumentName.getText() + endung);
+					pst.setString(1, "E:/Fuhrpark App/Fuhrpark_Dokumente/" + tfDokumentName.getText() + endung);
 					// JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 				} catch (Exception e1) {
 //					JOptionPane.showMessageDialog(null, e1);
 				}
 			}
 		});
-		
-		
+
 		JButton btnOeffnen = new JButton("Oeffnen");
 		btnOeffnen.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnOeffnen.setFocusPainted(false);
@@ -170,6 +171,24 @@ public class DokumenteMaske extends JFrame {
 				filter(tfSuche.getText());
 			}
 		});
+
+		fuelleArrayList(array);
+		String[] a = new String[array.size() + 1];
+
+		a[0] = "";
+
+		for (int i = 1; i < a.length; i++) {
+			a[i] = array.get(i - 1);
+		}
+
+		comboBox = new JComboBox(a);
+		comboBox.setBounds(88, 143, 242, 22);
+		contentPane.add(comboBox);
+
+		JLabel lblDokumenttyp = new JLabel("Dokumenttyp");
+		lblDokumenttyp.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblDokumenttyp.setBounds(10, 148, 72, 13);
+		contentPane.add(lblDokumenttyp);
 		tfSuche.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfSuche.setColumns(10);
 		tfSuche.setBackground(SystemColor.menu);
@@ -187,29 +206,35 @@ public class DokumenteMaske extends JFrame {
 		tfDokumentName.setBounds(42, 69, 288, 20);
 		contentPane.add(tfDokumentName);
 		tfDokumentName.setColumns(10);
-		
+
 		JButton btnZurueck = new JButton("");
 		btnZurueck.setFocusable(false);
 		btnZurueck.setBackground(Color.WHITE);
 		btnZurueck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FahrzeugDatenMaske.herkunft_ueber_fahrzeug = false;
-				FahrerDatenMaske.herkunft_ueber_fahrzeug = false;
+				if(FahrzeugDatenMaske.herkunft_ueber_fahrzeug == true) {
+					FahrzeugDatenMaske.herkunft_ueber_fahrzeug = false;
+				}
+				if(FahrerDatenMaske.herkunft_ueber_fahrzeug == true) {
+					FahrerDatenMaske.herkunft_ueber_fahrzeug = false;
+				}
+				if(Hauptmenue.herkunft_ueber_hauptmenue == true) {
+					Hauptmenue.herkunft_ueber_hauptmenue = false;
+					Hauptmenue frame = new Hauptmenue();
+					frame.setVisible(true);
+				}
 				setVisible(false);
-				Hauptmenue frame = new Hauptmenue();
-				frame.setVisible(true);
 			}
 		});
 		try {
-			btnZurueck.setIcon(new ImageIcon(
-					ImageIO.read(getClass().getResource("/res/pfeil-zurueck.png"))));
+			btnZurueck.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/res/pfeil-zurueck.png"))));
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		btnZurueck.setBounds(10, 2, 28, 23);
 		contentPane.add(btnZurueck);
-		
+
 		JButton btnClear = new JButton("X");
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnClear.setFocusPainted(false);
@@ -237,13 +262,13 @@ public class DokumenteMaske extends JFrame {
 		tableFahrer.setBorder(null);
 		tableFahrer.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "DokumentName", "Pfad", "Dokument", "Extension" }));
-		
+
 		tfDokument = new JTextField();
 		tfDokument.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfDokument.setColumns(10);
 		tfDokument.setBounds(42, 100, 288, 20);
 		contentPane.add(tfDokument);
-		
+
 		JButton btnLoeschen = new JButton("Löschen");
 		btnLoeschen.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnLoeschen.setFocusPainted(false);
@@ -255,7 +280,7 @@ public class DokumenteMaske extends JFrame {
 					con = DriverManager.getConnection(url);
 					int i = tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow());
 					TableModel model = tableFahrer.getModel();
-					String query = "DELETE FROM DokumenteTest WHERE ID=" + id;
+					String query = "DELETE FROM Dokumente WHERE ID=" + id;
 					String pfad = model.getValueAt(i, 2).toString();
 					String name = model.getValueAt(i, 1).toString();
 
@@ -271,13 +296,10 @@ public class DokumenteMaske extends JFrame {
 							endungStart = j;
 						}
 					}
-					
-					
-					
+
 					endung = pfad.substring(endungStart);
-					
-					Path path = Paths
-							.get(System.getProperty("user.home") + "/FuhrparkManagement_Dokumente/" + name + endung);
+
+					Path path = Paths.get("E:/Fuhrpark App/Fuhrpark_Dokumente/" + name + endung);
 					try {
 						Files.delete(path);
 					} catch (IOException e1) {
@@ -286,7 +308,7 @@ public class DokumenteMaske extends JFrame {
 
 					show_aktualisierte_Dokument();
 
-					//JOptionPane.showMessageDialog(null, "Datensatz wurde gelöscht!");
+					// JOptionPane.showMessageDialog(null, "Datensatz wurde gelöscht!");
 				}
 
 				catch (Exception e1) {
@@ -306,7 +328,7 @@ public class DokumenteMaske extends JFrame {
 		btnDurchsuchen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+				fileChooser.setCurrentDirectory(new File("E:/Fuhrpark App/Fuhrpark_Dokumente"));
 				int result = fileChooser.showOpenDialog(fileChooser);
 				if (result == JFileChooser.APPROVE_OPTION) {
 					File selectedFile = fileChooser.getSelectedFile();
@@ -314,9 +336,9 @@ public class DokumenteMaske extends JFrame {
 				}
 			}
 		});
-		btnDurchsuchen.setBounds(10, 144, 180, 23);
+		btnDurchsuchen.setBounds(10, 187, 180, 23);
 		contentPane.add(btnDurchsuchen);
-		
+
 		contentPane.setDropTarget(new DropTarget() {
 			/**
 			 * 
@@ -337,7 +359,7 @@ public class DokumenteMaske extends JFrame {
 				}
 			}
 		});
-		
+
 		JLabel lblDokumentName = new JLabel("Name");
 		lblDokumentName.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblDokumentName.setBounds(10, 72, 45, 13);
@@ -350,8 +372,7 @@ public class DokumenteMaske extends JFrame {
 
 		JLabel lblBackground = new JLabel("");
 		try {
-			lblBackground.setIcon(new ImageIcon(
-					ImageIO.read(getClass().getResource("/res/Vorschlag1.jpg"))));
+			lblBackground.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/res/Vorschlag1.jpg"))));
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -365,7 +386,6 @@ public class DokumenteMaske extends JFrame {
 
 	public static ArrayList<Dokument> dokument() {
 		ArrayList<Dokument> dokumentliste = new ArrayList<>();
-//C:\Users\Tolga.Soylu\OneDrive - KHW Konzmann GmbH\Desktop\Controllinginstrumente.txt
 		try {
 			if (Hauptmenue.herkunft_ueber_hauptmenue == true) {
 				LE_Sichtbarkeit = LoginMaske.LE_Sichtbarkeit_Uebergabe;
@@ -383,19 +403,30 @@ public class DokumenteMaske extends JFrame {
 					"KonzCars", "KonzCars");
 			String query1 = null;
 			if (FahrzeugDatenMaske.herkunft_ueber_fahrzeug == true) {
-				query1 = "Select * from DokumenteTest where FahrzeugID=" + fahrzeugid;// + " or FahrerID=" + fahrerid;
+//				if (fahrerid != null || !fahrerid.equals("")) {
+//					query1 = "Select * from Dokumente where FahrzeugID=" + fahrzeugid + " or FahrerID=" + fahrerid;
+//				} else {
+//					query1 = "Select * from Dokumente where FahrzeugID=" + fahrzeugid;// + " or FahrerID=" + fahrerid;
+//				}
+				query1 = "Select * from Dokumente where FahrzeugID=" + fahrzeugid;// + " or FahrerID=" + fahrerid;
 			}
 			if (FahrerDatenMaske.herkunft_ueber_fahrzeug == true) {
-				query1 = "Select * from DokumenteTest where FahrerID=" + fahrerid;// + " or FahrerID=" + fahrerid;
+//				if (fahrzeugid != null || !fahrzeugid.equals("")) {
+//					query1 = "Select * from Dokumente where FahrerID=" + fahrerid + " or FahrzeugID=" + fahrzeugid;
+//				} else {
+//					query1 = "Select * from Dokumente where FahrerID=" + fahrerid;// + " or FahrerID=" + fahrerid;
+//				}
+				
+				query1 = "Select * from Dokumente where FahrerID=" + fahrerid;// + " or FahrerID=" + fahrerid;
 			}
 			if (Hauptmenue.herkunft_ueber_hauptmenue == true) {
 				if (LE_Sichtbarkeit.equals("Admin")) {
-					query1 = "Select * from DokumenteTest";
+					query1 = "Select * from Dokumente";
 				} else {
-					query1 = "Select * from DokumenteTest where FirmaNr=" + LE_Sichtbarkeit;
+					query1 = "Select * from Dokumente where FirmaNr=" + LE_Sichtbarkeit;
 				}
 			}
-			
+
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			Dokument dokument;
@@ -434,7 +465,7 @@ public class DokumenteMaske extends JFrame {
 			model.addRow(row);
 		}
 	}
-	
+
 	public static void show_aktualisierte_Dokument() {
 		try {
 			DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
@@ -445,13 +476,13 @@ public class DokumenteMaske extends JFrame {
 		}
 		;
 	}
-	
+
 	@SuppressWarnings("resource")
 	public static void copyFile(String string) throws IOException {
-		File f = new File(System.getProperty("user.home") + "/FuhrparkManagement_Dokumente");
-		if (!f.exists()) {
-			f.mkdirs();
-		}
+//		File f = new File(System.getProperty("user.home") + "/FuhrparkManagement_Dokumente");
+//		if (!f.exists()) {
+//			f.mkdirs();
+//		}
 
 		int endungStart = 0;
 		String endung = "";
@@ -464,16 +495,15 @@ public class DokumenteMaske extends JFrame {
 
 		endung = tfDokument.getText().substring(endungStart);
 
-		File file = new File(System.getProperty("user.home") + "/FuhrparkManagement_Dokumente/"
-				+ tfDokumentName.getText() + endung);
+		File file = new File("E:/Fuhrpark App/Fuhrpark_Dokumente/" + tfDokumentName.getText() + endung);
 		file.createNewFile();
 
 		FileChannel inChannel = null;
 		FileChannel outChannel = null;
 		try {
 			inChannel = new FileInputStream(string).getChannel();
-			outChannel = new FileOutputStream(System.getProperty("user.home") + "/FuhrparkManagement_Dokumente/"
-					+ tfDokumentName.getText() + endung).getChannel();
+			outChannel = new FileOutputStream("E:/Fuhrpark App/Fuhrpark_Dokumente/" + tfDokumentName.getText() + endung)
+					.getChannel();
 			inChannel.transferTo(0, inChannel.size(), outChannel);
 
 		} catch (IOException e) {
@@ -495,14 +525,13 @@ public class DokumenteMaske extends JFrame {
 			con = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query = "insert into DokumenteTest (DokumentName, Pfad, Dokument, Extension, FirmaNr)values (?,?,?,?,?)";
+			String query = "insert into Dokumente (DokumentName, Pfad, Dokument, Extension, FahrzeugID, FahrerID, FirmaNr, Dokumenttyp)values (?,?,?,?,?,?,?,?)";
 			PreparedStatement pst = con.prepareStatement(query);
 			pst.setString(1, tfDokumentName.getText());
 			File theFile = new File(tfDokument.getText());
 			input = new FileInputStream(theFile);
 			pst.setBinaryStream(3, input);
 
-//			String dateiname = "C:\\Users\\Tolga.Soylu\\OneDrive - KHW Konzmann GmbH\\Desktop\\Controllinginstrumente.txt";
 			int endungStart = 0;
 			String endung = "";
 
@@ -513,10 +542,14 @@ public class DokumenteMaske extends JFrame {
 			}
 
 			endung = tfDokument.getText().substring(endungStart);
-			pst.setString(2, System.getProperty("user.home") + "/FuhrparkManagement_Dokumente/"
-					+ tfDokumentName.getText() + endung);
+			pst.setString(2, "E:/Fuhrpark App/Fuhrpark_Dokumente/" + tfDokumentName.getText() + endung);
 			pst.setString(4, endung);
-			pst.setString(5, LE_Sichtbarkeit);
+			pst.setString(5, fahrzeugid);
+			pst.setString(6, fahrerid);
+			pst.setString(7, LE_Sichtbarkeit);
+
+			Object object = comboBox.getSelectedItem();
+			pst.setString(8, object.toString());
 
 			pst.executeUpdate();
 		} catch (
@@ -524,5 +557,24 @@ public class DokumenteMaske extends JFrame {
 		Exception e1) {
 			JOptionPane.showMessageDialog(null, e1);
 		}
+	}
+
+	public static ArrayList<String> fuelleArrayList(ArrayList<String> arrayList) {
+		try {
+			con = DriverManager.getConnection(
+					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
+					"KonzCars", "KonzCars");
+			String query1 = "Select * from Dokumenttypen";
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query1);
+			while (rs.next()) {
+				array.add(rs.getString("Dokumenttyp"));
+			}
+		}
+
+		catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, e1);
+		}
+		return arrayList;
 	}
 }

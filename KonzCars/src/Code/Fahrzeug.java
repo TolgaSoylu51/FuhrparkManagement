@@ -36,7 +36,7 @@ public class Fahrzeug {
 	private String Sommerreifen;
 	private String Winterreifen;
 	private String Kostenstelle;
-	private String Foliert;
+	private int Foliert;
 	private String Typ;
 	private int UVV;
 	private int Fahrerunterweisung;
@@ -54,7 +54,7 @@ public class Fahrzeug {
 			String Vertragsende, String Bemerkung, String Restwert_Leasingende, String Soll_Laufleistung_Km,
 			String km_Stand, String Datum_Erfassung_km_Stand, String Anschaffungswert_Netto,
 			String Finanzierungsrate, String Wartung, String Zulassungsart,
-			String Motorleistung_KW_P_2, String Sommerreifen, String Winterreifen, String Kostenstelle, String Foliert, String Typ, 
+			String Motorleistung_KW_P_2, String Sommerreifen, String Winterreifen, String Kostenstelle, int Foliert, String Typ, 
 			int UVV, int Fahrerunterweisung, int Werkstatteinrichtung, int Belueftung, int Pruefung1, int Pruefung2, int Fahrerlaubnis, int Bearbeitet) {
 		super();
 		this.ID = iD;
@@ -357,11 +357,11 @@ public class Fahrzeug {
 		Kostenstelle = kostenstelle;
 	}
 
-	public String getFoliert() {
+	public int getFoliert() {
 		return Foliert;
 	}
 
-	public void setFoliert(String foliert) {
+	public void setFoliert(int foliert) {
 		Foliert = foliert;
 	}
 

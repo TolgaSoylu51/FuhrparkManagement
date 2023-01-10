@@ -136,7 +136,7 @@ public class LoginMaske extends JFrame {
 
             
 			String sql = "Select * from Login where UserName =? COLLATE SQL_Latin1_General_Cp1_CS_AS and Passwort =? COLLATE SQL_Latin1_General_Cp1_CS_AS";
-//			Class.forName("com.mysql.jdbc.Driver"); 
+			Class.forName("com.mysql.jdbc.Driver");
 			
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
@@ -163,6 +163,7 @@ public class LoginMaske extends JFrame {
 						System.exit(0);
 					} else {
 						int id = rs.getInt("ID");
+						Class.forName("com.mssql.jdbc.Driver");
 						String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 						conn = DriverManager.getConnection(url);
 						String query = "UPDATE Login SET Passwort=?, PWAendern=? WHERE ID="

@@ -307,8 +307,7 @@ public class FahrerDatenMaske extends JFrame {
 			}
 		});
 		try {
-			btnZurueck.setIcon(new ImageIcon(
-					ImageIO.read(getClass().getResource("/res/pfeil-zurueck.png"))));
+			btnZurueck.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/res/pfeil-zurueck.png"))));
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
@@ -376,7 +375,7 @@ public class FahrerDatenMaske extends JFrame {
 
 						String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 						conn = DriverManager.getConnection(url);
-						String query = "DELETE FROM MitarbeiterTest WHERE ID=" + id;
+						String query = "DELETE FROM Fahrer WHERE ID=" + id;
 						PreparedStatement pst = conn.prepareStatement(query);
 
 						pst.executeUpdate();
@@ -396,8 +395,12 @@ public class FahrerDatenMaske extends JFrame {
 		JButton btn_Dokumente = new JButton("Dokumente");
 		btn_Dokumente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				id_Uebergabe_fahrzeug = tableFahrer.getModel()
-//						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 14).toString();
+				if (tableFahrer.getModel().getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()),
+						14) != null) {
+					id_Uebergabe_fahrzeug = tableFahrer.getModel()
+							.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 14)
+							.toString();
+				}
 				id_Uebergabe_fahrer = tableFahrer.getModel()
 						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 0).toString();
 				herkunft_ueber_fahrzeug = true;
@@ -421,43 +424,64 @@ public class FahrerDatenMaske extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				int i = tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow());
 				TableModel model = tableFahrer.getModel();
-
 				id = (int) model.getValueAt(i, 0);
-				tfPersonalnummer.setText(model.getValueAt(i, 1).toString());
-				tfAktivKz.setText(model.getValueAt(i, 2).toString());
-				tfNachname.setText(model.getValueAt(i, 3).toString());
-				tfVorname.setText(model.getValueAt(i, 4).toString());
-				tfFirmaNr.setText(model.getValueAt(i, 5).toString());
-				tfNlNr.setText(model.getValueAt(i, 6).toString());
-				String fahrerlaubnis = model.getValueAt(i, 7).toString();
-				switch (fahrerlaubnis) {
-				case "1":
-					chckbxFahrerlaubnis.setSelected(true);
-					break;
-				case "0":
-					chckbxFahrerlaubnis.setSelected(false);
-					break;
+				if (model.getValueAt(i, 1) != null) {
+					tfPersonalnummer.setText(model.getValueAt(i, 1).toString());
 				}
-				String erstpruefung = model.getValueAt(i, 8).toString();
-				switch (erstpruefung) {
-				case "1":
-					chckbxPruefung1.setSelected(true);
-					break;
-				case "0":
-					chckbxPruefung1.setSelected(false);
-					break;
+				if (model.getValueAt(i, 2) != null) {
+					tfAktivKz.setText(model.getValueAt(i, 2).toString());
 				}
-				tfKommentar1.setText(model.getValueAt(i, 10).toString());
-				String zweitpruefung = model.getValueAt(i, 11).toString();
-				switch (zweitpruefung) {
-				case "1":
-					chckbxPruefung2.setSelected(true);
-					break;
-				case "0":
-					chckbxPruefung2.setSelected(false);
-					break;
+				if (model.getValueAt(i, 3) != null) {
+					tfNachname.setText(model.getValueAt(i, 3).toString());
 				}
-				tfKommentar2.setText(model.getValueAt(i, 13).toString());
+				if (model.getValueAt(i, 4) != null) {
+					tfVorname.setText(model.getValueAt(i, 4).toString());
+				}
+				if (model.getValueAt(i, 5) != null) {
+					tfFirmaNr.setText(model.getValueAt(i, 5).toString());
+				}
+				if (model.getValueAt(i, 6) != null) {
+					tfNlNr.setText(model.getValueAt(i, 6).toString());
+				}
+				if (model.getValueAt(i, 7) != null) {
+					String fahrerlaubnis = model.getValueAt(i, 7).toString();
+					switch (fahrerlaubnis) {
+					case "1":
+						chckbxFahrerlaubnis.setSelected(true);
+						break;
+					case "0":
+						chckbxFahrerlaubnis.setSelected(false);
+						break;
+					}
+				}
+				if (model.getValueAt(i, 8) != null) {
+					String erstpruefung = model.getValueAt(i, 8).toString();
+					switch (erstpruefung) {
+					case "1":
+						chckbxPruefung1.setSelected(true);
+						break;
+					case "0":
+						chckbxPruefung1.setSelected(false);
+						break;
+					}
+				}
+				if (model.getValueAt(i, 10) != null) {
+					tfKommentar1.setText(model.getValueAt(i, 10).toString());
+				}
+				if (model.getValueAt(i, 11) != null) {
+					String zweitpruefung = model.getValueAt(i, 11).toString();
+					switch (zweitpruefung) {
+					case "1":
+						chckbxPruefung2.setSelected(true);
+						break;
+					case "0":
+						chckbxPruefung2.setSelected(false);
+						break;
+					}
+				}
+				if (model.getValueAt(i, 13) != null) {
+					tfKommentar2.setText(model.getValueAt(i, 13).toString());
+				}
 			}
 		});
 
@@ -482,7 +506,7 @@ public class FahrerDatenMaske extends JFrame {
 
 							String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 							conn = DriverManager.getConnection(url);
-							String query = "UPDATE MitarbeiterTest SET Personalnummer=?,AktivKZ=?,Name=?,Vorname=?,FirmaNr=?,NL_Nr=?,Fahrerlaubnis=?,Erstpruefung=?,Pruefungszeitpunkt1=?,Kommentar1=?,Zweitpruefung=?,Pruefungszeitpunkt2=?,Kommentar2=?, Bearbeitet=? WHERE ID="
+							String query = "UPDATE Fahrer SET Personalnummer=?,AktivKZ=?,Name=?,Vorname=?,FirmaNr=?,NL_Nr=?,Fahrerlaubnis=?,Erstpruefung=?,Pruefungszeitpunkt1=?,Kommentar1=?,Zweitpruefung=?,Pruefungszeitpunkt2=?,Kommentar2=?, Bearbeitet=? WHERE ID="
 									+ id;
 
 							PreparedStatement pst = conn.prepareStatement(query);
@@ -573,7 +597,7 @@ public class FahrerDatenMaske extends JFrame {
 
 						String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 						conn = DriverManager.getConnection(url);
-						String query = "insert into MitarbeiterTest (Personalnummer,AktivKZ,Name,Vorname,FirmaNr,NL_Nr,Fahrerlaubnis,Erstpruefung,Pruefungszeitpunkt1,Kommentar1,Zweitpruefung,Pruefungszeitpunkt2,Kommentar2, Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						String query = "insert into Fahrer (Personalnummer,AktivKZ,Name,Vorname,FirmaNr,NL_Nr,Fahrerlaubnis,Erstpruefung,Pruefungszeitpunkt1,Kommentar1,Zweitpruefung,Pruefungszeitpunkt2,Kommentar2, Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 						fuelleArrayMaxIDList(maxID_array);
 
@@ -635,7 +659,7 @@ public class FahrerDatenMaske extends JFrame {
 
 						pst.executeUpdate();
 
-//						String query2 = "UPDATE FuhrparkTest SET Pruefung1=" + checkPruefung1 + ", Pruefung2=" + checkPruefung2 + ", Fahrerlaubnis=" + checkFahrerlaubnis + " WHERE ID= FahrzeugID";
+//						String query2 = "UPDATE Fuhrpark SET Pruefung1=" + checkPruefung1 + ", Pruefung2=" + checkPruefung2 + ", Fahrerlaubnis=" + checkFahrerlaubnis + " WHERE ID= FahrzeugID";
 //						PreparedStatement pst2 = conn.prepareStatement(query2);
 //						pst2.executeUpdate();
 
@@ -673,15 +697,15 @@ public class FahrerDatenMaske extends JFrame {
 					"KonzCars", "KonzCars");
 			String query1;
 			if (LE_Sichtbarkeit.equals("Admin")) {
-				query1 = "Select * from MitarbeiterTest";
+				query1 = "Select * from Fahrer";
 			} else {
-				query1 = "Select * from MitarbeiterTest where FirmaNr=" + LE_Sichtbarkeit;
+				query1 = "Select * from Fahrer where FirmaNr=" + LE_Sichtbarkeit;
 			}
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			Fahrer fahrer;
 			while (rs.next()) {
-				fahrer = new Fahrer(rs.getInt("ID"), rs.getInt("Personalnummer"), rs.getInt("AktivKZ"),
+				fahrer = new Fahrer(rs.getInt("ID"), rs.getString("Personalnummer"), rs.getInt("AktivKZ"),
 						rs.getString("Name"), rs.getString("Vorname"), rs.getString("FirmaNr"), rs.getInt("NL_Nr"),
 						rs.getString("Fahrerlaubnis"), rs.getString("Erstpruefung"),
 						rs.getString("Pruefungszeitpunkt1"), rs.getString("Kommentar1"), rs.getString("Zweitpruefung"),
@@ -756,8 +780,7 @@ public class FahrerDatenMaske extends JFrame {
 
 		JLabel lblBackground_2 = new JLabel("");
 		try {
-			lblBackground_2.setIcon(new ImageIcon(
-					ImageIO.read(getClass().getResource("/res/Vorschlag1.jpg"))));
+			lblBackground_2.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/res/Vorschlag1.jpg"))));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -923,7 +946,7 @@ public class FahrerDatenMaske extends JFrame {
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query = "Select * from FuhrparkTest";
+			String query = "Select * from Fuhrpark";
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			while (rs.next()) {

@@ -163,7 +163,7 @@ public class LoginMaske extends JFrame {
 						System.exit(0);
 					} else {
 						int id = rs.getInt("ID");
-						Class.forName("com.mssql.jdbc.Driver");
+//						Class.forName("com.mssql.jdbc.Driver");
 						String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 						conn = DriverManager.getConnection(url);
 						String query = "UPDATE Login SET Passwort=?, PWAendern=? WHERE ID="

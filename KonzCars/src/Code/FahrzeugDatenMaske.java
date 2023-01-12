@@ -1218,16 +1218,16 @@ public class FahrzeugDatenMaske extends JFrame {
 
 								item[0] = strings.nextElement().toString();
 								
-								String qry2 = "UPDATE Fuhrpark SET Fahrer = '' where Fahrer = " + item[0];
+//								String qry2 = "UPDATE Fuhrpark SET Fahrer = '' where Fahrer = " + item[0];
 								String qry3 = "UPDATE Fahrer set FahrzeugID = " + id + " where ID =" + item[0];
 								
 								String qry4 = "UPDATE Fuhrpark SET Fahrer = " + item[0] + " where ID = " + id;
 								
-								PreparedStatement pst2 = conn.prepareStatement(qry2);
+//								PreparedStatement pst2 = conn.prepareStatement(qry2);
 								PreparedStatement pst3 = conn.prepareStatement(qry3);
 								PreparedStatement pst4 = conn.prepareStatement(qry4);
 								
-								pst2.executeUpdate();
+//								pst2.executeUpdate();
 								pst3.executeUpdate();
 								pst4.executeUpdate();
 							}

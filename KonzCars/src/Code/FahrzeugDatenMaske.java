@@ -751,12 +751,13 @@ public class FahrzeugDatenMaske extends JFrame {
 		contentPane.add(chkbxFahrerlaubnis);
 
 		fuelleArrayList(array);
-		String[] a = new String[array.size() + 1];
+		String[] a = new String[array.size() + 2];
 
 		a[0] = "";
+		a[1] = "Poolfahrzeug";
 
-		for (int i = 1; i < a.length; i++) {
-			a[i] = array.get(i - 1);
+		for (int i = 2; i < a.length; i++) {
+			a[i] = array.get(i - 2);
 		}
 
 		comboBox = new JComboBox<Object>(a);
@@ -1211,7 +1212,7 @@ public class FahrzeugDatenMaske extends JFrame {
 
 							String item[] = new String[1];
 							
-							if(!selectedItem.equals("")) {
+							if(!selectedItem.equals("") && !selectedItem.equals("Poolfahrzeug")) {
 								StringTokenizer strings = new StringTokenizer(selectedItem, ",");
 
 
@@ -1230,6 +1231,8 @@ public class FahrzeugDatenMaske extends JFrame {
 								pst3.executeUpdate();
 								pst4.executeUpdate();
 							}
+							
+							
 
 							PreparedStatement pst1 = conn.prepareStatement(qry1);
 							
@@ -1244,6 +1247,11 @@ public class FahrzeugDatenMaske extends JFrame {
 							pst1.setString(9, tfAbmeldedatum.getText());
 							if (selectedItem.equals("")) {
 								pst1.setString(10, "");
+							} else {
+								pst1.setString(10, item[0]);
+							}
+							if (selectedItem.equals("Poolfahrzeug")) {
+								pst1.setString(10, "Poolfahrzeug");
 							} else {
 								pst1.setString(10, item[0]);
 							}

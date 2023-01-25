@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import java.awt.Color;
 
@@ -42,6 +43,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -54,6 +57,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.util.Properties;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 
 public class FahrerDatenMaske extends JFrame {
 
@@ -140,7 +144,7 @@ public class FahrerDatenMaske extends JFrame {
 		});
 		tfSuche.setBackground(UIManager.getColor("CheckBox.background"));
 		tfSuche.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfSuche.setBounds(10, 26, 964, 19);
+		tfSuche.setBounds(10, 26, 866, 19);
 		contentPane.add(tfSuche);
 		tfSuche.setColumns(10);
 
@@ -148,7 +152,7 @@ public class FahrerDatenMaske extends JFrame {
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnClear.setFocusPainted(false);
 		btnClear.setBackground(SystemColor.inactiveCaption);
-		btnClear.setBounds(974, 26, 19, 18);
+		btnClear.setBounds(875, 27, 19, 18);
 		btnClear.setMargin(new Insets(0, 0, 0, 0));
 		contentPane.add(btnClear);
 
@@ -332,6 +336,7 @@ public class FahrerDatenMaske extends JFrame {
 		wichtigTf(tfNlNr);
 
 		JButton btn_Anlegen = new JButton("Anlegen");
+		btn_Anlegen.setIcon(null);
 		btn_Anlegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modus = "anlegen";
@@ -360,7 +365,7 @@ public class FahrerDatenMaske extends JFrame {
 			}
 		});
 
-		JButton btn_Loeschen = new JButton("New button");
+		JButton btn_Loeschen = new JButton("L\u00F6schen");
 		btn_Loeschen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -409,16 +414,50 @@ public class FahrerDatenMaske extends JFrame {
 			}
 		});
 
-		btn_Anlegen.setBounds(1102, 2, 45, 43);
+		btn_Anlegen.setBounds(904, 26, 93, 19);
+		btn_Anlegen.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btn_Anlegen.setFocusPainted(false);
+		btn_Anlegen.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Anlegen);
-		btn_Bearbeiten.setBounds(1157, 2, 45, 43);
+		btn_Bearbeiten.setBounds(1007, 26, 93, 19);
+		btn_Bearbeiten.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btn_Bearbeiten.setFocusPainted(false);
+		btn_Bearbeiten.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Bearbeiten);
-		btn_Loeschen.setBounds(1212, 2, 45, 43);
+		btn_Loeschen.setBounds(1110, 26, 93, 19);
+		btn_Loeschen.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btn_Loeschen.setFocusPainted(false);
+		btn_Loeschen.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Loeschen);
-		btn_Dokumente.setBounds(1267, 2, 45, 43);
+		btn_Dokumente.setBounds(1212, 26, 100, 19);
+		btn_Dokumente.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btn_Dokumente.setFocusPainted(false);
+		btn_Dokumente.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Dokumente);
 
 		scrollpane(btnSave, btnClear, btnAbbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente);
+
+		JButton btnExport = new JButton("Exportieren");
+		btnExport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnExport) {
+					JFileChooser fchoose = new JFileChooser();
+					int option = fchoose.showSaveDialog(FahrerDatenMaske.this);
+					if (option == JFileChooser.APPROVE_OPTION) {
+						String name = fchoose.getSelectedFile().getName();
+						String path = fchoose.getSelectedFile().getParentFile().getPath();
+						String file = path + "\\" + name + ".xls";
+						export(tableFahrer, new File(file));
+					}
+				}
+			}
+		});
+		btnExport.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnExport.setFocusPainted(false);
+		btnExport.setEnabled(true);
+		btnExport.setBackground(SystemColor.inactiveCaption);
+		btnExport.setBounds(1132, 605, 180, 23);
+		contentPane.add(btnExport);
 
 		tableFahrer.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -771,7 +810,7 @@ public class FahrerDatenMaske extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(390, 50, 924, 574);
+		scrollPane.setBounds(390, 50, 924, 544);
 		contentPane.add(scrollPane);
 
 		JPanel panel = new JPanel();
@@ -956,5 +995,25 @@ public class FahrerDatenMaske extends JFrame {
 			JOptionPane.showMessageDialog(null, e1);
 		}
 		return arrayList;
+	}
+
+	public void export(JTable table, File file) {
+		try {
+			TableModel m = table.getModel();
+			FileWriter fw = new FileWriter(file);
+			for (int i = 0; i < m.getColumnCount(); i++) {
+				fw.write(m.getColumnName(i) + "\t");
+			}
+			fw.write("\n");
+			for (int i = 0; i < m.getRowCount(); i++) {
+				for (int j = 0; j < m.getColumnCount(); j++) {
+					fw.write(m.getValueAt(i, j).toString() + "\t");
+				}
+				fw.write("\n");
+			}
+			fw.close();
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 }

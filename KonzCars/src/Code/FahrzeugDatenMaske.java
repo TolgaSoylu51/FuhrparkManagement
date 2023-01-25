@@ -167,7 +167,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		tfSuche.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfSuche.setColumns(10);
 		tfSuche.setBackground(SystemColor.menu);
-		tfSuche.setBounds(10, 26, 1064, 19);
+		tfSuche.setBounds(10, 26, 877, 19);
 		contentPane.add(tfSuche);
 
 		btnSave = new JButton("Speichern");
@@ -182,7 +182,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnClear.setFocusPainted(false);
 		btnClear.setBackground(SystemColor.inactiveCaption);
-		btnClear.setBounds(1074, 26, 20, 18);
+		btnClear.setBounds(885, 27, 20, 18);
 		btnClear.setMargin(new Insets(0, 0, 0, 0));
 		contentPane.add(btnClear);
 
@@ -872,7 +872,7 @@ public class FahrzeugDatenMaske extends JFrame {
 			}
 		});
 
-		JButton btn_Loeschen = new JButton("New button");
+		JButton btn_Loeschen = new JButton("L\u00F6schen");
 		btn_Loeschen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -922,13 +922,25 @@ public class FahrzeugDatenMaske extends JFrame {
 			}
 		});
 
-		btn_Anlegen.setBounds(1102, 2, 45, 43);
+		btn_Anlegen.setBounds(919, 27, 91, 19);
+		btn_Anlegen.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btn_Anlegen.setFocusPainted(false);
+		btn_Anlegen.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Anlegen);
-		btn_Bearbeiten.setBounds(1157, 2, 45, 43);
+		btn_Bearbeiten.setBounds(1020, 27, 91, 19);
+		btn_Bearbeiten.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btn_Bearbeiten.setFocusPainted(false);
+		btn_Bearbeiten.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Bearbeiten);
-		btn_Loeschen.setBounds(1212, 2, 45, 43);
+		btn_Loeschen.setBounds(1121, 27, 91, 19);
+		btn_Loeschen.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btn_Loeschen.setFocusPainted(false);
+		btn_Loeschen.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Loeschen);
-		btn_Dokumente.setBounds(1267, 2, 45, 43);
+		btn_Dokumente.setBounds(1222, 27, 91, 19);
+		btn_Dokumente.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btn_Dokumente.setFocusPainted(false);
+		btn_Dokumente.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Dokumente);
 
 		scrollpane(btnSave, btnClear, btnAbbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente);

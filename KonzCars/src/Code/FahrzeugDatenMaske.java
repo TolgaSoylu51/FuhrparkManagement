@@ -919,6 +919,7 @@ public class FahrzeugDatenMaske extends JFrame {
 				}
 				herkunft_ueber_fahrzeug = true;
 				DokumenteMaske frame = new DokumenteMaske();
+				frame.setResizable(false);
 				frame.setVisible(true);
 			}
 		});
@@ -943,9 +944,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		btn_Dokumente.setFocusPainted(false);
 		btn_Dokumente.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Dokumente);
-
-		scrollpane(btnSave, btnClear, btnAbbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente, lblWartung, lblFoliert, lblUVV, lblFahrerunterweisung, lblWerkstatteinrichtung, lblBelueftung);
-
+		
 		btnExport = new JButton("Exportieren");
 		btnExport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -966,6 +965,8 @@ public class FahrzeugDatenMaske extends JFrame {
 		btnExport.setBackground(SystemColor.inactiveCaption);
 		btnExport.setBounds(1134, 605, 180, 23);
 		contentPane.add(btnExport);
+
+		scrollpane(btnSave, btnClear, btnAbbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente, btnExport /*,lblWartung, lblFoliert, lblUVV, lblFahrerunterweisung, lblWerkstatteinrichtung, lblBelueftung*/);
 
 		tableFahrzeuge.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1753,7 +1754,7 @@ public class FahrzeugDatenMaske extends JFrame {
 	}
 
 	public void scrollpane(JButton btnSave, JButton btnClear, JButton btn_Abbrechen, JButton btn_Anlegen,
-			JButton btn_Bearbeiten, JButton btn_Loeschen, JButton btn_Dokumente, JLabel lblWartung, JLabel lblFoliert, JLabel lblUVV, JLabel lblFahrerunterweisung, JLabel lblWerkstatteinrichtung, JLabel lblBelueftung) {
+			JButton btn_Bearbeiten, JButton btn_Loeschen, JButton btn_Dokumente, JButton btnExport /*, JLabel lblWartung, JLabel lblFoliert, JLabel lblUVV, JLabel lblFahrerunterweisung, JLabel lblWerkstatteinrichtung, JLabel lblBelueftung*/) {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -1772,34 +1773,34 @@ public class FahrzeugDatenMaske extends JFrame {
 			e.printStackTrace();
 		}
 
-		addWindowStateListener(new WindowStateListener() {
-			public void windowStateChanged(final WindowEvent evt) {
-				if (evt.getNewState() == MAXIMIZED_BOTH) {
-					
-					scrollPane.setBounds(621, 50, 1288, 926);
-					btnSave.setBounds(10, 986, 180, 23);
-					btnExport.setBounds(1727, 986, 180, 23);
-					btn_Abbrechen.setBounds(430, 986, 180, 23);
-					btn_Anlegen.setBounds(1498, 25, 93, 19);
-					btn_Bearbeiten.setBounds(1603, 25, 93, 19);
-					btn_Loeschen.setBounds(1707, 25, 93, 19);
-					btn_Dokumente.setBounds(1810, 25, 93, 19);
-					btnClear.setBounds(1470, 26, 19, 18);
-					tfSuche.setBounds(10, 26, 1460, 19);
-					lblWartung.setBounds(10, 959, 45, 13);
-					lblFoliert.setBounds(95, 959, 35, 13);
-					lblUVV.setBounds(170, 959, 20, 13);
-					lblFahrerunterweisung.setBounds(230, 959, 70, 13);
-					lblWerkstatteinrichtung.setBounds(340, 959, 70, 13);
-					lblBelueftung.setBounds(450, 959, 50, 13);
-					chkbxWartung.setBounds(60, 956, 20, 20);
-					chkbxFoliert.setBounds(135, 956, 20, 20);
-					chkbxUVV.setBounds(195, 956, 20, 20);
-					chkbxFahrerunterweisung.setBounds(305, 956, 20, 20);
-					chkbxWerkstatteinrichtung.setBounds(415, 956, 20, 20);
-					chkbxBelueftung.setBounds(505, 956, 20, 20);
-
-				} else {
+//		addWindowStateListener(new WindowStateListener() {
+//			public void windowStateChanged(final WindowEvent evt) {
+//				if (evt.getNewState() == MAXIMIZED_BOTH) {
+//					
+//					scrollPane.setBounds(621, 50, 1288, 926);
+//					btnSave.setBounds(10, 986, 180, 23);
+//					btnExport.setBounds(1727, 986, 180, 23);
+//					btn_Abbrechen.setBounds(430, 986, 180, 23);
+//					btn_Anlegen.setBounds(1498, 25, 93, 19);
+//					btn_Bearbeiten.setBounds(1603, 25, 93, 19);
+//					btn_Loeschen.setBounds(1707, 25, 93, 19);
+//					btn_Dokumente.setBounds(1810, 25, 93, 19);
+//					btnClear.setBounds(1470, 26, 19, 18);
+//					tfSuche.setBounds(10, 26, 1460, 19);
+//					lblWartung.setBounds(10, 959, 45, 13);
+//					lblFoliert.setBounds(95, 959, 35, 13);
+//					lblUVV.setBounds(170, 959, 20, 13);
+//					lblFahrerunterweisung.setBounds(230, 959, 70, 13);
+//					lblWerkstatteinrichtung.setBounds(340, 959, 70, 13);
+//					lblBelueftung.setBounds(450, 959, 50, 13);
+//					chkbxWartung.setBounds(60, 956, 20, 20);
+//					chkbxFoliert.setBounds(135, 956, 20, 20);
+//					chkbxUVV.setBounds(195, 956, 20, 20);
+//					chkbxFahrerunterweisung.setBounds(305, 956, 20, 20);
+//					chkbxWerkstatteinrichtung.setBounds(415, 956, 20, 20);
+//					chkbxBelueftung.setBounds(505, 956, 20, 20);
+//
+//				} else {
 					
 					btnExport.setBounds(1132, 605, 180, 23);
 					btn_Anlegen.setBounds(904, 25, 93, 19);
@@ -1811,9 +1812,9 @@ public class FahrzeugDatenMaske extends JFrame {
 					btnAbbrechen.setBounds(432, 605, 180, 23);
 					btnClear.setBounds(876, 26, 19, 18);
 					tfSuche.setBounds(10, 26, 866, 19);
-				}
-			}
-		});
+//				}
+//			}
+//		});
 	}
 
 	public void wichtigTf(JTextField tf) {

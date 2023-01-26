@@ -74,6 +74,7 @@ public class Hauptmenue extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				FahrerDatenMaske frame = new FahrerDatenMaske();
+				frame.setResizable(false);
 				ImageIcon icon = null;
 				try {
 					icon = new ImageIcon(
@@ -93,6 +94,7 @@ public class Hauptmenue extends JFrame {
 				int key_pressed = e.getKeyCode();
 				if (key_pressed == KeyEvent.VK_ENTER) {
 					FahrerDatenMaske frame = new FahrerDatenMaske();
+					frame.setResizable(false);
 					ImageIcon icon = null;
 					try {
 						icon = new ImageIcon(
@@ -117,6 +119,7 @@ public class Hauptmenue extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FahrzeugDatenMaske frame = new FahrzeugDatenMaske();
+				frame.setResizable(false);
 				ImageIcon icon = null;
 				try {
 					icon = new ImageIcon(
@@ -135,6 +138,7 @@ public class Hauptmenue extends JFrame {
 				int key_pressed = e.getKeyCode();
 				if (key_pressed == KeyEvent.VK_ENTER) {
 					FahrzeugDatenMaske frame = new FahrzeugDatenMaske();
+					frame.setResizable(false);
 					ImageIcon icon = null;
 					try {
 						icon = new ImageIcon(

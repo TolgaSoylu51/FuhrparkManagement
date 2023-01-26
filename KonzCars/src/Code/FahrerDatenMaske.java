@@ -409,6 +409,7 @@ public class FahrerDatenMaske extends JFrame {
 						.getValueAt(tableFahrer.convertRowIndexToModel(tableFahrer.getSelectedRow()), 0).toString();
 				herkunft_ueber_fahrzeug = true;
 				DokumenteMaske frame = new DokumenteMaske();
+				frame.setResizable(false);
 				frame.setVisible(true);
 			}
 		});
@@ -707,7 +708,7 @@ public class FahrerDatenMaske extends JFrame {
 						modus = "";
 						JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 
-						sendEmail();
+//						sendEmail();
 						show_hinzugefuegten_fahrer();
 
 						// JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
@@ -824,21 +825,21 @@ public class FahrerDatenMaske extends JFrame {
 			e.printStackTrace();
 		}
 
-		addWindowStateListener(new WindowStateListener() {
-			public void windowStateChanged(final WindowEvent evt) {
-				if (evt.getNewState() == MAXIMIZED_BOTH) {
-					scrollPane.setBounds(390, 50, 1518, 926);
-					btnSave.setBounds(10, 986, 180, 23);
-					btnExport.setBounds(1727, 986, 180, 23);
-					btn_Abbrechen.setBounds(200, 986, 180, 23);
-					btn_Anlegen.setBounds(1498, 25, 93, 19);
-					btn_Bearbeiten.setBounds(1603, 25, 93, 19);
-					btn_Loeschen.setBounds(1707, 25, 93, 19);
-					btn_Dokumente.setBounds(1810, 25, 93, 19);
-					btnClear.setBounds(1470, 26, 19, 18);
-					tfSuche.setBounds(10, 26, 1460, 19);
-
-				} else {
+//		addWindowStateListener(new WindowStateListener() {
+//			public void windowStateChanged(final WindowEvent evt) {
+//				if (evt.getNewState() == MAXIMIZED_BOTH) {
+//					scrollPane.setBounds(390, 50, 1518, 926);
+//					btnSave.setBounds(10, 986, 180, 23);
+//					btnExport.setBounds(1727, 986, 180, 23);
+//					btn_Abbrechen.setBounds(200, 986, 180, 23);
+//					btn_Anlegen.setBounds(1498, 25, 93, 19);
+//					btn_Bearbeiten.setBounds(1603, 25, 93, 19);
+//					btn_Loeschen.setBounds(1707, 25, 93, 19);
+//					btn_Dokumente.setBounds(1810, 25, 93, 19);
+//					btnClear.setBounds(1470, 26, 19, 18);
+//					tfSuche.setBounds(10, 26, 1460, 19);
+//
+//				} else {
 					
 					btnExport.setBounds(1132, 605, 180, 23);
 					btn_Anlegen.setBounds(904, 25, 93, 19);
@@ -850,9 +851,9 @@ public class FahrerDatenMaske extends JFrame {
 					btn_Abbrechen.setBounds(200, 605, 180, 23);
 					btnClear.setBounds(876, 26, 19, 18);
 					tfSuche.setBounds(10, 26, 866, 19);
-				}
-			}
-		});
+//				}
+//			}
+//		});
 	}
 
 	public static void show_hinzugefuegten_fahrer() {
@@ -892,58 +893,58 @@ public class FahrerDatenMaske extends JFrame {
 		}
 	}
 
-	private static Message prepareMessage(Session session, String myAccount, String empfaenger) throws Exception {
-		Message message = new MimeMessage(session);
-
-		message.setFrom(new InternetAddress(myAccount));
-		message.setRecipient(Message.RecipientType.TO, new InternetAddress(empfaenger));
-		message.setSubject("Fuhrpark Management System");
-
-		// Multipart-Message ("Wrapper") erstellen
-		Multipart multipart = new MimeMultipart();
-		// Body-Part setzen:
-		BodyPart messageBodyPart = new MimeBodyPart();
-		// Textteil des Body-Parts
-		messageBodyPart.setText("Der Fahrer\nPersonalnummer: " + tfPersonalnummer.getText() + "\nVorname: "
-				+ tfVorname.getText() + "\nNachname: " + tfNachname.getText() + "\nFirmaNr: " + tfFirmaNr.getText()
-				+ "\nNiederlassungsnummer: " + tfNlNr.getText() + "\nwurde angelegt");
-		// Body-Part dem Multipart-Wrapper hinzufuegen
-		multipart.addBodyPart(messageBodyPart);
-		// Message fertigstellen, indem sie mit dem Multipart-Content ausgestattet wird
-		message.setContent(multipart);
-
-		return message;
-	}
-
-	public void sendEmail() {
-		Properties properties = new Properties();
-		properties.put("mail.smtp.ssl.trust", "true");
-		properties.put("mail.smtp.auth", "true");
-		properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
-		properties.put("mail.smtp.starttls.enable", "true");
-		properties.put("mail.smtp.host", "smtp-mail.outlook.com");
-		properties.put("mail.smtp.port", "587");
-
-		String myAccount = "konzcars@konzmann.de";
-		String myPassword = "KnzCars#2022";
-		String empfaenger = "tolga.soylu@konzmann.de";
-
-		Session session = Session.getInstance(properties, new Authenticator() {
-			@Override
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(myAccount, myPassword);
-			}
-		});
-
-		// Message-Objekt erzeugen und senden!
-		try {
-			Message message = prepareMessage(session, myAccount, empfaenger);
-			Transport.send(message); // E-Mail senden!
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
+//	private static Message prepareMessage(Session session, String myAccount, String empfaenger) throws Exception {
+//		Message message = new MimeMessage(session);
+//
+//		message.setFrom(new InternetAddress(myAccount));
+//		message.setRecipient(Message.RecipientType.TO, new InternetAddress(empfaenger));
+//		message.setSubject("Fuhrpark Management System");
+//
+//		// Multipart-Message ("Wrapper") erstellen
+//		Multipart multipart = new MimeMultipart();
+//		// Body-Part setzen:
+//		BodyPart messageBodyPart = new MimeBodyPart();
+//		// Textteil des Body-Parts
+//		messageBodyPart.setText("Der Fahrer\nPersonalnummer: " + tfPersonalnummer.getText() + "\nVorname: "
+//				+ tfVorname.getText() + "\nNachname: " + tfNachname.getText() + "\nFirmaNr: " + tfFirmaNr.getText()
+//				+ "\nNiederlassungsnummer: " + tfNlNr.getText() + "\nwurde angelegt");
+//		// Body-Part dem Multipart-Wrapper hinzufuegen
+//		multipart.addBodyPart(messageBodyPart);
+//		// Message fertigstellen, indem sie mit dem Multipart-Content ausgestattet wird
+//		message.setContent(multipart);
+//
+//		return message;
+//	}
+//
+//	public void sendEmail() {
+//		Properties properties = new Properties();
+//		properties.put("mail.smtp.ssl.trust", "true");
+//		properties.put("mail.smtp.auth", "true");
+//		properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+//		properties.put("mail.smtp.starttls.enable", "true");
+//		properties.put("mail.smtp.host", "smtp-mail.outlook.com");
+//		properties.put("mail.smtp.port", "587");
+//
+//		String myAccount = "konzcars@konzmann.de";
+//		String myPassword = "KnzCars#2022";
+//		String empfaenger = "tolga.soylu@konzmann.de";
+//
+//		Session session = Session.getInstance(properties, new Authenticator() {
+//			@Override
+//			protected PasswordAuthentication getPasswordAuthentication() {
+//				return new PasswordAuthentication(myAccount, myPassword);
+//			}
+//		});
+//
+//		// Message-Objekt erzeugen und senden!
+//		try {
+//			Message message = prepareMessage(session, myAccount, empfaenger);
+//			Transport.send(message); // E-Mail senden!
+//		} catch (Exception e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//	}
 
 	public void setAllFields(boolean wert) {
 		tfPersonalnummer.setEnabled(wert);

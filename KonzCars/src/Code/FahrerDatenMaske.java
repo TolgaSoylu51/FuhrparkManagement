@@ -19,7 +19,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Authenticator;
-import java.net.PasswordAuthentication;
+import javax.mail.PasswordAuthentication;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -825,21 +825,21 @@ public class FahrerDatenMaske extends JFrame {
 			e.printStackTrace();
 		}
 
-//		addWindowStateListener(new WindowStateListener() {
-//			public void windowStateChanged(final WindowEvent evt) {
-//				if (evt.getNewState() == MAXIMIZED_BOTH) {
-//					scrollPane.setBounds(390, 50, 1518, 926);
-//					btnSave.setBounds(10, 986, 180, 23);
-//					btnExport.setBounds(1727, 986, 180, 23);
-//					btn_Abbrechen.setBounds(200, 986, 180, 23);
-//					btn_Anlegen.setBounds(1498, 25, 93, 19);
-//					btn_Bearbeiten.setBounds(1603, 25, 93, 19);
-//					btn_Loeschen.setBounds(1707, 25, 93, 19);
-//					btn_Dokumente.setBounds(1810, 25, 93, 19);
-//					btnClear.setBounds(1470, 26, 19, 18);
-//					tfSuche.setBounds(10, 26, 1460, 19);
-//
-//				} else {
+		addWindowStateListener(new WindowStateListener() {
+			public void windowStateChanged(final WindowEvent evt) {
+				if (evt.getNewState() == MAXIMIZED_BOTH) {
+					scrollPane.setBounds(390, 50, 1518, 926);
+					btnSave.setBounds(10, 986, 180, 23);
+					btnExport.setBounds(1727, 986, 180, 23);
+					btn_Abbrechen.setBounds(200, 986, 180, 23);
+					btn_Anlegen.setBounds(1498, 25, 93, 19);
+					btn_Bearbeiten.setBounds(1603, 25, 93, 19);
+					btn_Loeschen.setBounds(1707, 25, 93, 19);
+					btn_Dokumente.setBounds(1810, 25, 93, 19);
+					btnClear.setBounds(1470, 26, 19, 18);
+					tfSuche.setBounds(10, 26, 1460, 19);
+
+				} else {
 					
 					btnExport.setBounds(1132, 605, 180, 23);
 					btn_Anlegen.setBounds(904, 25, 93, 19);
@@ -851,9 +851,9 @@ public class FahrerDatenMaske extends JFrame {
 					btn_Abbrechen.setBounds(200, 605, 180, 23);
 					btnClear.setBounds(876, 26, 19, 18);
 					tfSuche.setBounds(10, 26, 866, 19);
-//				}
-//			}
-//		});
+				}
+			}
+		});
 	}
 
 	public static void show_hinzugefuegten_fahrer() {
@@ -928,13 +928,28 @@ public class FahrerDatenMaske extends JFrame {
 //		String myAccount = "konzcars@konzmann.de";
 //		String myPassword = "KnzCars#2022";
 //		String empfaenger = "tolga.soylu@konzmann.de";
-//
+//		
+//		PasswordAuthentication pw = new PasswordAuthentication(myAccount, myPassword);
+//		
+//		Authenticator myAuth = new Authenticator() 
+//		{
+//		    @Override
+//		    protected PasswordAuthentication getPasswordAuthentication()
+//		    {
+//		        return new PasswordAuthentication("german", "german");
+//		    }
+//		};
+//		
+//		Authenticator.setDefault(myAuth);
+//		
 //		Session session = Session.getInstance(properties, new Authenticator() {
 //			@Override
-//			protected PasswordAuthentication getPasswordAuthentication() {
+//			protected java.net.PasswordAuthentication getPasswordAuthentication() {
 //				return new PasswordAuthentication(myAccount, myPassword);
 //			}
 //		});
+//		
+//		
 //
 //		// Message-Objekt erzeugen und senden!
 //		try {

@@ -24,6 +24,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import javax.imageio.ImageIO;
@@ -889,9 +890,12 @@ public class FahrzeugDatenMaske extends JFrame {
 						String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 						conn = DriverManager.getConnection(url);
 						String query = "DELETE FROM Fuhrpark WHERE ID=" + id;
+						String query2 = "UPDATE Fahrer SET FahrzeugID = '' where FahrzeugID =" + id;
 						PreparedStatement pst = conn.prepareStatement(query);
+						PreparedStatement pst2 = conn.prepareStatement(query2);
 
 						pst.executeUpdate();
+						pst2.executeUpdate();
 
 						show_aktualisiertes_fahrzeug();
 						vergleichsliste = fahrzeug();
@@ -923,7 +927,7 @@ public class FahrzeugDatenMaske extends JFrame {
 				frame.setVisible(true);
 			}
 		});
-		
+
 		btn_Anlegen.setBounds(904, 26, 93, 19);
 		btn_Anlegen.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btn_Anlegen.setFocusPainted(false);
@@ -944,7 +948,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		btn_Dokumente.setFocusPainted(false);
 		btn_Dokumente.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Dokumente);
-		
+
 		btnExport = new JButton("Exportieren");
 		btnExport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -966,7 +970,11 @@ public class FahrzeugDatenMaske extends JFrame {
 		btnExport.setBounds(1134, 605, 180, 23);
 		contentPane.add(btnExport);
 
-		scrollpane(btnSave, btnClear, btnAbbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente, btnExport /*,lblWartung, lblFoliert, lblUVV, lblFahrerunterweisung, lblWerkstatteinrichtung, lblBelueftung*/);
+		scrollpane(btnSave, btnClear, btnAbbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente,
+				btnExport /*
+							 * ,lblWartung, lblFoliert, lblUVV, lblFahrerunterweisung,
+							 * lblWerkstatteinrichtung, lblBelueftung
+							 */);
 
 		tableFahrzeuge.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1225,31 +1233,28 @@ public class FahrzeugDatenMaske extends JFrame {
 							String selectedItem = object.toString();
 
 							String item[] = new String[1];
-							
-							if(!selectedItem.equals("") && !selectedItem.equals("Poolfahrzeug")) {
+
+							if (!selectedItem.equals("") && !selectedItem.equals("Poolfahrzeug")) {
 								StringTokenizer strings = new StringTokenizer(selectedItem, ",");
 
-
 								item[0] = strings.nextElement().toString();
-								
+
 //								String qry2 = "UPDATE Fuhrpark SET Fahrer = '' where Fahrer = " + item[0];
 								String qry3 = "UPDATE Fahrer set FahrzeugID = " + id + " where ID =" + item[0];
-								
+
 								String qry4 = "UPDATE Fuhrpark SET Fahrer = " + item[0] + " where ID = " + id;
-								
+
 //								PreparedStatement pst2 = conn.prepareStatement(qry2);
 								PreparedStatement pst3 = conn.prepareStatement(qry3);
 								PreparedStatement pst4 = conn.prepareStatement(qry4);
-								
+
 //								pst2.executeUpdate();
 								pst3.executeUpdate();
 								pst4.executeUpdate();
 							}
-							
-							
 
 							PreparedStatement pst1 = conn.prepareStatement(qry1);
-							
+
 							pst1.setString(1, tfIdentNr.getText());
 							pst1.setString(2, tfFirmaNr.getText());
 							pst1.setString(3, tfNL.getText());
@@ -1259,15 +1264,18 @@ public class FahrzeugDatenMaske extends JFrame {
 							pst1.setString(7, tfamtl_Kennzeichen.getText());
 							pst1.setString(8, tfErstzulassung.getText());
 							pst1.setString(9, tfAbmeldedatum.getText());
-							if (selectedItem.equals("")) {
-								pst1.setString(10, "");
-							} else {
-								pst1.setString(10, item[0]);
-							}
-							if (selectedItem.equals("Poolfahrzeug")) {
-								pst1.setString(10, "Poolfahrzeug");
-							} else {
-								pst1.setString(10, item[0]);
+							try {
+								if (selectedItem.equals("")) {
+									pst1.setString(10, "");
+								} else {
+									pst1.setString(10, item[0]);
+								}
+								if (selectedItem.equals("Poolfahrzeug")) {
+									pst1.setString(10, "Poolfahrzeug");
+								} else {
+									pst1.setString(10, item[0]);
+								}
+							} catch (Exception e2) {
 							}
 							pst1.setString(11, tfFahrer2.getText());
 							pst1.setString(12, tfFinanzstatus.getText());
@@ -1385,7 +1393,11 @@ public class FahrzeugDatenMaske extends JFrame {
 							} catch (IndexOutOfBoundsException e1) {
 								//
 							}
-							pst1.executeUpdate();
+							try {
+								pst1.executeUpdate();
+							} catch (Exception e3) {
+
+							}
 
 							String query5 = "UPDATE Fahrer SET Erstpruefung=" + checkPruefung1 + ", Zweitpruefung="
 									+ checkPruefung2 + ", Fahrerlaubnis=" + checkFahrerlaubnis + " WHERE ID=" + item[0];
@@ -1459,18 +1471,28 @@ public class FahrzeugDatenMaske extends JFrame {
 
 						String item[] = new String[1];
 
-						item[0] = strings.nextElement().toString();
+						if (!selectedItem.equals("") && !selectedItem.equals("Poolfahrzeug")) {
+							StringTokenizer strings2 = new StringTokenizer(selectedItem, ",");
 
-						String qry2 = "UPDATE Fuhrpark SET Fahrer = '' where Fahrer = " + item[0];
-						String qry3 = "UPDATE Fuhrpark SET Fahrer = " + item[0] + " where ID = " + id;
+							item[0] = strings2.nextElement().toString();
+							
+							String qry2 = "UPDATE Fuhrpark SET Fahrer = '' where Fahrer = " + item[0];
+							String qry3 = "UPDATE Fuhrpark SET Fahrer = " + item[0] + " where ID = " + id;
+							String qry5 = "UPDATE Fahrer SET FahrzeugID = " + id + " where ID =" + item[0];
+							
+							PreparedStatement pst2 = conn.prepareStatement(qry2);
+							PreparedStatement pst3 = conn.prepareStatement(qry3);
+							PreparedStatement pst5 = conn.prepareStatement(qry5);
+							
+							pst2.executeUpdate();
+							pst3.executeUpdate();
+							pst5.executeUpdate();
+						}
+
 						String qry4 = "UPDATE Fahrer SET FahrzeugID = '' where FahrzeugID = " + id;
-						String qry5 = "UPDATE Fahrer SET FahrzeugID = " + id + " where ID =" + item[0];
 
 						PreparedStatement pst1 = conn.prepareStatement(qry1);
-						PreparedStatement pst2 = conn.prepareStatement(qry2);
-						PreparedStatement pst3 = conn.prepareStatement(qry3);
 						PreparedStatement pst4 = conn.prepareStatement(qry4);
-						PreparedStatement pst5 = conn.prepareStatement(qry5);
 
 						for (int k = 1; k < numOfRows; k++) {
 							String checkRow = model.getValueAt(k, 1).toString();
@@ -1488,7 +1510,17 @@ public class FahrzeugDatenMaske extends JFrame {
 						pst1.setString(7, tfamtl_Kennzeichen.getText());
 						pst1.setString(8, tfErstzulassung.getText());
 						pst1.setString(9, tfAbmeldedatum.getText());
-						pst1.setString(10, item[0]);
+						if (selectedItem.equals("")) {
+							pst1.setString(10, "");
+						} else {
+							pst1.setString(10, item[0]);
+						}
+						if (selectedItem.equals("Poolfahrzeug")) {
+							pst1.setString(10, "Poolfahrzeug");
+						} else {
+							pst1.setString(10, item[0]);
+						}
+//						pst1.setString(10, item[0]);
 						pst1.setString(11, tfFahrer2.getText());
 						pst1.setString(12, tfFinanzstatus.getText());
 						pst1.setString(13, tfBank_Leasinggesellschaft.getText());
@@ -1599,11 +1631,12 @@ public class FahrzeugDatenMaske extends JFrame {
 						}
 						pst1.setInt(41, 0);
 
-						pst1.executeUpdate();
-						pst2.executeUpdate();
-						pst3.executeUpdate();
-						pst4.executeUpdate();
-						pst5.executeUpdate();
+						try {
+							pst1.executeUpdate();
+							pst4.executeUpdate();
+						} catch (Exception e4) {
+
+						}
 
 						String qry6 = "UPDATE Fahrer SET Erstpruefung=" + checkPruefung1 + ", Zweitpruefung="
 								+ checkPruefung2 + ", Fahrerlaubnis=" + checkFahrerlaubnis + " WHERE ID=" + item[0];
@@ -1754,7 +1787,11 @@ public class FahrzeugDatenMaske extends JFrame {
 	}
 
 	public void scrollpane(JButton btnSave, JButton btnClear, JButton btn_Abbrechen, JButton btn_Anlegen,
-			JButton btn_Bearbeiten, JButton btn_Loeschen, JButton btn_Dokumente, JButton btnExport /*, JLabel lblWartung, JLabel lblFoliert, JLabel lblUVV, JLabel lblFahrerunterweisung, JLabel lblWerkstatteinrichtung, JLabel lblBelueftung*/) {
+			JButton btn_Bearbeiten, JButton btn_Loeschen, JButton btn_Dokumente,
+			JButton btnExport /*
+								 * , JLabel lblWartung, JLabel lblFoliert, JLabel lblUVV, JLabel
+								 * lblFahrerunterweisung, JLabel lblWerkstatteinrichtung, JLabel lblBelueftung
+								 */) {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -1801,17 +1838,17 @@ public class FahrzeugDatenMaske extends JFrame {
 //					chkbxBelueftung.setBounds(505, 956, 20, 20);
 //
 //				} else {
-					
-					btnExport.setBounds(1132, 605, 180, 23);
-					btn_Anlegen.setBounds(904, 25, 93, 19);
-					btn_Bearbeiten.setBounds(1007, 25, 93, 19);
-					btn_Loeschen.setBounds(1110, 25, 93, 19);
-					btn_Dokumente.setBounds(1212, 25, 100, 19);				
-					scrollPane.setBounds(621, 50, 692, 542);
-					btnSave.setBounds(10, 605, 180, 23);
-					btnAbbrechen.setBounds(432, 605, 180, 23);
-					btnClear.setBounds(876, 26, 19, 18);
-					tfSuche.setBounds(10, 26, 866, 19);
+
+		btnExport.setBounds(1132, 605, 180, 23);
+		btn_Anlegen.setBounds(904, 25, 93, 19);
+		btn_Bearbeiten.setBounds(1007, 25, 93, 19);
+		btn_Loeschen.setBounds(1110, 25, 93, 19);
+		btn_Dokumente.setBounds(1212, 25, 100, 19);
+		scrollPane.setBounds(621, 50, 692, 542);
+		btnSave.setBounds(10, 605, 180, 23);
+		btnAbbrechen.setBounds(432, 605, 180, 23);
+		btnClear.setBounds(876, 26, 19, 18);
+		tfSuche.setBounds(10, 26, 866, 19);
 //				}
 //			}
 //		});

@@ -1,7 +1,5 @@
 package Code;
 
-import java.util.Comparator;
-
 public class Fahrzeug {
 
 	private int ID;

@@ -1,3 +1,4 @@
+
 package Code;
 
 import java.awt.Color;
@@ -167,7 +168,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		tfSuche.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfSuche.setColumns(10);
 		tfSuche.setBackground(SystemColor.menu);
-		tfSuche.setBounds(10, 26, 877, 19);
+		tfSuche.setBounds(10, 26, 866, 19);
 		contentPane.add(tfSuche);
 
 		btnSave = new JButton("Speichern");
@@ -182,7 +183,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnClear.setFocusPainted(false);
 		btnClear.setBackground(SystemColor.inactiveCaption);
-		btnClear.setBounds(885, 27, 20, 18);
+		btnClear.setBounds(876, 26, 19, 18);
 		btnClear.setMargin(new Insets(0, 0, 0, 0));
 		contentPane.add(btnClear);
 
@@ -921,29 +922,29 @@ public class FahrzeugDatenMaske extends JFrame {
 				frame.setVisible(true);
 			}
 		});
-
-		btn_Anlegen.setBounds(919, 27, 91, 19);
+		
+		btn_Anlegen.setBounds(904, 26, 93, 19);
 		btn_Anlegen.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btn_Anlegen.setFocusPainted(false);
 		btn_Anlegen.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Anlegen);
-		btn_Bearbeiten.setBounds(1020, 27, 91, 19);
+		btn_Bearbeiten.setBounds(1007, 26, 93, 19);
 		btn_Bearbeiten.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btn_Bearbeiten.setFocusPainted(false);
 		btn_Bearbeiten.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Bearbeiten);
-		btn_Loeschen.setBounds(1121, 27, 91, 19);
+		btn_Loeschen.setBounds(1110, 26, 93, 19);
 		btn_Loeschen.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btn_Loeschen.setFocusPainted(false);
 		btn_Loeschen.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Loeschen);
-		btn_Dokumente.setBounds(1222, 27, 91, 19);
+		btn_Dokumente.setBounds(1212, 26, 100, 19);
 		btn_Dokumente.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btn_Dokumente.setFocusPainted(false);
 		btn_Dokumente.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Dokumente);
 
-		scrollpane(btnSave, btnClear, btnAbbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente);
+		scrollpane(btnSave, btnClear, btnAbbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente, lblWartung, lblFoliert, lblUVV, lblFahrerunterweisung, lblWerkstatteinrichtung, lblBelueftung);
 
 		btnExport = new JButton("Exportieren");
 		btnExport.addActionListener(new ActionListener() {
@@ -1752,7 +1753,7 @@ public class FahrzeugDatenMaske extends JFrame {
 	}
 
 	public void scrollpane(JButton btnSave, JButton btnClear, JButton btn_Abbrechen, JButton btn_Anlegen,
-			JButton btn_Bearbeiten, JButton btn_Loeschen, JButton btn_Dokumente) {
+			JButton btn_Bearbeiten, JButton btn_Loeschen, JButton btn_Dokumente, JLabel lblWartung, JLabel lblFoliert, JLabel lblUVV, JLabel lblFahrerunterweisung, JLabel lblWerkstatteinrichtung, JLabel lblBelueftung) {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -1774,26 +1775,42 @@ public class FahrzeugDatenMaske extends JFrame {
 		addWindowStateListener(new WindowStateListener() {
 			public void windowStateChanged(final WindowEvent evt) {
 				if (evt.getNewState() == MAXIMIZED_BOTH) {
-					scrollPane.setBounds(620, 50, 1288, 956);
+					
+					scrollPane.setBounds(621, 50, 1288, 926);
 					btnSave.setBounds(10, 986, 180, 23);
-					btn_Abbrechen.setBounds(200, 986, 180, 23);
-					btn_Anlegen.setBounds(1698, 2, 45, 43);
-					btn_Bearbeiten.setBounds(1753, 2, 45, 43);
-					btn_Loeschen.setBounds(1807, 2, 45, 43);
-					btn_Dokumente.setBounds(1862, 2, 45, 43);
-					btnClear.setBounds(1670, 26, 19, 18);
-					tfSuche.setBounds(10, 26, 1660, 19);
+					btnExport.setBounds(1727, 986, 180, 23);
+					btn_Abbrechen.setBounds(430, 986, 180, 23);
+					btn_Anlegen.setBounds(1498, 25, 93, 19);
+					btn_Bearbeiten.setBounds(1603, 25, 93, 19);
+					btn_Loeschen.setBounds(1707, 25, 93, 19);
+					btn_Dokumente.setBounds(1810, 25, 93, 19);
+					btnClear.setBounds(1470, 26, 19, 18);
+					tfSuche.setBounds(10, 26, 1460, 19);
+					lblWartung.setBounds(10, 959, 45, 13);
+					lblFoliert.setBounds(95, 959, 35, 13);
+					lblUVV.setBounds(170, 959, 20, 13);
+					lblFahrerunterweisung.setBounds(230, 959, 70, 13);
+					lblWerkstatteinrichtung.setBounds(340, 959, 70, 13);
+					lblBelueftung.setBounds(450, 959, 50, 13);
+					chkbxWartung.setBounds(60, 956, 20, 20);
+					chkbxFoliert.setBounds(135, 956, 20, 20);
+					chkbxUVV.setBounds(195, 956, 20, 20);
+					chkbxFahrerunterweisung.setBounds(305, 956, 20, 20);
+					chkbxWerkstatteinrichtung.setBounds(415, 956, 20, 20);
+					chkbxBelueftung.setBounds(505, 956, 20, 20);
 
 				} else {
-					scrollPane.setBounds(621, 50, 692, 574);
+					
+					btnExport.setBounds(1132, 605, 180, 23);
+					btn_Anlegen.setBounds(904, 25, 93, 19);
+					btn_Bearbeiten.setBounds(1007, 25, 93, 19);
+					btn_Loeschen.setBounds(1110, 25, 93, 19);
+					btn_Dokumente.setBounds(1212, 25, 100, 19);				
+					scrollPane.setBounds(621, 50, 692, 542);
 					btnSave.setBounds(10, 605, 180, 23);
-					btn_Abbrechen.setBounds(200, 605, 180, 23);
-					btn_Anlegen.setBounds(1102, 2, 45, 43);
-					btn_Bearbeiten.setBounds(1157, 2, 45, 43);
-					btn_Loeschen.setBounds(1212, 2, 45, 43);
-					btn_Dokumente.setBounds(1267, 2, 45, 43);
-					btnClear.setBounds(1074, 26, 20, 18);
-					tfSuche.setBounds(10, 26, 1064, 19);
+					btnAbbrechen.setBounds(432, 605, 180, 23);
+					btnClear.setBounds(876, 26, 19, 18);
+					tfSuche.setBounds(10, 26, 866, 19);
 				}
 			}
 		});

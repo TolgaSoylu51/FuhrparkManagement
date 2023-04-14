@@ -142,8 +142,8 @@ public class FahrzeugDatenMaske extends JFrame {
 	public static JLabel lblZeilenAnzahl;
 	public static int zeilenAnzahl;
 	
-	public static JLabel lblGewaehlteZeile;
-	public static int gewaehlteZeile;
+//	public static JLabel lblGewaehlteZeile;
+//	public static int gewaehlteZeile;
 
 	/**
 	 * Launch the application
@@ -816,10 +816,10 @@ public class FahrzeugDatenMaske extends JFrame {
 		lblZeilenAnzahl.setBounds(620, f_height -100, f_width -400, 23);
 		contentPane.add(lblZeilenAnzahl);
 		
-		lblGewaehlteZeile = new JLabel("Ausgewählte Zeile: ");
-		lblGewaehlteZeile.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblGewaehlteZeile.setBounds(660, f_height -100, f_width -400, 23);
-		contentPane.add(lblGewaehlteZeile);
+//		lblGewaehlteZeile = new JLabel("Ausgewählte Zeile: ");
+//		lblGewaehlteZeile.setFont(new Font("Tahoma", Font.PLAIN, 11));
+//		lblGewaehlteZeile.setBounds(660, f_height -100, f_width -400, 23);
+//		contentPane.add(lblGewaehlteZeile);
 		
 		fuelleArrayList(arr);
 		String[] a = new String[arr.size() + 2];

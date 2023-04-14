@@ -1,16 +1,20 @@
 package Code;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -30,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -52,12 +57,14 @@ public class DokumenteMaske extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	Dimension screenSize;
 	private static JTextField tfDokumentName;
 	private static JTextField tfZielpfad;
 	private static JTextField tfDokument;
 	int letzteZeile;
 	static ArrayList<Dokument> dokument;
 	private String id = null;
+	int f_width, f_height;
 	static Connection con = null;
 	ResultSet rs = null;
 	PreparedStatement pst = null;
@@ -69,6 +76,9 @@ public class DokumenteMaske extends JFrame {
 	static LoginMaske loginMaske;
 	private JComboBox<?> comboBox;
 	private static ArrayList<String> array = new ArrayList<String>();
+	
+	public static JLabel lblZeilenAnzahl;
+	public static int zeilenAnzahl;
 
 	/**
 	 * Launch the application.
@@ -93,13 +103,23 @@ public class DokumenteMaske extends JFrame {
 	public DokumenteMaske() {
 		setTitle("KFM Dokumente");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1278, 674);
+		
+		//screensize
+		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setSize(screenSize.width, screenSize.height);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		f_width = getWidth();
+		f_height = getHeight();
+		
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.inactiveCaptionBorder);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		f_width = getWidth();
+		f_height = getHeight();
 
 		JButton btnSave = new JButton("Anlegen");
 		btnSave.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -228,13 +248,14 @@ public class DokumenteMaske extends JFrame {
 		tfSuche.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfSuche.setColumns(10);
 		tfSuche.setBackground(SystemColor.menu);
-		tfSuche.setBounds(10, 26, 964, 19);
+		tfSuche.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		tfSuche.setBounds(10, 26, f_width -38, 19);
 		contentPane.add(tfSuche);
 
-		btnOeffnen.setBounds(356, 605, 180, 23);
+		btnOeffnen.setBounds(336, f_height -100, 180, 23);
 		contentPane.add(btnOeffnen);
 
-		btnSave.setBounds(10, 605, 180, 23);
+		btnSave.setBounds(10, f_height -100, 180, 23);
 		contentPane.add(btnSave);
 
 		tfDokumentName = new JTextField();
@@ -275,7 +296,7 @@ public class DokumenteMaske extends JFrame {
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnClear.setFocusPainted(false);
 		btnClear.setBackground(SystemColor.inactiveCaption);
-		btnClear.setBounds(974, 26, 19, 18);
+		btnClear.setBounds(f_width -28, 26, 19, 18);
 		btnClear.setMargin(new Insets(0, 0, 0, 0));
 		contentPane.add(btnClear);
 
@@ -285,10 +306,15 @@ public class DokumenteMaske extends JFrame {
 				filter(tfSuche.getText());
 			}
 		});
+		
+		lblZeilenAnzahl = new JLabel("Zeilenanzahl: ");
+		lblZeilenAnzahl.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblZeilenAnzahl.setBounds(526, f_height -100, f_width -400, 23);
+		contentPane.add(lblZeilenAnzahl);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
-		scrollPane.setBounds(356, 50, 896, 550);
+		scrollPane.setBounds(336, 50, f_width -344, f_height -158);
 		contentPane.add(scrollPane);
 
 		tableFahrer = new JTable();
@@ -354,7 +380,7 @@ public class DokumenteMaske extends JFrame {
 				show_aktualisierte_Dokument();
 			}
 		});
-		btnLoeschen.setBounds(1072, 605, 180, 23);
+		btnLoeschen.setBounds(f_width -190, f_height -100, 180, 23);
 		contentPane.add(btnLoeschen);
 
 		JButton btnDurchsuchen = new JButton("Durchsuchen");
@@ -395,6 +421,14 @@ public class DokumenteMaske extends JFrame {
 				}
 			}
 		});
+		
+		addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+            	setExtendedState(JFrame.MAXIMIZED_BOTH);
+                f_width = getWidth();
+                f_height = getHeight();
+            }
+        });
 
 		JLabel lblDokumentName = new JLabel("Name");
 		lblDokumentName.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -405,16 +439,6 @@ public class DokumenteMaske extends JFrame {
 		lblDokument.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblDokument.setBounds(10, 59, 58, 13);
 		contentPane.add(lblDokument);
-
-		JLabel lblBackground = new JLabel("");
-		try {
-			lblBackground.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/res/Vorschlag1.jpg"))));
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		lblBackground.setBounds(0, 0, 1262, 647);
-		contentPane.add(lblBackground);
 
 		show_Dokument();
 
@@ -479,6 +503,11 @@ public class DokumenteMaske extends JFrame {
 
 		return dokumentliste;
 	}
+	
+	public static void rowCount() {
+		zeilenAnzahl = tableFahrer.getRowCount();
+		lblZeilenAnzahl.setText("Zeilenanzahl: " + zeilenAnzahl);
+	}
 
 	public void filter(String str) {
 		DefaultTableModel model = (DefaultTableModel) tableFahrer.getModel();
@@ -486,6 +515,7 @@ public class DokumenteMaske extends JFrame {
 		tableFahrer.setRowSorter(rowFilter);
 
 		rowFilter.setRowFilter(RowFilter.regexFilter("(?i)" + str));
+		rowCount();
 	}
 
 	public static void show_Dokument() {
@@ -500,6 +530,7 @@ public class DokumenteMaske extends JFrame {
 			row[4] = dokument.get(i).getExtension();
 			model.addRow(row);
 		}
+		rowCount();
 	}
 
 	public static void show_aktualisierte_Dokument() {

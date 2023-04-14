@@ -74,7 +74,7 @@ public class Hauptmenue extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				FahrerDatenMaske frame = new FahrerDatenMaske();
-				frame.setResizable(false);
+//				frame.setResizable(false);
 				ImageIcon icon = null;
 				try {
 					icon = new ImageIcon(
@@ -84,6 +84,7 @@ public class Hauptmenue extends JFrame {
 					e1.printStackTrace();
 				}
 				frame.setIconImage(icon.getImage());
+				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				frame.setVisible(true);
 				setVisible(false);
 
@@ -94,7 +95,7 @@ public class Hauptmenue extends JFrame {
 				int key_pressed = e.getKeyCode();
 				if (key_pressed == KeyEvent.VK_ENTER) {
 					FahrerDatenMaske frame = new FahrerDatenMaske();
-					frame.setResizable(false);
+//					frame.setResizable(false);
 					ImageIcon icon = null;
 					try {
 						icon = new ImageIcon(
@@ -104,6 +105,7 @@ public class Hauptmenue extends JFrame {
 						e1.printStackTrace();
 					}
 					frame.setIconImage(icon.getImage());
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					frame.setVisible(true);
 					setVisible(false);
 				}
@@ -119,7 +121,7 @@ public class Hauptmenue extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FahrzeugDatenMaske frame = new FahrzeugDatenMaske();
-				frame.setResizable(false);
+//				frame.setResizable(false);
 				ImageIcon icon = null;
 				try {
 					icon = new ImageIcon(
@@ -129,6 +131,7 @@ public class Hauptmenue extends JFrame {
 					e1.printStackTrace();
 				}
 				frame.setIconImage(icon.getImage());
+				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				frame.setVisible(true);
 				setVisible(false);
 			}
@@ -138,7 +141,7 @@ public class Hauptmenue extends JFrame {
 				int key_pressed = e.getKeyCode();
 				if (key_pressed == KeyEvent.VK_ENTER) {
 					FahrzeugDatenMaske frame = new FahrzeugDatenMaske();
-					frame.setResizable(false);
+//					frame.setResizable(false);
 					ImageIcon icon = null;
 					try {
 						icon = new ImageIcon(
@@ -148,6 +151,7 @@ public class Hauptmenue extends JFrame {
 						e1.printStackTrace();
 					}
 					frame.setIconImage(icon.getImage());
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					frame.setVisible(true);
 					setVisible(false);
 				}
@@ -164,7 +168,7 @@ public class Hauptmenue extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				herkunft_ueber_hauptmenue = true;
 				DokumenteMaske frame = new DokumenteMaske();
-				frame.setResizable(false);
+//				frame.setResizable(false);
 				ImageIcon icon = null;
 				try {
 					icon = new ImageIcon(
@@ -174,6 +178,7 @@ public class Hauptmenue extends JFrame {
 					e1.printStackTrace();
 				}
 				frame.setIconImage(icon.getImage());
+				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				frame.setVisible(true);
 				setVisible(false);
 			}
@@ -183,7 +188,7 @@ public class Hauptmenue extends JFrame {
 				int key_pressed = e.getKeyCode();
 				if (key_pressed == KeyEvent.VK_ENTER) {
 					DokumenteMaske frame = new DokumenteMaske();
-					frame.setResizable(false);
+//					frame.setResizable(false);
 					ImageIcon icon = null;
 					try {
 						icon = new ImageIcon(
@@ -193,6 +198,7 @@ public class Hauptmenue extends JFrame {
 						e1.printStackTrace();
 					}
 					frame.setIconImage(icon.getImage());
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					frame.setVisible(true);
 					setVisible(false);
 				}
@@ -210,7 +216,7 @@ public class Hauptmenue extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				LoginMaske frame = new LoginMaske();
-				frame.setResizable(false);
+//				frame.setResizable(false);
 				ImageIcon icon = null;
 				try {
 					icon = new ImageIcon(
@@ -229,7 +235,7 @@ public class Hauptmenue extends JFrame {
 				int key_pressed = e.getKeyCode();
 				if (key_pressed == KeyEvent.VK_ENTER) {
 					LoginMaske frame = new LoginMaske();
-					frame.setResizable(false);
+//					frame.setResizable(false);
 					ImageIcon icon = null;
 					try {
 						icon = new ImageIcon(
@@ -239,6 +245,7 @@ public class Hauptmenue extends JFrame {
 						e1.printStackTrace();
 					}
 					frame.setIconImage(icon.getImage());
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					frame.setVisible(true);
 					setVisible(false);
 				}

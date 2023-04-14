@@ -7,7 +7,9 @@ public class Fahrer {
 	private String Name;
 	private String Vorname;
 	private String FirmaNr;
-	private int NL_Nr;
+	private String Firmenname;
+	private String NLNr;
+	private String NLName;
 	private String Fahrerlaubnis;
 	private String Erstpruefung;
 	private String Pruefungszeitpunkt1;
@@ -18,7 +20,7 @@ public class Fahrer {
 	private int Bearbeitet;
 	private String FahrzeugID;
 	
-	public Fahrer(int iD, String personalnummer, int aktivkz, String name, String vorname, String firmaNr, int nlnr,
+	public Fahrer(int iD, String personalnummer, int aktivkz, String name, String vorname, String firmaNr, String firmenname, String nlnr, String nlname,
 			String fahrerlaubnis, String erstpruefung, String pruefungszeitpunkt1, String kommentar1, String zweitpruefung,
 			String pruefungszeitpunkt2, String kommentar2, int bearbeitet, String fahrzeugID
 			) {
@@ -29,7 +31,9 @@ public class Fahrer {
 		Name = name;
 		Vorname = vorname;
 		FirmaNr = firmaNr;
-		NL_Nr = nlnr;
+		Firmenname = firmenname;
+		NLNr = nlnr;
+		NLName = nlname;
 		Fahrerlaubnis = fahrerlaubnis;
 		Erstpruefung = erstpruefung;
 		Pruefungszeitpunkt1 = pruefungszeitpunkt1;
@@ -104,13 +108,29 @@ public class Fahrer {
 	public void setFirmaNr(String firmaNr) {
 		FirmaNr = firmaNr;
 	}
-
-	public int getNL_Nr() {
-		return NL_Nr;
+	
+	public String getFirmenname() {
+		return Firmenname;
 	}
 
-	public void setNL_Nr(int nL_Nr) {
-		NL_Nr = nL_Nr;
+	public void setFirmenname(String firmenname) {
+		Firmenname = firmenname;
+	}
+
+	public String getNLNr() {
+		return NLNr;
+	}
+
+	public void setNLNr(String nlnr) {
+		NLNr = nlnr;
+	}
+	
+	public String getNLName() {
+		return NLName;
+	}
+
+	public void setNLName(String nlname) {
+		NLName = nlname;
 	}
 
 	public String getFahrerlaubnis() {

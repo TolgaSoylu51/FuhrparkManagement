@@ -3,9 +3,11 @@ package Code;
 public class Fahrzeug {
 
 	private int ID;
-	private String IdentNr;
+	private String FIN;
 	private String FirmaNr;
-	private String NL;
+	private String Firmenname;
+	private String NLNr;
+	private String NLName;
 	private String FZG_Marke;
 	private String FZG_Typ;
 	private String FZG_Bezeichnung;
@@ -45,7 +47,7 @@ public class Fahrzeug {
 	private int Fahrerlaubnis;
 	private int Bearbeitet;
 	
-	public Fahrzeug(int iD, String identNr, String FirmaNr, String NL, String FZG_Marke, String FZG_Typ, String FZG_Bezeichnung,
+	public Fahrzeug(int iD, String FIN, String FirmaNr, String Firmenname, String NLNr, String NLName, String FZG_Marke, String FZG_Typ, String FZG_Bezeichnung,
 			String amtl_Kennzeichen, String Erstzulassung, String Abmeldedatum, String Fahrer,
 			String Fahrer2, String Finanzstatus, String Bank_Leasinggesellschaft, String VertragsNr,
 			String Leasingdauer_Monate, String Verlaengerung_Monate, String Leasingrate_zzgl_MwSt_Fahrzeug,
@@ -56,9 +58,11 @@ public class Fahrzeug {
 			int UVV, int Fahrerunterweisung, int Werkstatteinrichtung, int Belueftung, int Pruefung1, int Pruefung2, int Fahrerlaubnis, int Bearbeitet) {
 		super();
 		this.ID = iD;
-		this.IdentNr = identNr;
+		this.FIN = FIN;
 		this.FirmaNr = FirmaNr;
-		this.NL = NL;
+		this.Firmenname = Firmenname;
+		this.NLNr = NLNr;
+		this.NLName = NLName;
 		this.FZG_Marke = FZG_Marke;
 		this.FZG_Typ = FZG_Typ;
 		this.FZG_Bezeichnung = FZG_Bezeichnung;
@@ -107,12 +111,12 @@ public class Fahrzeug {
 		ID = iD;
 	}
 	
-	public String getIdentNr() {
-		return IdentNr;
+	public String getFIN() {
+		return FIN;
 	}
 
-	public void setIdentNr(String identNr) {
-		IdentNr = identNr;
+	public void setFIN(String fin) {
+		FIN = fin;
 	}
 	
 	public String getFirmaNr() {
@@ -122,13 +126,29 @@ public class Fahrzeug {
 	public void setFirmaNr(String firmaNr) {
 		FirmaNr = firmaNr;
 	}
-
-	public String getNL() {
-		return NL;
+	
+	public String getFirmenname() {
+		return Firmenname;
 	}
 
-	public void setNL(String nL) {
-		NL = nL;
+	public void setFirmenname(String firmenname) {
+		Firmenname = firmenname;
+	}
+
+	public String getNLNr() {
+		return NLNr;
+	}
+
+	public void setNLNr(String nlnr) {
+		NLNr = nlnr;
+	}
+	
+	public String getNLName() {
+		return NLName;
+	}
+
+	public void setNLName(String nlname) {
+		NLName = nlname;
 	}
 
 	public String getFZG_Marke() {

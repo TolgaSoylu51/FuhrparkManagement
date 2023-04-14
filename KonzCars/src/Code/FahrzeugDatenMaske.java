@@ -2,19 +2,20 @@
 package Code;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,10 +25,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -45,9 +46,11 @@ import javax.swing.RowFilter;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 
 public class FahrzeugDatenMaske extends JFrame {
 
@@ -57,61 +60,68 @@ public class FahrzeugDatenMaske extends JFrame {
 	static Connection conn = null;
 	PreparedStatement pst = null;
 	ResultSet rs = null;
+	
+	Dimension screenSize;
 
 	ArrayList<Fahrzeug> vergleichsliste = new ArrayList<>();
 
 	private static JTable tableFahrzeuge;
 	private static int id;
+	
+	int f_width, f_height;
 
-	private static ArrayList<String> array = new ArrayList<String>();
+	private static ArrayList<String> arr = new ArrayList<String>();
+	private static ArrayList<String> arrFirmenname = new ArrayList<String>();
+	private static ArrayList<String> arrNLName = new ArrayList<String>();
 	private static ArrayList<String> maxID_array = new ArrayList<String>();
-	private static ArrayList<String> arrayFahrer = new ArrayList<String>();
 
 	boolean erweitern = false;
 
-	private JTextField tfIdentNr;
-	private JTextField tfFirmaNr;
-	private JTextField tfNL;
-	private JTextField tfFZG_Marke;
-	private JTextField tfFZG_Bezeichnung;
-	private JTextField tfamtl_Kennzeichen;
-	private JTextField tfFZG_Typ;
-	private JTextField tfDatum_Erfassung_km_Stand;
-	private JTextField tfAbmeldedatum;
-	private JTextField tfFahrer2;
-	private JTextField tfFinanzstatus;
-	private JTextField tfBank_Leasinggesellschaft;
-	private JTextField tfVertragsNr;
-	private JTextField tfLeasingdauer_Monate;
-	private JTextField tfVerlaengerung_Monate;
-	private JTextField tfVertragsende;
-	private JTextField tfLeasingrate_zzgl_MwSt_Fahrzeug;
-	private JTextField tfBemerkung;
-	private JTextField tfRestwert_Leasingende;
-	private JTextField tfSoll_Laufleistung_Km;
-	private JTextField tfkm_Stand;
-	private JTextField tfAnschaffungswert__Netto;
-	private JTextField tfFinanzierungsrate;
-	private JTextField tfZulassungsart;
-	private JTextField tfMotorleistung_KW_P_2;
-	private JTextField tfSommerreifen;
-	private JTextField tfWinterreifen;
-	private JTextField tfKostenstelle;
-	private JTextField tfTyp;
-	private JTextField tfErstzulassung;
+	private static JTextField tfFIN;
+	private static JTextField tfFirmaNr;
+	private JComboBox<?> cBoxFirmenname;	
+	private static JTextField tfNLNr;
+	private JComboBox<?> cBoxNLName;
+	private static JTextField tfFZG_Marke;
+	private static JTextField tfFZG_Bezeichnung;
+	private static JTextField tfamtl_Kennzeichen;
+	private static JTextField tfFZG_Typ;
+	private static JTextField tfDatum_Erfassung_km_Stand;
+	private static JTextField tfAbmeldedatum;
+	private static JComboBox<?> comboBox;
+	private static JTextField tfFahrer2;
+	private static JTextField tfFinanzstatus;
+	private static JTextField tfBank_Leasinggesellschaft;
+	private static JTextField tfVertragsNr;
+	private static JTextField tfLeasingdauer_Monate;
+	private static JTextField tfVerlaengerung_Monate;
+	private static JTextField tfVertragsende;
+	private static JTextField tfLeasingrate_zzgl_MwSt_Fahrzeug;
+	private static JTextField tfBemerkung;
+	private static JTextField tfRestwert_Leasingende;
+	private static JTextField tfSoll_Laufleistung_Km;
+	private static JTextField tfkm_Stand;
+	private static JTextField tfAnschaffungswert__Netto;
+	private static JTextField tfFinanzierungsrate;
+	private static JTextField tfZulassungsart;
+	private static JTextField tfMotorleistung_KW_P_2;
+	private static JTextField tfSommerreifen;
+	private static JTextField tfWinterreifen;
+	private static JTextField tfKostenstelle;
+	private static JTextField tfTyp;
+	private static JTextField tfErstzulassung;
 	private JTextField tfSuche;
 
-	private JCheckBox chkbxBelueftung;
-	private JCheckBox chkbxFahrerunterweisung;
-	private JCheckBox chkbxFoliert;
-	private JCheckBox chkbxUVV;
-	private JCheckBox chkbxWartung;
-	private JCheckBox chkbxWerkstatteinrichtung;
-	private JCheckBox chkbxPruefung1;
-	private JCheckBox chkbxPruefung2;
-	private JCheckBox chkbxFahrerlaubnis;
-
-	private JComboBox<?> comboBox;
+	private static JCheckBox chkbxBelueftung;
+	private static JCheckBox chkbxFahrerunterweisung;
+	private static JCheckBox chkbxFoliert;
+	private static JCheckBox chkbxUVV;
+	private static JCheckBox chkbxWartung;
+	private static JCheckBox chkbxWerkstatteinrichtung;
+	private static JCheckBox chkbxPruefung1;
+	private static JCheckBox chkbxPruefung2;
+	private static JCheckBox chkbxFahrerlaubnis;
+	
 	JButton btnExport;
 
 	private int checkPruefung1, checkPruefung2, checkFahrerlaubnis;
@@ -128,6 +138,12 @@ public class FahrzeugDatenMaske extends JFrame {
 
 	public JButton btnAbbrechen;
 	public JButton btnSave;
+	
+	public static JLabel lblZeilenAnzahl;
+	public static int zeilenAnzahl;
+	
+	public static JLabel lblGewaehlteZeile;
+	public static int gewaehlteZeile;
 
 	/**
 	 * Launch the application
@@ -151,13 +167,23 @@ public class FahrzeugDatenMaske extends JFrame {
 	public FahrzeugDatenMaske() {
 		setTitle("KFM Fahrzeuge");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1340, 674);
+		
+		//screensize
+		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setSize(screenSize.width, screenSize.height);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		f_width = getWidth();
+		f_height = getHeight();
+		
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.control);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		f_width = getWidth();
+		f_height = getHeight();
 
 		tfSuche = new JTextField();
 		tfSuche.addKeyListener(new KeyAdapter() {
@@ -169,7 +195,6 @@ public class FahrzeugDatenMaske extends JFrame {
 		tfSuche.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfSuche.setColumns(10);
 		tfSuche.setBackground(SystemColor.menu);
-		tfSuche.setBounds(10, 26, 866, 19);
 		contentPane.add(tfSuche);
 
 		btnSave = new JButton("Speichern");
@@ -177,14 +202,18 @@ public class FahrzeugDatenMaske extends JFrame {
 		btnSave.setFocusPainted(false);
 		btnSave.setBackground(SystemColor.inactiveCaption);
 
-		btnSave.setBounds(10, 605, 180, 23);
+		btnSave.setBounds(10, f_height -100, 180, 23);
 		contentPane.add(btnSave);
+		
+		JButton btn_Anlegen = new JButton("Anlegen");
+		JButton btn_Bearbeiten = new JButton("Bearbeiten");
+		JButton btn_Loeschen = new JButton("L\u00F6schen");
+		JButton btn_Dokumente = new JButton("Dokumente");
 
 		JButton btnClear = new JButton("X");
 		btnClear.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnClear.setFocusPainted(false);
 		btnClear.setBackground(SystemColor.inactiveCaption);
-		btnClear.setBounds(876, 26, 19, 18);
 		btnClear.setMargin(new Insets(0, 0, 0, 0));
 		contentPane.add(btnClear);
 
@@ -195,47 +224,75 @@ public class FahrzeugDatenMaske extends JFrame {
 			}
 		});
 
-		JLabel lblIdentNr = new JLabel("IdentNr");
-		lblIdentNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblIdentNr.setForeground(Color.BLACK);
-		lblIdentNr.setBounds(10, 72, 45, 13);
-		contentPane.add(lblIdentNr);
+		JLabel lblFIN = new JLabel("FIN");
+		lblFIN.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblFIN.setForeground(Color.BLACK);
+		lblFIN.setBounds(10, 72, 45, 13);
+		contentPane.add(lblFIN);
 
-		tfIdentNr = new JTextField();
-		tfIdentNr.setForeground(Color.BLACK);
-		tfIdentNr.setBackground(Color.WHITE);
-		tfIdentNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfIdentNr.setBounds(64, 69, 140, 19);
-		contentPane.add(tfIdentNr);
-		tfIdentNr.setColumns(10);
+		tfFIN = new JTextField();
+		tfFIN.setForeground(Color.BLACK);
+		tfFIN.setBackground(Color.WHITE);
+		tfFIN.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		tfFIN.setBounds(64, 69, 248, 19);
+		contentPane.add(tfFIN);
+		tfFIN.setColumns(10);
 
 		JLabel lblFirmaNr = new JLabel("FirmaNr");
 		lblFirmaNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblFirmaNr.setForeground(Color.BLACK);
-		lblFirmaNr.setBounds(212, 72, 45, 13);
+		lblFirmaNr.setBounds(10, 92, 64, 13);
 		contentPane.add(lblFirmaNr);
 
 		tfFirmaNr = new JTextField();
 		tfFirmaNr.setForeground(Color.BLACK);
 		tfFirmaNr.setBackground(Color.WHITE);
 		tfFirmaNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfFirmaNr.setBounds(267, 69, 45, 19);
+		tfFirmaNr.setBounds(64, 89, 40, 19);
 		contentPane.add(tfFirmaNr);
 		tfFirmaNr.setColumns(10);
+		
+		JLabel lblFirma = new JLabel("Firma");
+		lblFirma.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblFirma.setForeground(Color.BLACK);
+		lblFirma.setBounds(114, 92, 64, 13);
+		contentPane.add(lblFirma);
 
-		JLabel lblNiederlassung = new JLabel("NL");
-		lblNiederlassung.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNiederlassung.setForeground(Color.BLACK);
-		lblNiederlassung.setBounds(10, 97, 64, 13);
-		contentPane.add(lblNiederlassung);
+//		tfFirma = new JTextField();
+//		tfFirma.setForeground(Color.BLACK);
+//		tfFirma.setBackground(Color.WHITE);
+//		tfFirma.setFont(new Font("Tahoma", Font.PLAIN, 11));
+//		tfFirma.setBounds(154, 89, 158, 19);
+//		contentPane.add(tfFirma);
+//		tfFirma.setColumns(10);
 
-		tfNL = new JTextField();
-		tfNL.setForeground(Color.BLACK);
-		tfNL.setBackground(Color.WHITE);
-		tfNL.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfNL.setColumns(10);
-		tfNL.setBounds(64, 94, 248, 19);
-		contentPane.add(tfNL);
+		JLabel lblNLNr = new JLabel("NLNr");
+		lblNLNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNLNr.setForeground(Color.BLACK);
+		lblNLNr.setBounds(10, 112, 64, 13);
+		contentPane.add(lblNLNr);
+
+		tfNLNr = new JTextField();
+		tfNLNr.setForeground(Color.BLACK);
+		tfNLNr.setBackground(Color.WHITE);
+		tfNLNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		tfNLNr.setColumns(10);
+		tfNLNr.setBounds(64, 109, 40, 19);
+		contentPane.add(tfNLNr);
+		
+		JLabel lblNL = new JLabel("NL");
+		lblNL.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNL.setForeground(Color.BLACK);
+		lblNL.setBounds(114, 112, 64, 13);
+		contentPane.add(lblNL);
+
+//		tfNL = new JTextField();
+//		tfNL.setForeground(Color.BLACK);
+//		tfNL.setBackground(Color.WHITE);
+//		tfNL.setFont(new Font("Tahoma", Font.PLAIN, 11));
+//		tfNL.setColumns(10);
+//		tfNL.setBounds(154, 109, 158, 19);
+//		contentPane.add(tfNL);
 
 		JLabel lblFZG_Marke = new JLabel("Marke");
 		lblFZG_Marke.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -703,6 +760,8 @@ public class FahrzeugDatenMaske extends JFrame {
 		btnAbbrechen = new JButton("Abbrechen");
 		btnAbbrechen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btn_Anlegen.setBorder(BorderFactory.createLineBorder(Color.gray,1));
+				btn_Bearbeiten.setBorder(BorderFactory.createLineBorder(Color.gray,1));
 				clearAllFields();
 				setAllFields(false);
 			}
@@ -710,7 +769,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		btnAbbrechen.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnAbbrechen.setFocusPainted(false);
 		btnAbbrechen.setBackground(SystemColor.inactiveCaption);
-		btnAbbrechen.setBounds(432, 605, 180, 23);
+		btnAbbrechen.setBounds(200, f_height -100, 180, 23);
 		contentPane.add(btnAbbrechen);
 
 		JLabel lblPruefung1 = new JLabel("Pruefung1");
@@ -751,20 +810,55 @@ public class FahrzeugDatenMaske extends JFrame {
 		chkbxFahrerlaubnis.setForeground(Color.BLACK);
 		chkbxFahrerlaubnis.setBounds(590, 297, 20, 20);
 		contentPane.add(chkbxFahrerlaubnis);
-
-		fuelleArrayList(array);
-		String[] a = new String[array.size() + 2];
+		
+		lblZeilenAnzahl = new JLabel("Zeilenanzahl: ");
+		lblZeilenAnzahl.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblZeilenAnzahl.setBounds(620, f_height -100, f_width -400, 23);
+		contentPane.add(lblZeilenAnzahl);
+		
+		lblGewaehlteZeile = new JLabel("Ausgewählte Zeile: ");
+		lblGewaehlteZeile.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblGewaehlteZeile.setBounds(660, f_height -100, f_width -400, 23);
+		contentPane.add(lblGewaehlteZeile);
+		
+		fuelleArrayList(arr);
+		String[] a = new String[arr.size() + 2];
 
 		a[0] = "";
 		a[1] = "Poolfahrzeug";
 
 		for (int i = 2; i < a.length; i++) {
-			a[i] = array.get(i - 2);
+			a[i] = arr.get(i - 2);
 		}
-
 		comboBox = new JComboBox<Object>(a);
 		comboBox.setBounds(92, 254, 220, 19);
 		contentPane.add(comboBox);
+		
+		//combobox Firmenname
+		fuelleArrFirmennameList(arrFirmenname);
+		String[] a1 = new String[arrFirmenname.size() + 1];
+		
+		a1[0] = "";
+
+		for (int i = 1; i < a1.length; i++) {
+			a1[i] = arrFirmenname.get(i - 1);
+		}
+		cBoxFirmenname = new JComboBox<Object>(a1);
+		cBoxFirmenname.setBounds(154, 89, 158, 19);
+		contentPane.add(cBoxFirmenname);
+				
+		//combobox Niederlassungsname
+		fuelleArrNLNameList(arrNLName);
+		String[] a2 = new String[arrNLName.size() + 1];
+
+		a2[0] = "";
+
+		for (int j = 1; j < a2.length; j++) {
+			a2[j] = arrNLName.get(j - 1);
+		}
+		cBoxNLName = new JComboBox<Object>(a2);
+		cBoxNLName.setBounds(154, 109, 158, 19);
+		contentPane.add(cBoxNLName);
 
 		setAllFields(false);
 
@@ -790,8 +884,8 @@ public class FahrzeugDatenMaske extends JFrame {
 		tableFahrzeuge = new JTable();
 		tableFahrzeuge.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableFahrzeuge.setBorder(null);
-		tableFahrzeuge.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "ID", "IdentNr", "FirmaNr",
-				"NL", "FZG_Marke", "FZG_Typ", "FZG_Bezeichnung", "amtl_Kennzeichen", "Erstzulassung", "Abmeldedatum",
+		tableFahrzeuge.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "ID", "FIN", "FirmaNr", "Firmenname",
+				"NLNr", "NLName", "FZG_Marke", "FZG_Typ", "FZG_Bezeichnung", "amtl_Kennzeichen", "Erstzulassung", "Abmeldedatum",
 				"Fahrer", "Fahrer2", "Finanzstatus", "Bank_Leasinggesellschaft", "VertragsNr", "Leasingdauer_Monate",
 				"Verlaengerung_Monate", "Leasingrate_zzgl_MwSt_Fahrzeug", "Vertragsende", "Bemerkung",
 				"Restwert_Leasingende", "Soll_Laufleistung_Km", "km_Stand", "Datum_Erfassung_km_Stand",
@@ -800,11 +894,25 @@ public class FahrzeugDatenMaske extends JFrame {
 				"Werkstatteinrichtung", "Belueftung", "Pruefung1", "Pruefung2", "Fahrerlaubnis", "Bearbeitet" }));
 
 		tableFahrzeuge.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		TableColumnModel columnModel = tableFahrzeuge.getColumnModel();
+		for (int columnIndex = 0; columnIndex < columnModel.getColumnCount(); columnIndex++) {
+			if(columnIndex == 10 | columnIndex == 20 | columnIndex == 25 | columnIndex == 30) {
+				tableFahrzeuge.getColumnModel().getColumn(columnIndex).setPreferredWidth(130);
+			}
+			else if(columnIndex == 3) {
+				tableFahrzeuge.getColumnModel().getColumn(columnIndex).setPreferredWidth(220);
+			}
+			else {
+				tableFahrzeuge.getColumnModel().getColumn(columnIndex).setPreferredWidth(100);
+			}
+		}
 		tableFahrzeuge.setAutoCreateRowSorter(true);
+		
+		filter("");
 
-		wichtigTf(tfIdentNr);
+		wichtigTf(tfFIN);
 		wichtigTf(tfFirmaNr);
-		wichtigTf(tfNL);
+		wichtigTf(tfNLNr);
 		wichtigTf(tfFZG_Marke);
 		wichtigTf(tfFZG_Typ);
 		wichtigTf(tfFZG_Bezeichnung);
@@ -816,27 +924,32 @@ public class FahrzeugDatenMaske extends JFrame {
 		wichtigTf(tfZulassungsart);
 		wichtigTf(tfMotorleistung_KW_P_2);
 		wichtigTf(tfKostenstelle);
-
-		JButton btn_Anlegen = new JButton("Anlegen");
+		
 		btn_Anlegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modus = "anlegen";
+				activeMode(btn_Anlegen, btn_Bearbeiten);
 				setAllFields(true);
-				wichtigTf(tfIdentNr);
+				
+				wichtigTf(tfFIN);
 				wichtigTf(tfFirmaNr);
-				wichtigTf(tfNL);
+				wichtigTf(tfNLNr);
 				wichtigTf(tfFZG_Marke);
 				wichtigTf(tfFZG_Typ);
 				wichtigTf(tfFZG_Bezeichnung);
 				wichtigTf(tfamtl_Kennzeichen);
 				wichtigTf(tfErstzulassung);
-//				wichtigTf(tfFahrer);
 				wichtigTf(tfFinanzstatus);
 				wichtigTf(tfkm_Stand);
 				wichtigTf(tfDatum_Erfassung_km_Stand);
 				wichtigTf(tfZulassungsart);
 				wichtigTf(tfMotorleistung_KW_P_2);
 				wichtigTf(tfKostenstelle);
+				
+				cBoxFirmenname.setSelectedIndex(0);
+				cBoxNLName.setSelectedIndex(0);
+				comboBox.setSelectedIndex(0);
+				
 				tfFahrer2.setText("");
 				tfBank_Leasinggesellschaft.setText("");
 				tfVertragsNr.setText("");
@@ -850,11 +963,12 @@ public class FahrzeugDatenMaske extends JFrame {
 				tfSoll_Laufleistung_Km.setText("");
 				tfAnschaffungswert__Netto.setText("");
 				tfFinanzierungsrate.setText("");
-				chkbxWartung.setSelected(false);
 				tfSommerreifen.setText("");
 				tfWinterreifen.setText("");
-				chkbxFoliert.setSelected(false);
 				tfTyp.setText("");
+				
+				chkbxWartung.setSelected(false);
+				chkbxFoliert.setSelected(false);
 				chkbxUVV.setSelected(false);
 				chkbxFahrerunterweisung.setSelected(false);
 				chkbxWerkstatteinrichtung.setSelected(false);
@@ -865,19 +979,19 @@ public class FahrzeugDatenMaske extends JFrame {
 			}
 		});
 
-		JButton btn_Bearbeiten = new JButton("Bearbeiten");
 		btn_Bearbeiten.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modus = "bearbeiten";
+				activeMode(btn_Bearbeiten, btn_Anlegen);
 				setAllFields(true);
-				tfIdentNr.setEnabled(false);
+				tfFIN.setEnabled(false);
 			}
 		});
 
-		JButton btn_Loeschen = new JButton("L\u00F6schen");
 		btn_Loeschen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				btn_Anlegen.setBorder(BorderFactory.createLineBorder(Color.gray,1));
+				btn_Bearbeiten.setBorder(BorderFactory.createLineBorder(Color.gray,1));
 				Object[] options = { "Ja", "Nein" };
 				int n = JOptionPane.showOptionDialog(null, "Sind Sie sich sicher?", "Datensatz löschen",
 						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.DEFAULT_OPTION, null, options, options[1]);
@@ -909,16 +1023,17 @@ public class FahrzeugDatenMaske extends JFrame {
 			}
 		});
 
-		JButton btn_Dokumente = new JButton("Dokumente");
 		btn_Dokumente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btn_Anlegen.setBorder(BorderFactory.createLineBorder(Color.gray,1));
+				btn_Bearbeiten.setBorder(BorderFactory.createLineBorder(Color.gray,1));
 				id_Uebergabe_fahrzeug = tableFahrzeuge.getModel()
 						.getValueAt(tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow()), 0)
 						.toString();
 				if (tableFahrzeuge.getModel().getValueAt(
-						tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow()), 10) != null) {
+						tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow()), 12) != null) {
 					id_Uebergabe_fahrer = tableFahrzeuge.getModel()
-							.getValueAt(tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow()), 10)
+							.getValueAt(tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow()), 12)
 							.toString();
 				}
 				herkunft_ueber_fahrzeug = true;
@@ -927,23 +1042,34 @@ public class FahrzeugDatenMaske extends JFrame {
 				frame.setVisible(true);
 			}
 		});
-
-		btn_Anlegen.setBounds(904, 26, 93, 19);
+		
+		addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+            	setExtendedState(JFrame.MAXIMIZED_BOTH);
+                f_width = getWidth();
+                f_height = getHeight();
+            }
+        });
+		
+		// Navbar
+		tfSuche.setBounds(10, 26, f_width -453, 19);		
+		btnClear.setBounds(f_width -443, 26, 19, 18);		
+		btn_Anlegen.setBounds(f_width -420, 25, 93, 19);
 		btn_Anlegen.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btn_Anlegen.setFocusPainted(false);
 		btn_Anlegen.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Anlegen);
-		btn_Bearbeiten.setBounds(1007, 26, 93, 19);
+		btn_Bearbeiten.setBounds(f_width -317, 25, 93, 19);
 		btn_Bearbeiten.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btn_Bearbeiten.setFocusPainted(false);
 		btn_Bearbeiten.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Bearbeiten);
-		btn_Loeschen.setBounds(1110, 26, 93, 19);
+		btn_Loeschen.setBounds(f_width -214, 25, 93, 19);
 		btn_Loeschen.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btn_Loeschen.setFocusPainted(false);
 		btn_Loeschen.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(btn_Loeschen);
-		btn_Dokumente.setBounds(1212, 26, 100, 19);
+		btn_Dokumente.setBounds(f_width -111, 25, 100, 19);
 		btn_Dokumente.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btn_Dokumente.setFocusPainted(false);
 		btn_Dokumente.setBackground(SystemColor.inactiveCaption);
@@ -967,7 +1093,7 @@ public class FahrzeugDatenMaske extends JFrame {
 		btnExport.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnExport.setFocusPainted(false);
 		btnExport.setBackground(SystemColor.inactiveCaption);
-		btnExport.setBounds(1134, 605, 180, 23);
+		btnExport.setBounds(f_width -192, f_height -100, 180, 23);
 		contentPane.add(btnExport);
 
 		scrollpane(btnSave, btnClear, btnAbbrechen, btn_Anlegen, btn_Bearbeiten, btn_Loeschen, btn_Dokumente,
@@ -981,39 +1107,68 @@ public class FahrzeugDatenMaske extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
 				TableModel model = tableFahrzeuge.getModel();
-
+				
+//				clearAllFields();
+				
 				id = (int) model.getValueAt(i, 0);
+				
 				if (model.getValueAt(i, 1) != null) {
-					tfIdentNr.setText(model.getValueAt(i, 1).toString());
+					tfFIN.setText(model.getValueAt(i, 1).toString());
 				}
 				if (model.getValueAt(i, 2) != null) {
 					tfFirmaNr.setText(model.getValueAt(i, 2).toString());
 				}
 				if (model.getValueAt(i, 3) != null) {
-					tfNL.setText(model.getValueAt(i, 3).toString());
+					String s1;
+					String s2 = model.getValueAt(i, 3).toString();
+					for (int j = 1; j < cBoxFirmenname.getItemCount(); j++) {
+						s1 = cBoxFirmenname.getItemAt(j).toString();
+						if (s1.equals(s2)) {
+							cBoxFirmenname.setSelectedIndex(j);
+						}
+					}
+					if (model.getValueAt(i, 3).toString().equals("")) {
+						cBoxFirmenname.setSelectedIndex(0);
+					}
 				}
 				if (model.getValueAt(i, 4) != null) {
-					tfFZG_Marke.setText(model.getValueAt(i, 4).toString());
+					tfNLNr.setText(model.getValueAt(i, 4).toString());
 				}
 				if (model.getValueAt(i, 5) != null) {
-					tfFZG_Typ.setText(model.getValueAt(i, 5).toString());
+					String s1;
+					String s2 = model.getValueAt(i, 5).toString();
+					for (int j = 1; j < cBoxNLName.getItemCount(); j++) {
+						s1 = cBoxNLName.getItemAt(j).toString();
+						if (s1.equals(s2)) {
+							cBoxNLName.setSelectedIndex(j);
+						}
+					}
+					if (model.getValueAt(i, 5).toString().equals("")) {
+						cBoxNLName.setSelectedIndex(0);
+					}
 				}
 				if (model.getValueAt(i, 6) != null) {
-					tfFZG_Bezeichnung.setText(model.getValueAt(i, 6).toString());
+					tfFZG_Marke.setText(model.getValueAt(i, 6).toString());
 				}
 				if (model.getValueAt(i, 7) != null) {
-					tfamtl_Kennzeichen.setText(model.getValueAt(i, 7).toString());
+					tfFZG_Typ.setText(model.getValueAt(i, 7).toString());
 				}
 				if (model.getValueAt(i, 8) != null) {
-					tfErstzulassung.setText(model.getValueAt(i, 8).toString());
+					tfFZG_Bezeichnung.setText(model.getValueAt(i, 8).toString());
 				}
 				if (model.getValueAt(i, 9) != null) {
-					tfAbmeldedatum.setText(model.getValueAt(i, 9).toString());
+					tfamtl_Kennzeichen.setText(model.getValueAt(i, 9).toString());
 				}
 				if (model.getValueAt(i, 10) != null) {
+					tfErstzulassung.setText(model.getValueAt(i, 10).toString());
+				}
+				if (model.getValueAt(i, 11) != null) {
+					tfAbmeldedatum.setText(model.getValueAt(i, 11).toString());
+				}
+				if (model.getValueAt(i, 12) != null) {
 					String item[] = new String[1];
 					String s1;
-					String s2 = model.getValueAt(i, 10).toString();
+					String s2 = model.getValueAt(i, 12).toString();
 					for (int j = 1; j < comboBox.getItemCount(); j++) {
 						s1 = comboBox.getItemAt(j).toString();
 						StringTokenizer strings = new StringTokenizer(s1, ",");
@@ -1022,57 +1177,57 @@ public class FahrzeugDatenMaske extends JFrame {
 							comboBox.setSelectedIndex(j);
 						}
 					}
-					if (model.getValueAt(i, 10).toString().equals("")) {
+					if (model.getValueAt(i, 12).toString().equals("")) {
 						comboBox.setSelectedIndex(0);
 					}
 				}
-				if (model.getValueAt(i, 11) != null) {
-					tfFahrer2.setText(model.getValueAt(i, 11).toString());
-				}
-				if (model.getValueAt(i, 12) != null) {
-					tfFinanzstatus.setText(model.getValueAt(i, 12).toString());
-				}
 				if (model.getValueAt(i, 13) != null) {
-					tfBank_Leasinggesellschaft.setText(model.getValueAt(i, 13).toString());
+					tfFahrer2.setText(model.getValueAt(i, 13).toString());
 				}
 				if (model.getValueAt(i, 14) != null) {
-					tfVertragsNr.setText(model.getValueAt(i, 14).toString());
+					tfFinanzstatus.setText(model.getValueAt(i, 14).toString());
 				}
 				if (model.getValueAt(i, 15) != null) {
-					tfLeasingdauer_Monate.setText(model.getValueAt(i, 15).toString());
+					tfBank_Leasinggesellschaft.setText(model.getValueAt(i, 15).toString());
 				}
 				if (model.getValueAt(i, 16) != null) {
-					tfVerlaengerung_Monate.setText(model.getValueAt(i, 16).toString());
+					tfVertragsNr.setText(model.getValueAt(i, 16).toString());
 				}
 				if (model.getValueAt(i, 17) != null) {
-					tfLeasingrate_zzgl_MwSt_Fahrzeug.setText(model.getValueAt(i, 17).toString());
+					tfLeasingdauer_Monate.setText(model.getValueAt(i, 17).toString());
 				}
 				if (model.getValueAt(i, 18) != null) {
-					tfVertragsende.setText(model.getValueAt(i, 18).toString());
+					tfVerlaengerung_Monate.setText(model.getValueAt(i, 18).toString());
 				}
 				if (model.getValueAt(i, 19) != null) {
-					tfBemerkung.setText(model.getValueAt(i, 19).toString());
+					tfLeasingrate_zzgl_MwSt_Fahrzeug.setText(model.getValueAt(i, 19).toString());
 				}
 				if (model.getValueAt(i, 20) != null) {
-					tfRestwert_Leasingende.setText(model.getValueAt(i, 20).toString());
+					tfVertragsende.setText(model.getValueAt(i, 20).toString());
 				}
 				if (model.getValueAt(i, 21) != null) {
-					tfSoll_Laufleistung_Km.setText(model.getValueAt(i, 21).toString());
+					tfBemerkung.setText(model.getValueAt(i, 21).toString());
 				}
 				if (model.getValueAt(i, 22) != null) {
-					tfkm_Stand.setText(model.getValueAt(i, 22).toString());
+					tfRestwert_Leasingende.setText(model.getValueAt(i, 22).toString());
 				}
 				if (model.getValueAt(i, 23) != null) {
-					tfDatum_Erfassung_km_Stand.setText(model.getValueAt(i, 23).toString());
+					tfSoll_Laufleistung_Km.setText(model.getValueAt(i, 23).toString());
 				}
 				if (model.getValueAt(i, 24) != null) {
-					tfAnschaffungswert__Netto.setText(model.getValueAt(i, 24).toString());
+					tfkm_Stand.setText(model.getValueAt(i, 24).toString());
 				}
 				if (model.getValueAt(i, 25) != null) {
-					tfFinanzierungsrate.setText(model.getValueAt(i, 25).toString());
+					tfDatum_Erfassung_km_Stand.setText(model.getValueAt(i, 25).toString());
 				}
 				if (model.getValueAt(i, 26) != null) {
-					String wartung = model.getValueAt(i, 26).toString();
+					tfAnschaffungswert__Netto.setText(model.getValueAt(i, 26).toString());
+				}
+				if (model.getValueAt(i, 27) != null) {
+					tfFinanzierungsrate.setText(model.getValueAt(i, 27).toString());
+				}
+				if (model.getValueAt(i, 28) != null) {
+					String wartung = model.getValueAt(i, 28).toString();
 					switch (wartung) {
 					case "1":
 						chkbxWartung.setSelected(true);
@@ -1082,23 +1237,23 @@ public class FahrzeugDatenMaske extends JFrame {
 						break;
 					}
 				}
-				if (model.getValueAt(i, 27) != null) {
-					tfZulassungsart.setText(model.getValueAt(i, 27).toString());
-				}
-				if (model.getValueAt(i, 28) != null) {
-					tfMotorleistung_KW_P_2.setText(model.getValueAt(i, 28).toString());
-				}
 				if (model.getValueAt(i, 29) != null) {
-					tfSommerreifen.setText(model.getValueAt(i, 29).toString());
+					tfZulassungsart.setText(model.getValueAt(i, 29).toString());
 				}
 				if (model.getValueAt(i, 30) != null) {
-					tfWinterreifen.setText(model.getValueAt(i, 30).toString());
+					tfMotorleistung_KW_P_2.setText(model.getValueAt(i, 30).toString());
 				}
 				if (model.getValueAt(i, 31) != null) {
-					tfKostenstelle.setText(model.getValueAt(i, 31).toString());
+					tfSommerreifen.setText(model.getValueAt(i, 31).toString());
 				}
 				if (model.getValueAt(i, 32) != null) {
-					String foliert = model.getValueAt(i, 32).toString();
+					tfWinterreifen.setText(model.getValueAt(i, 32).toString());
+				}
+				if (model.getValueAt(i, 33) != null) {
+					tfKostenstelle.setText(model.getValueAt(i, 33).toString());
+				}
+				if (model.getValueAt(i, 34) != null) {
+					String foliert = model.getValueAt(i, 34).toString();
 					switch (foliert) {
 					case "1":
 						chkbxFoliert.setSelected(true);
@@ -1108,11 +1263,11 @@ public class FahrzeugDatenMaske extends JFrame {
 						break;
 					}
 				}
-				if (model.getValueAt(i, 33) != null) {
-					tfTyp.setText(model.getValueAt(i, 33).toString());
+				if (model.getValueAt(i, 35) != null) {
+					tfTyp.setText(model.getValueAt(i, 35).toString());
 				}
-				if (model.getValueAt(i, 34) != null) {
-					String uvv = model.getValueAt(i, 34).toString();
+				if (model.getValueAt(i, 36) != null) {
+					String uvv = model.getValueAt(i, 36).toString();
 					switch (uvv) {
 					case "1":
 						chkbxUVV.setSelected(true);
@@ -1122,8 +1277,8 @@ public class FahrzeugDatenMaske extends JFrame {
 						break;
 					}
 				}
-				if (model.getValueAt(i, 35) != null) {
-					String fahrerunterweisung = model.getValueAt(i, 35).toString();
+				if (model.getValueAt(i, 37) != null) {
+					String fahrerunterweisung = model.getValueAt(i, 37).toString();
 					switch (fahrerunterweisung) {
 					case "1":
 						chkbxFahrerunterweisung.setSelected(true);
@@ -1133,8 +1288,8 @@ public class FahrzeugDatenMaske extends JFrame {
 						break;
 					}
 				}
-				if (model.getValueAt(i, 36) != null) {
-					String werkstatteinrichtung = model.getValueAt(i, 36).toString();
+				if (model.getValueAt(i, 38) != null) {
+					String werkstatteinrichtung = model.getValueAt(i, 38).toString();
 					switch (werkstatteinrichtung) {
 					case "1":
 						chkbxWerkstatteinrichtung.setSelected(true);
@@ -1144,8 +1299,8 @@ public class FahrzeugDatenMaske extends JFrame {
 						break;
 					}
 				}
-				if (model.getValueAt(i, 37) != null) {
-					String belueftung = model.getValueAt(i, 37).toString();
+				if (model.getValueAt(i, 39) != null) {
+					String belueftung = model.getValueAt(i, 39).toString();
 					switch (belueftung) {
 					case "1":
 						chkbxBelueftung.setSelected(true);
@@ -1155,8 +1310,8 @@ public class FahrzeugDatenMaske extends JFrame {
 						break;
 					}
 				}
-				if (model.getValueAt(i, 38) != null) {
-					String pruefung1 = model.getValueAt(i, 38).toString();
+				if (model.getValueAt(i, 40) != null) {
+					String pruefung1 = model.getValueAt(i, 40).toString();
 					switch (pruefung1) {
 					case "1":
 						chkbxPruefung1.setSelected(true);
@@ -1166,8 +1321,8 @@ public class FahrzeugDatenMaske extends JFrame {
 						break;
 					}
 				}
-				if (model.getValueAt(i, 39) != null) {
-					String pruefung2 = model.getValueAt(i, 39).toString();
+				if (model.getValueAt(i, 41) != null) {
+					String pruefung2 = model.getValueAt(i, 41).toString();
 					switch (pruefung2) {
 					case "1":
 						chkbxPruefung2.setSelected(true);
@@ -1177,8 +1332,8 @@ public class FahrzeugDatenMaske extends JFrame {
 						break;
 					}
 				}
-				if (model.getValueAt(i, 40) != null) {
-					String fahrerlaubnis = model.getValueAt(i, 40).toString();
+				if (model.getValueAt(i, 42) != null) {
+					String fahrerlaubnis = model.getValueAt(i, 42).toString();
 					switch (fahrerlaubnis) {
 					case "1":
 						chkbxFahrerlaubnis.setSelected(true);
@@ -1196,6 +1351,10 @@ public class FahrzeugDatenMaske extends JFrame {
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btn_Anlegen.setBorder(BorderFactory.createLineBorder(Color.gray,1));
+				btn_Bearbeiten.setBorder(BorderFactory.createLineBorder(Color.gray,1));
+
+//BEARBEITEN
 				if (modus == "bearbeiten") {
 					int i = tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
 					int aktualisiert;
@@ -1204,16 +1363,15 @@ public class FahrzeugDatenMaske extends JFrame {
 					if (aktualisiert == fahrzeugliste.get(i).getBearbeitet()) {
 						try {
 
-							emptyTf(tfIdentNr);
+							emptyTf(tfFIN);
 							emptyTf(tfFirmaNr);
-							emptyTf(tfNL);
+							emptyTf(tfNLNr);
 							emptyTf(tfFZG_Marke);
 							emptyTf(tfFZG_Typ);
 							emptyTf(tfFZG_Bezeichnung);
 							emptyTf(tfamtl_Kennzeichen);
 							emptyTf(tfErstzulassung);
 							emptyTf(tfAbmeldedatum);
-//							emptyTf(tfFahrer);
 							emptyTf(tfFinanzstatus);
 							emptyTf(tfkm_Stand);
 							emptyTf(tfDatum_Erfassung_km_Stand);
@@ -1221,19 +1379,27 @@ public class FahrzeugDatenMaske extends JFrame {
 							emptyTf(tfMotorleistung_KW_P_2);
 							emptyTf(tfKostenstelle);
 
-							TableModel model = tableFahrzeuge.getModel();
-							id = (int) model.getValueAt(i, 0);
-
 							String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 							conn = DriverManager.getConnection(url);
-							String qry1 = "UPDATE Fuhrpark SET IdentNr=?, FirmaNr=?, NL=?, FZG_Marke=?, FZG_Typ=?, FZG_Bezeichnung=?, amtl_Kennzeichen=?, Erstzulassung=?, Abmeldedatum=?, Fahrer=?, Fahrer2=?, Finanzstatus=?, Bank_Leasinggesellschaft=?, VertragsNr=?, Leasingdauer_Monate=?, Verlaengerung_Monate=?, Leasingrate_zzgl_MwSt_Fahrzeug=?, Vertragsende=?, Bemerkung=?, Restwert_Leasingende=?, Soll_Laufleistung_Km=?, km_Stand=?, Datum_Erfassung_km_Stand=?, Anschaffungswert__Netto=?, Finanzierungsrate=?, Wartung=?, Zulassungsart=?, Motorleistung_KW_P_2=?, Sommerreifen=?, Winterreifen=?, Kostenstelle=?, Foliert=?, Typ=?, UVV=?, Fahrerunterweisung=?, Werkstatteinrichtung=?, Belueftung=?, Pruefung1=?, Pruefung2=?, Fahrerlaubnis=?, Bearbeitet=? WHERE ID="
+							String qry = "UPDATE Fuhrpark SET FIN=?, FirmaNr=?, Firmenname=?, NLNr=?, NLName=?, FZG_Marke=?, FZG_Typ=?, FZG_Bezeichnung=?, amtl_Kennzeichen=?, Erstzulassung=?, Abmeldedatum=?,"
+									+ "Fahrer=?, Fahrer2=?, Finanzstatus=?, Bank_Leasinggesellschaft=?, VertragsNr=?, Leasingdauer_Monate=?, Verlaengerung_Monate=?, Leasingrate_zzgl_MwSt_Fahrzeug=?,"
+									+ "Vertragsende=?, Bemerkung=?, Restwert_Leasingende=?, Soll_Laufleistung_Km=?, km_Stand=?, Datum_Erfassung_km_Stand=?, Anschaffungswert__Netto=?, "
+									+ "Finanzierungsrate=?, Wartung=?, Zulassungsart=?, Motorleistung_KW_P_2=?, Sommerreifen=?, Winterreifen=?, Kostenstelle=?,"
+									+ "Foliert=?, Typ=?, UVV=?, Fahrerunterweisung=?, Werkstatteinrichtung=?, Belueftung=?, Pruefung1=?, Pruefung2=?, Fahrerlaubnis=?, Bearbeitet=? WHERE ID="
 									+ id;
 
 							Object object = comboBox.getSelectedItem();
 							String selectedItem = object.toString();
-
 							String item[] = new String[1];
-
+							
+							Object object1 = cBoxFirmenname.getSelectedItem();
+							String selectedItem1 = object1.toString();
+							String item1[] = new String[1];
+							
+							Object object2 = cBoxNLName.getSelectedItem();
+							String selectedItem2 = object2.toString();
+							String item2[] = new String[1];
+							
 							if (!selectedItem.equals("") && !selectedItem.equals("Poolfahrzeug")) {
 								StringTokenizer strings = new StringTokenizer(selectedItem, ",");
 
@@ -1241,7 +1407,6 @@ public class FahrzeugDatenMaske extends JFrame {
 
 //								String qry2 = "UPDATE Fuhrpark SET Fahrer = '' where Fahrer = " + item[0];
 								String qry3 = "UPDATE Fahrer set FahrzeugID = " + id + " where ID =" + item[0];
-
 								String qry4 = "UPDATE Fuhrpark SET Fahrer = " + item[0] + " where ID = " + id;
 
 //								PreparedStatement pst2 = conn.prepareStatement(qry2);
@@ -1252,115 +1417,149 @@ public class FahrzeugDatenMaske extends JFrame {
 								pst3.executeUpdate();
 								pst4.executeUpdate();
 							}
+							
+							if (!selectedItem1.equals("")) {
+								StringTokenizer strings = new StringTokenizer(selectedItem1, ",");
 
-							PreparedStatement pst1 = conn.prepareStatement(qry1);
+								item1[0] = strings.nextElement().toString();
+							}
+							
+							if (!selectedItem2.equals("")) {
+								StringTokenizer strings = new StringTokenizer(selectedItem2, ",");
 
-							pst1.setString(1, tfIdentNr.getText());
-							pst1.setString(2, tfFirmaNr.getText());
-							pst1.setString(3, tfNL.getText());
-							pst1.setString(4, tfFZG_Marke.getText());
-							pst1.setString(5, tfFZG_Typ.getText());
-							pst1.setString(6, tfFZG_Bezeichnung.getText());
-							pst1.setString(7, tfamtl_Kennzeichen.getText());
-							pst1.setString(8, tfErstzulassung.getText());
-							pst1.setString(9, tfAbmeldedatum.getText());
+								item2[0] = strings.nextElement().toString();
+							}
+							
+							PreparedStatement pst = conn.prepareStatement(qry);
+
+							pst.setString(1, tfFIN.getText());
+							pst.setString(2, tfFirmaNr.getText());
+							
 							try {
-								if (selectedItem.equals("")) {
-									pst1.setString(10, "");
+								if (selectedItem1.equals("")) {
+									pst.setString(3, "");
 								} else {
-									pst1.setString(10, item[0]);
-								}
-								if (selectedItem.equals("Poolfahrzeug")) {
-									pst1.setString(10, "Poolfahrzeug");
-								} else {
-									pst1.setString(10, item[0]);
+									pst.setString(3, item1[0]);
 								}
 							} catch (Exception e2) {
 							}
-							pst1.setString(11, tfFahrer2.getText());
-							pst1.setString(12, tfFinanzstatus.getText());
-							pst1.setString(13, tfBank_Leasinggesellschaft.getText());
-							pst1.setString(14, tfVertragsNr.getText());
-							pst1.setString(15, tfLeasingdauer_Monate.getText());
-							pst1.setString(16, tfVerlaengerung_Monate.getText());
-							pst1.setString(17, tfLeasingrate_zzgl_MwSt_Fahrzeug.getText());
-							pst1.setString(18, tfVertragsende.getText());
-							pst1.setString(19, tfBemerkung.getText());
-							pst1.setString(20, tfRestwert_Leasingende.getText());
-							pst1.setString(21, tfSoll_Laufleistung_Km.getText());
-							pst1.setString(22, tfkm_Stand.getText());
-							pst1.setString(23, tfDatum_Erfassung_km_Stand.getText());
-							pst1.setString(24, tfAnschaffungswert__Netto.getText());
-							pst1.setString(25, tfFinanzierungsrate.getText());
+							
+							pst.setString(4, tfNLNr.getText());
+							
+							try {
+								if (selectedItem2.equals("")) {
+									pst.setString(5, "");
+								} else {
+									pst.setString(5, item2[0]);
+								}
+							} catch (Exception e2) {
+							}
+							
+							pst.setString(6, tfFZG_Marke.getText());
+							pst.setString(7, tfFZG_Typ.getText());
+							pst.setString(8, tfFZG_Bezeichnung.getText());
+							pst.setString(9, tfamtl_Kennzeichen.getText());
+							pst.setString(10, tfErstzulassung.getText());
+							pst.setString(11, tfAbmeldedatum.getText());
+							
+							try {
+								if (selectedItem.equals("")) {
+									pst.setString(12, "");
+								} else {
+									pst.setString(12, item[0]);
+								}
+								if (selectedItem.equals("Poolfahrzeug")) {
+									pst.setString(12, "Poolfahrzeug");
+								} else {
+									pst.setString(12, item[0]);
+								}
+							} catch (Exception e2) {
+							}
+							
+							pst.setString(13, tfFahrer2.getText());
+							pst.setString(14, tfFinanzstatus.getText());
+							pst.setString(15, tfBank_Leasinggesellschaft.getText());
+							pst.setString(16, tfVertragsNr.getText());
+							pst.setString(17, tfLeasingdauer_Monate.getText());
+							pst.setString(18, tfVerlaengerung_Monate.getText());
+							pst.setString(19, tfLeasingrate_zzgl_MwSt_Fahrzeug.getText());
+							pst.setString(20, tfVertragsende.getText());
+							pst.setString(21, tfBemerkung.getText());
+							pst.setString(22, tfRestwert_Leasingende.getText());
+							pst.setString(23, tfSoll_Laufleistung_Km.getText());
+							pst.setString(24, tfkm_Stand.getText());
+							pst.setString(25, tfDatum_Erfassung_km_Stand.getText());
+							pst.setString(26, tfAnschaffungswert__Netto.getText());
+							pst.setString(27, tfFinanzierungsrate.getText());
 							boolean wartung = false;
 							if (chkbxWartung.isSelected()) {
 								wartung = true;
 							}
 							if (wartung) {
-								pst1.setString(26, "1");
+								pst.setString(28, "1");
 							} else {
-								pst1.setString(26, "0");
+								pst.setString(28, "0");
 							}
-							pst1.setString(27, tfZulassungsart.getText());
-							pst1.setString(28, tfMotorleistung_KW_P_2.getText());
-							pst1.setString(29, tfSommerreifen.getText());
-							pst1.setString(30, tfWinterreifen.getText());
-							pst1.setString(31, tfKostenstelle.getText());
+							pst.setString(29, tfZulassungsart.getText());
+							pst.setString(30, tfMotorleistung_KW_P_2.getText());
+							pst.setString(31, tfSommerreifen.getText());
+							pst.setString(32, tfWinterreifen.getText());
+							pst.setString(33, tfKostenstelle.getText());
 							boolean foliert = false;
 							if (chkbxFoliert.isSelected()) {
 								foliert = true;
 							}
 							if (foliert) {
-								pst1.setString(32, "1");
+								pst.setString(34, "1");
 							} else {
-								pst1.setString(32, "0");
+								pst.setString(34, "0");
 							}
-							pst1.setString(33, tfTyp.getText());
+							pst.setString(35, tfTyp.getText());
 							boolean uvv = false;
 							if (chkbxUVV.isSelected()) {
 								uvv = true;
 							}
 							if (uvv) {
-								pst1.setString(34, "1");
+								pst.setString(36, "1");
 							} else {
-								pst1.setString(34, "0");
+								pst.setString(36, "0");
 							}
 							boolean fahrerunterweisung = false;
 							if (chkbxFahrerunterweisung.isSelected()) {
 								fahrerunterweisung = true;
 							}
 							if (fahrerunterweisung) {
-								pst1.setString(35, "1");
+								pst.setString(37, "1");
 							} else {
-								pst1.setString(35, "0");
+								pst.setString(37, "0");
 							}
 							boolean werkstatteinrichtung = false;
 							if (chkbxWerkstatteinrichtung.isSelected()) {
 								werkstatteinrichtung = true;
 							}
 							if (werkstatteinrichtung) {
-								pst1.setString(36, "1");
+								pst.setString(38, "1");
 							} else {
-								pst1.setString(36, "0");
+								pst.setString(38, "0");
 							}
 							boolean belueftung = false;
 							if (chkbxBelueftung.isSelected()) {
 								belueftung = true;
 							}
 							if (belueftung) {
-								pst1.setString(37, "1");
+								pst.setString(39, "1");
 							} else {
-								pst1.setString(37, "0");
+								pst.setString(39, "0");
 							}
 							boolean pruefung1 = false;
 							if (chkbxPruefung1.isSelected()) {
 								pruefung1 = true;
 							}
 							if (pruefung1) {
-								pst1.setString(38, "1");
+								pst.setString(40, "1");
 								checkPruefung1 = 1;
 							} else {
-								pst1.setString(38, "0");
+								pst.setString(40, "0");
 								checkPruefung1 = 0;
 							}
 							boolean pruefung2 = false;
@@ -1368,10 +1567,10 @@ public class FahrzeugDatenMaske extends JFrame {
 								pruefung2 = true;
 							}
 							if (pruefung2) {
-								pst1.setString(39, "1");
+								pst.setString(41, "1");
 								checkPruefung2 = 1;
 							} else {
-								pst1.setString(39, "0");
+								pst.setString(41, "0");
 								checkPruefung2 = 0;
 							}
 							boolean fahrerlaubnis = false;
@@ -1379,59 +1578,62 @@ public class FahrzeugDatenMaske extends JFrame {
 								fahrerlaubnis = true;
 							}
 							if (fahrerlaubnis) {
-								pst1.setString(40, "1");
+								pst.setString(42, "1");
 								checkFahrerlaubnis = 1;
 							} else {
-								pst1.setString(40, "0");
+								pst.setString(42, "0");
 								checkFahrerlaubnis = 0;
 							}
 
 							try {
 								fahrzeugliste = fahrzeug();
 								// tableFahrzeuge.convertRowIndexToModel(tableFahrzeuge.getSelectedRow());
-								pst1.setInt(41, fahrzeugliste.get(i).getBearbeitet() + 1);
+								pst.setInt(43, fahrzeugliste.get(i).getBearbeitet() + 1);
 							} catch (IndexOutOfBoundsException e1) {
 								//
-							}
-							try {
-								pst1.executeUpdate();
-							} catch (Exception e3) {
-
 							}
 
 							String query5 = "UPDATE Fahrer SET Erstpruefung=" + checkPruefung1 + ", Zweitpruefung="
 									+ checkPruefung2 + ", Fahrerlaubnis=" + checkFahrerlaubnis + " WHERE ID=" + item[0];
 							PreparedStatement pst5 = conn.prepareStatement(query5);
+							
 							pst5.executeUpdate();
-
-							vergleichsliste = fahrzeug();
+							
+							pst.executeUpdate();
+							
 							show_aktualisiertes_fahrzeug();
-							setAllFields(false);
-							modus = "";
+							
 							JOptionPane.showMessageDialog(null, "Daten wurden gespeichert!");
 						}
 
 						catch (IndexOutOfBoundsException e2) {
 							// JOptionPane.showMessageDialog(null, e);
-						} catch (Exception e2) {
+						} 
+						
+						catch (Exception e2) {
 							// e2.printStackTrace();
 						}
 					} else {
 						JOptionPane.showMessageDialog(null,
 								"Ihre Aenderungen wurden nicht gespeichert, bitte Ueberarbeiten Sie die Daten gegebenfalls noch einmal.");
 					}
+					
+					show_aktualisiertes_fahrzeug();
+					vergleichsliste = fahrzeug();
+					setAllFields(false);
+					modus = "";
+					
 				} else if (modus == "anlegen") {
 					try {
 
-						emptyTf(tfIdentNr);
+						emptyTf(tfFIN);
 						emptyTf(tfFirmaNr);
-						emptyTf(tfNL);
+						emptyTf(tfNLNr);
 						emptyTf(tfFZG_Marke);
 						emptyTf(tfFZG_Typ);
 						emptyTf(tfFZG_Bezeichnung);
 						emptyTf(tfamtl_Kennzeichen);
 						emptyTf(tfErstzulassung);
-//						emptyTf(tfFahrer);
 						emptyTf(tfFinanzstatus);
 						emptyTf(tfkm_Stand);
 						emptyTf(tfDatum_Erfassung_km_Stand);
@@ -1444,12 +1646,12 @@ public class FahrzeugDatenMaske extends JFrame {
 
 						String url = "jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;;user=KonzCars;password=KonzCars";
 						conn = DriverManager.getConnection(url);
-						String qry1 = "insert into Fuhrpark (IdentNr, FirmaNr, NL, FZG_Marke, FZG_Typ, FZG_Bezeichnung, amtl_Kennzeichen, Erstzulassung, Abmeldedatum, "
+						String qry1 = "insert into Fuhrpark (FIN, FirmaNr, Firmenname, NLNr, NLName, FZG_Marke, FZG_Typ, FZG_Bezeichnung, amtl_Kennzeichen, Erstzulassung, Abmeldedatum, "
 								+ "Fahrer, Fahrer2, Finanzstatus, Bank_Leasinggesellschaft, VertragsNr, Leasingdauer_Monate, Verlaengerung_Monate, Leasingrate_zzgl_MwSt_Fahrzeug, "
 								+ "Vertragsende, Bemerkung, Restwert_Leasingende, Soll_Laufleistung_Km, km_Stand, Datum_Erfassung_km_Stand, Anschaffungswert__Netto, Finanzierungsrate, "
 								+ "Wartung, Zulassungsart, Motorleistung_KW_P_2, Sommerreifen, Winterreifen, Kostenstelle, "
 								+ "Foliert, Typ, UVV, Fahrerunterweisung, Werkstatteinrichtung, Belueftung, Pruefung1, Pruefung2, Fahrerlaubnis,"
-								+ "Bearbeitet) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+								+ "Bearbeitet) values (?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?)";
 
 						fuelleArrayMaxIDList(maxID_array);
 
@@ -1463,12 +1665,9 @@ public class FahrzeugDatenMaske extends JFrame {
 						id = maxID + 1;
 
 //						id = (int) model.getValueAt(numOfRows - 1, 0) + 1;
-
+						
 						Object object = comboBox.getSelectedItem();
 						String selectedItem = object.toString();
-
-						StringTokenizer strings = new StringTokenizer(selectedItem, ",");
-
 						String item[] = new String[1];
 
 						if (!selectedItem.equals("") && !selectedItem.equals("Poolfahrzeug")) {
@@ -1476,17 +1675,36 @@ public class FahrzeugDatenMaske extends JFrame {
 
 							item[0] = strings2.nextElement().toString();
 							
-							String qry2 = "UPDATE Fuhrpark SET Fahrer = '' where Fahrer = " + item[0];
-							String qry3 = "UPDATE Fuhrpark SET Fahrer = " + item[0] + " where ID = " + id;
+//							String qry2 = "UPDATE Fuhrpark SET Fahrer = '' where Fahrer = " + item[0];
+							String qry3 = "UPDATE Fuhrpark SET Fahrer = " + item[0] + " where ID = " + id;							
 							String qry5 = "UPDATE Fahrer SET FahrzeugID = " + id + " where ID =" + item[0];
 							
-							PreparedStatement pst2 = conn.prepareStatement(qry2);
+//							PreparedStatement pst2 = conn.prepareStatement(qry2);
 							PreparedStatement pst3 = conn.prepareStatement(qry3);
 							PreparedStatement pst5 = conn.prepareStatement(qry5);
 							
-							pst2.executeUpdate();
+//							pst2.executeUpdate();
 							pst3.executeUpdate();
 							pst5.executeUpdate();
+						}
+						
+						Object object1 = cBoxFirmenname.getSelectedItem();
+						String selectedItem1 = object1.toString();
+						String item1[] = new String[1];
+						
+						Object object2 = cBoxNLName.getSelectedItem();
+						String selectedItem2 = object2.toString();
+						String item2[] = new String[1];
+						
+						if (!selectedItem1.equals("")) {
+							StringTokenizer strings = new StringTokenizer(selectedItem1, ",");
+
+							item1[0] = strings.nextElement().toString();
+						}
+						if (!selectedItem2.equals("")) {
+							StringTokenizer strings = new StringTokenizer(selectedItem2, ",");
+
+							item2[0] = strings.nextElement().toString();
 						}
 
 						String qry4 = "UPDATE Fahrer SET FahrzeugID = '' where FahrzeugID = " + id;
@@ -1496,115 +1714,130 @@ public class FahrzeugDatenMaske extends JFrame {
 
 						for (int k = 1; k < numOfRows; k++) {
 							String checkRow = model.getValueAt(k, 1).toString();
-							if (tfIdentNr.getText().equals(checkRow)) {
+							if (tfFIN.getText().equals(checkRow)) {
 								throw new Exception("Dieses Fahrzeug exisitiert bereits!");
 							}
 						}
 
-						pst1.setString(1, tfIdentNr.getText());
+						pst1.setString(1, tfFIN.getText());
 						pst1.setString(2, tfFirmaNr.getText());
-						pst1.setString(3, tfNL.getText());
-						pst1.setString(4, tfFZG_Marke.getText());
-						pst1.setString(5, tfFZG_Typ.getText());
-						pst1.setString(6, tfFZG_Bezeichnung.getText());
-						pst1.setString(7, tfamtl_Kennzeichen.getText());
-						pst1.setString(8, tfErstzulassung.getText());
-						pst1.setString(9, tfAbmeldedatum.getText());
+						try {
+							if (selectedItem1.equals("")) {
+								pst1.setString(3, "");
+							} else {
+								pst1.setString(3, item1[0]);
+							}
+						} catch (Exception e2) {
+						}
+						pst1.setString(4, tfNLNr.getText());
+						try {
+							if (selectedItem2.equals("")) {
+								pst1.setString(5, "");
+							} else {
+								pst1.setString(5, item2[0]);
+							}
+						} catch (Exception e2) {
+						}
+						pst1.setString(6, tfFZG_Marke.getText());
+						pst1.setString(7, tfFZG_Typ.getText());
+						pst1.setString(8, tfFZG_Bezeichnung.getText());
+						pst1.setString(9, tfamtl_Kennzeichen.getText());
+						pst1.setString(10, tfErstzulassung.getText());
+						pst1.setString(11, tfAbmeldedatum.getText());
 						if (selectedItem.equals("")) {
-							pst1.setString(10, "");
+							pst1.setString(12, "");
 						} else {
-							pst1.setString(10, item[0]);
+							pst1.setString(12, item[0]);
 						}
 						if (selectedItem.equals("Poolfahrzeug")) {
-							pst1.setString(10, "Poolfahrzeug");
+							pst1.setString(12, "Poolfahrzeug");
 						} else {
-							pst1.setString(10, item[0]);
+							pst1.setString(12, item[0]);
 						}
-//						pst1.setString(10, item[0]);
-						pst1.setString(11, tfFahrer2.getText());
-						pst1.setString(12, tfFinanzstatus.getText());
-						pst1.setString(13, tfBank_Leasinggesellschaft.getText());
-						pst1.setString(14, tfVertragsNr.getText());
-						pst1.setString(15, tfLeasingdauer_Monate.getText());
-						pst1.setString(16, tfVerlaengerung_Monate.getText());
-						pst1.setString(17, tfLeasingrate_zzgl_MwSt_Fahrzeug.getText());
-						pst1.setString(18, tfVertragsende.getText());
-						pst1.setString(19, tfBemerkung.getText());
-						pst1.setString(20, tfRestwert_Leasingende.getText());
-						pst1.setString(21, tfSoll_Laufleistung_Km.getText());
-						pst1.setString(22, tfkm_Stand.getText());
-						pst1.setString(23, tfDatum_Erfassung_km_Stand.getText());
-						pst1.setString(24, tfAnschaffungswert__Netto.getText());
-						pst1.setString(25, tfFinanzierungsrate.getText());
+						pst1.setString(13, tfFahrer2.getText());
+						pst1.setString(14, tfFinanzstatus.getText());
+						pst1.setString(15, tfBank_Leasinggesellschaft.getText());
+						pst1.setString(16, tfVertragsNr.getText());
+						pst1.setString(17, tfLeasingdauer_Monate.getText());
+						pst1.setString(18, tfVerlaengerung_Monate.getText());
+						pst1.setString(19, tfLeasingrate_zzgl_MwSt_Fahrzeug.getText());
+						pst1.setString(20, tfVertragsende.getText());
+						pst1.setString(21, tfBemerkung.getText());
+						pst1.setString(22, tfRestwert_Leasingende.getText());
+						pst1.setString(23, tfSoll_Laufleistung_Km.getText());
+						pst1.setString(24, tfkm_Stand.getText());
+						pst1.setString(25, tfDatum_Erfassung_km_Stand.getText());
+						pst1.setString(26, tfAnschaffungswert__Netto.getText());
+						pst1.setString(27, tfFinanzierungsrate.getText());
 						boolean wartung = false;
 						if (chkbxWartung.isSelected()) {
 							wartung = true;
 						}
 						if (wartung) {
-							pst1.setString(26, "1");
+							pst1.setString(28, "1");
 						} else {
-							pst1.setString(26, "0");
+							pst1.setString(28, "0");
 						}
-						pst1.setString(27, tfZulassungsart.getText());
-						pst1.setString(28, tfMotorleistung_KW_P_2.getText());
-						pst1.setString(29, tfSommerreifen.getText());
-						pst1.setString(30, tfWinterreifen.getText());
-						pst1.setString(31, tfKostenstelle.getText());
+						pst1.setString(29, tfZulassungsart.getText());
+						pst1.setString(30, tfMotorleistung_KW_P_2.getText());
+						pst1.setString(31, tfSommerreifen.getText());
+						pst1.setString(32, tfWinterreifen.getText());
+						pst1.setString(33, tfKostenstelle.getText());
 						boolean foliert = false;
 						if (chkbxFoliert.isSelected()) {
 							foliert = true;
 						}
 						if (foliert) {
-							pst1.setString(32, "1");
+							pst1.setString(34, "1");
 						} else {
-							pst1.setString(32, "0");
+							pst1.setString(34, "0");
 						}
-						pst1.setString(33, tfTyp.getText());
+						pst1.setString(35, tfTyp.getText());
 						boolean uvv = false;
 						if (chkbxUVV.isSelected()) {
 							uvv = true;
 						}
 						if (uvv) {
-							pst1.setString(34, "1");
+							pst1.setString(36, "1");
 						} else {
-							pst1.setString(34, "0");
+							pst1.setString(36, "0");
 						}
 						boolean fahrerunterweisung = false;
 						if (chkbxFahrerunterweisung.isSelected()) {
 							fahrerunterweisung = true;
 						}
 						if (fahrerunterweisung) {
-							pst1.setString(35, "1");
+							pst1.setString(37, "1");
 						} else {
-							pst1.setString(35, "0");
+							pst1.setString(37, "0");
 						}
 						boolean werkstatteinrichtung = false;
 						if (chkbxWerkstatteinrichtung.isSelected()) {
 							werkstatteinrichtung = true;
 						}
 						if (werkstatteinrichtung) {
-							pst1.setString(36, "1");
+							pst1.setString(38, "1");
 						} else {
-							pst1.setString(36, "0");
+							pst1.setString(38, "0");
 						}
 						boolean belueftung = false;
 						if (chkbxBelueftung.isSelected()) {
 							belueftung = true;
 						}
 						if (belueftung) {
-							pst1.setString(37, "1");
+							pst1.setString(39, "1");
 						} else {
-							pst1.setString(37, "0");
+							pst1.setString(39, "0");
 						}
 						boolean pruefung1 = false;
 						if (chkbxPruefung1.isSelected()) {
 							pruefung1 = true;
 						}
 						if (pruefung1) {
-							pst1.setString(38, "1");
+							pst1.setString(40, "1");
 							checkPruefung1 = 1;
 						} else {
-							pst1.setString(38, "0");
+							pst1.setString(40, "0");
 							checkPruefung1 = 0;
 						}
 						boolean pruefung2 = false;
@@ -1612,10 +1845,10 @@ public class FahrzeugDatenMaske extends JFrame {
 							pruefung2 = true;
 						}
 						if (pruefung2) {
-							pst1.setString(39, "1");
+							pst1.setString(41, "1");
 							checkPruefung2 = 1;
 						} else {
-							pst1.setString(39, "0");
+							pst1.setString(41, "0");
 							checkPruefung2 = 0;
 						}
 						boolean fahrerlaubnis = false;
@@ -1623,14 +1856,14 @@ public class FahrzeugDatenMaske extends JFrame {
 							fahrerlaubnis = true;
 						}
 						if (fahrerlaubnis) {
-							pst1.setString(40, "1");
+							pst1.setString(42, "1");
 							checkFahrerlaubnis = 1;
 						} else {
-							pst1.setString(40, "0");
+							pst1.setString(42, "0");
 							checkFahrerlaubnis = 0;
 						}
-						pst1.setInt(41, 0);
-
+						pst1.setInt(43, 0);
+						
 						try {
 							pst1.executeUpdate();
 							pst4.executeUpdate();
@@ -1688,8 +1921,8 @@ public class FahrzeugDatenMaske extends JFrame {
 
 			while (rs.next()) {
 
-				fahrzeug = new Fahrzeug(rs.getInt("ID"), rs.getString("IdentNr"), rs.getString("FirmaNr"),
-						rs.getString("NL"), rs.getString("FZG_Marke"), rs.getString("FZG_Typ"),
+				fahrzeug = new Fahrzeug(rs.getInt("ID"), rs.getString("FIN"), rs.getString("FirmaNr"), rs.getString("Firmenname"),
+						rs.getString("NLNr"), rs.getString("NLName"), rs.getString("FZG_Marke"), rs.getString("FZG_Typ"),
 						rs.getString("FZG_Bezeichnung"), rs.getString("amtl_Kennzeichen"),
 						rs.getString("Erstzulassung"), rs.getString("Abmeldedatum"), rs.getString("Fahrer"),
 						rs.getString("Fahrer2"), rs.getString("Finanzstatus"), rs.getString("Bank_Leasinggesellschaft"),
@@ -1722,57 +1955,61 @@ public class FahrzeugDatenMaske extends JFrame {
 		tableFahrzeuge.setRowSorter(rowFilter);
 
 		rowFilter.setRowFilter(RowFilter.regexFilter("(?i)" + str));
+		rowCount();
 	}
 
 	public static void show_fahrzeug() {
 		DefaultTableModel model = (DefaultTableModel) tableFahrzeuge.getModel();
 		ArrayList<Fahrzeug> fahrzeug = fahrzeug();
-		Object[] row = new Object[42];
+		Object[] row = new Object[44];
 		for (int i = 0; i < fahrzeug.size(); i++) {
 			row[0] = fahrzeug.get(i).getID();
-			row[1] = fahrzeug.get(i).getIdentNr();
+			row[1] = fahrzeug.get(i).getFIN();
 			row[2] = fahrzeug.get(i).getFirmaNr();
-			row[3] = fahrzeug.get(i).getNL();
-			row[4] = fahrzeug.get(i).getFZG_Marke();
-			row[5] = fahrzeug.get(i).getFZG_Typ();
-			row[6] = fahrzeug.get(i).getFZG_Bezeichnung();
-			row[7] = fahrzeug.get(i).getAmtl_Kennzeichen();
-			row[8] = fahrzeug.get(i).getErstzulassung();
-			row[9] = fahrzeug.get(i).getAbmeldedatum();
-			row[10] = fahrzeug.get(i).getFahrer();
-			row[11] = fahrzeug.get(i).getFahrer2();
-			row[12] = fahrzeug.get(i).getFinanzstatus();
-			row[13] = fahrzeug.get(i).getBank_Leasinggesellschaft();
-			row[14] = fahrzeug.get(i).getVertragsNr();
-			row[15] = fahrzeug.get(i).getLeasingdauer_Monate();
-			row[16] = fahrzeug.get(i).getVerlaengerung_Monate();
-			row[17] = fahrzeug.get(i).getLeasingrate_zzgl_MwSt_Fahrzeug();
-			row[18] = fahrzeug.get(i).getVertragsende();
-			row[19] = fahrzeug.get(i).getBemerkung();
-			row[20] = fahrzeug.get(i).getRestwert_Leasingende();
-			row[21] = fahrzeug.get(i).getSoll_Laufleistung_Km();
-			row[22] = fahrzeug.get(i).getKm_Stand();
-			row[23] = fahrzeug.get(i).getDatum_Erfassung_km_Stand();
-			row[24] = fahrzeug.get(i).getAnschaffungswert_Netto();
-			row[25] = fahrzeug.get(i).getFinanzierungsrate();
-			row[26] = fahrzeug.get(i).getWartung();
-			row[27] = fahrzeug.get(i).getZulassungsart();
-			row[28] = fahrzeug.get(i).getMotorleistung_KW_P_2();
-			row[29] = fahrzeug.get(i).getSommerreifen();
-			row[30] = fahrzeug.get(i).getWinterreifen();
-			row[31] = fahrzeug.get(i).getKostenstelle();
-			row[32] = fahrzeug.get(i).getFoliert();
-			row[33] = fahrzeug.get(i).getTyp();
-			row[34] = fahrzeug.get(i).getUVV();
-			row[35] = fahrzeug.get(i).getFahrerunterweisung();
-			row[36] = fahrzeug.get(i).getWerkstatteinrichtung();
-			row[37] = fahrzeug.get(i).getBelueftung();
-			row[38] = fahrzeug.get(i).getPruefung1();
-			row[39] = fahrzeug.get(i).getPruefung2();
-			row[40] = fahrzeug.get(i).getFahrerlaubnis();
-			row[41] = fahrzeug.get(i).getBearbeitet();
+			row[3] = fahrzeug.get(i).getFirmenname();
+			row[4] = fahrzeug.get(i).getNLNr();
+			row[5] = fahrzeug.get(i).getNLName();
+			row[6] = fahrzeug.get(i).getFZG_Marke();
+			row[7] = fahrzeug.get(i).getFZG_Typ();
+			row[8] = fahrzeug.get(i).getFZG_Bezeichnung();
+			row[9] = fahrzeug.get(i).getAmtl_Kennzeichen();
+			row[10] = fahrzeug.get(i).getErstzulassung();
+			row[11] = fahrzeug.get(i).getAbmeldedatum();
+			row[12] = fahrzeug.get(i).getFahrer();
+			row[13] = fahrzeug.get(i).getFahrer2();
+			row[14] = fahrzeug.get(i).getFinanzstatus();
+			row[15] = fahrzeug.get(i).getBank_Leasinggesellschaft();
+			row[16] = fahrzeug.get(i).getVertragsNr();
+			row[17] = fahrzeug.get(i).getLeasingdauer_Monate();
+			row[18] = fahrzeug.get(i).getVerlaengerung_Monate();
+			row[19] = fahrzeug.get(i).getLeasingrate_zzgl_MwSt_Fahrzeug();
+			row[20] = fahrzeug.get(i).getVertragsende();
+			row[21] = fahrzeug.get(i).getBemerkung();
+			row[22] = fahrzeug.get(i).getRestwert_Leasingende();
+			row[23] = fahrzeug.get(i).getSoll_Laufleistung_Km();
+			row[24] = fahrzeug.get(i).getKm_Stand();
+			row[25] = fahrzeug.get(i).getDatum_Erfassung_km_Stand();
+			row[26] = fahrzeug.get(i).getAnschaffungswert_Netto();
+			row[27] = fahrzeug.get(i).getFinanzierungsrate();
+			row[28] = fahrzeug.get(i).getWartung();
+			row[29] = fahrzeug.get(i).getZulassungsart();
+			row[30] = fahrzeug.get(i).getMotorleistung_KW_P_2();
+			row[31] = fahrzeug.get(i).getSommerreifen();
+			row[32] = fahrzeug.get(i).getWinterreifen();
+			row[33] = fahrzeug.get(i).getKostenstelle();
+			row[34] = fahrzeug.get(i).getFoliert();
+			row[35] = fahrzeug.get(i).getTyp();
+			row[36] = fahrzeug.get(i).getUVV();
+			row[37] = fahrzeug.get(i).getFahrerunterweisung();
+			row[38] = fahrzeug.get(i).getWerkstatteinrichtung();
+			row[39] = fahrzeug.get(i).getBelueftung();
+			row[40] = fahrzeug.get(i).getPruefung1();
+			row[41] = fahrzeug.get(i).getPruefung2();
+			row[42] = fahrzeug.get(i).getFahrerlaubnis();
+			row[43] = fahrzeug.get(i).getBearbeitet();
 			model.addRow(row);
 		}
+		rowCount();
 	}
 
 	public static void show_aktualisiertes_fahrzeug() {
@@ -1795,9 +2032,9 @@ public class FahrzeugDatenMaske extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(621, 50, 692, 542);
+		scrollPane.setBounds(620, 50, f_width -630, f_height -158);
 		contentPane.add(scrollPane);
-
+		
 		JPanel panel = new JPanel();
 		scrollPane.setViewportView(panel);
 		scrollPane.setViewportView(tableFahrzeuge);
@@ -1809,49 +2046,11 @@ public class FahrzeugDatenMaske extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-//		addWindowStateListener(new WindowStateListener() {
-//			public void windowStateChanged(final WindowEvent evt) {
-//				if (evt.getNewState() == MAXIMIZED_BOTH) {
-//					
-//					scrollPane.setBounds(621, 50, 1288, 926);
-//					btnSave.setBounds(10, 986, 180, 23);
-//					btnExport.setBounds(1727, 986, 180, 23);
-//					btn_Abbrechen.setBounds(430, 986, 180, 23);
-//					btn_Anlegen.setBounds(1498, 25, 93, 19);
-//					btn_Bearbeiten.setBounds(1603, 25, 93, 19);
-//					btn_Loeschen.setBounds(1707, 25, 93, 19);
-//					btn_Dokumente.setBounds(1810, 25, 93, 19);
-//					btnClear.setBounds(1470, 26, 19, 18);
-//					tfSuche.setBounds(10, 26, 1460, 19);
-//					lblWartung.setBounds(10, 959, 45, 13);
-//					lblFoliert.setBounds(95, 959, 35, 13);
-//					lblUVV.setBounds(170, 959, 20, 13);
-//					lblFahrerunterweisung.setBounds(230, 959, 70, 13);
-//					lblWerkstatteinrichtung.setBounds(340, 959, 70, 13);
-//					lblBelueftung.setBounds(450, 959, 50, 13);
-//					chkbxWartung.setBounds(60, 956, 20, 20);
-//					chkbxFoliert.setBounds(135, 956, 20, 20);
-//					chkbxUVV.setBounds(195, 956, 20, 20);
-//					chkbxFahrerunterweisung.setBounds(305, 956, 20, 20);
-//					chkbxWerkstatteinrichtung.setBounds(415, 956, 20, 20);
-//					chkbxBelueftung.setBounds(505, 956, 20, 20);
-//
-//				} else {
-
-		btnExport.setBounds(1132, 605, 180, 23);
-		btn_Anlegen.setBounds(904, 25, 93, 19);
-		btn_Bearbeiten.setBounds(1007, 25, 93, 19);
-		btn_Loeschen.setBounds(1110, 25, 93, 19);
-		btn_Dokumente.setBounds(1212, 25, 100, 19);
-		scrollPane.setBounds(621, 50, 692, 542);
-		btnSave.setBounds(10, 605, 180, 23);
-		btnAbbrechen.setBounds(432, 605, 180, 23);
-		btnClear.setBounds(876, 26, 19, 18);
-		tfSuche.setBounds(10, 26, 866, 19);
-//				}
-//			}
-//		});
+	}
+	
+	public static void rowCount() {		
+		zeilenAnzahl = tableFahrzeuge.getRowCount();
+		lblZeilenAnzahl.setText("Zeilenanzahl: " + zeilenAnzahl);
 	}
 
 	public void wichtigTf(JTextField tf) {
@@ -1881,9 +2080,11 @@ public class FahrzeugDatenMaske extends JFrame {
 	}
 
 	public void setAllFields(boolean wert) {
-		tfIdentNr.setEnabled(wert);
+		tfFIN.setEnabled(wert);
 		tfFirmaNr.setEnabled(wert);
-		tfNL.setEnabled(wert);
+		cBoxFirmenname.setEnabled(wert);
+		tfNLNr.setEnabled(wert);
+		cBoxNLName.setEnabled(wert);
 		tfFZG_Marke.setEnabled(wert);
 		tfFZG_Bezeichnung.setEnabled(wert);
 		tfamtl_Kennzeichen.setEnabled(wert);
@@ -1912,7 +2113,6 @@ public class FahrzeugDatenMaske extends JFrame {
 		tfKostenstelle.setEnabled(wert);
 		tfTyp.setEnabled(wert);
 		tfErstzulassung.setEnabled(wert);
-//		tfSuche.setEnabled(wert);
 		chkbxBelueftung.setEnabled(wert);
 		chkbxFahrerunterweisung.setEnabled(wert);
 		chkbxFoliert.setEnabled(wert);
@@ -1927,16 +2127,18 @@ public class FahrzeugDatenMaske extends JFrame {
 	}
 
 	public void clearAllFields() {
-		tfIdentNr.setText("");
+		tfFIN.setText("");
 		tfFirmaNr.setText("");
-		tfNL.setText("");
+		cBoxFirmenname.setSelectedIndex(0);
+		tfNLNr.setText("");
+		cBoxNLName.setSelectedIndex(0);
 		tfFZG_Marke.setText("");
 		tfFZG_Bezeichnung.setText("");
 		tfamtl_Kennzeichen.setText("");
 		tfFZG_Typ.setText("");
 		tfDatum_Erfassung_km_Stand.setText("");
 		tfAbmeldedatum.setText("");
-//		tfFahrer.setText("");
+		comboBox.setSelectedIndex(0);
 		tfFahrer2.setText("");
 		tfFinanzstatus.setText("");
 		tfBank_Leasinggesellschaft.setText("");
@@ -1968,15 +2170,14 @@ public class FahrzeugDatenMaske extends JFrame {
 		chkbxPruefung1.setText("");
 		chkbxPruefung2.setText("");
 		chkbxFahrerlaubnis.setText("");
-		wichtigTf(tfIdentNr);
+		wichtigTf(tfFIN);
 		wichtigTf(tfFirmaNr);
-		wichtigTf(tfNL);
+		wichtigTf(tfNLNr);
 		wichtigTf(tfFZG_Marke);
 		wichtigTf(tfFZG_Typ);
 		wichtigTf(tfFZG_Bezeichnung);
 		wichtigTf(tfamtl_Kennzeichen);
 		wichtigTf(tfErstzulassung);
-//		wichtigTf(tfFahrer);
 		wichtigTf(tfFinanzstatus);
 		wichtigTf(tfkm_Stand);
 		wichtigTf(tfDatum_Erfassung_km_Stand);
@@ -1994,7 +2195,7 @@ public class FahrzeugDatenMaske extends JFrame {
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			while (rs.next()) {
-				array.add(rs.getString("ID") + ", " + rs.getString("Personalnummer") + ", " + rs.getString("Name")
+				arr.add(rs.getString("ID") + ", " + rs.getString("Personalnummer") + ", " + rs.getString("Name")
 						+ ", " + rs.getString("Vorname"));
 			}
 		}
@@ -2005,6 +2206,44 @@ public class FahrzeugDatenMaske extends JFrame {
 		return arrayList;
 	}
 
+	public static ArrayList<String> fuelleArrFirmennameList(ArrayList<String> arr1List) {
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
+					"KonzCars", "KonzCars");
+			String query1 = "Select FirmaBez from Firma";
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query1);
+			while (rs.next()) {
+				arrFirmenname.add(rs.getString("FirmaBez"));
+			}
+		}
+
+		catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, e1);
+		}
+		return arrFirmenname;
+	}
+	
+	public static ArrayList<String> fuelleArrNLNameList(ArrayList<String> arr2List) {
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
+					"KonzCars", "KonzCars");
+			String query1 = "Select Ort from Niederlassung";
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query1);
+			while (rs.next()) {
+				arrNLName.add(rs.getString("Ort"));
+			}
+		}
+		
+		catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, e1);
+		}
+		return arrNLName;
+	}
+	
 	public static ArrayList<String> fuelleArrayMaxIDList(ArrayList<String> arrayList) {
 		try {
 			conn = DriverManager.getConnection(
@@ -2040,5 +2279,10 @@ public class FahrzeugDatenMaske extends JFrame {
 		} catch (IOException e) {
 			System.out.println(e);
 		}
+	}
+	
+	public static void activeMode(JButton activeBtn, JButton deactiveBtn) {
+		activeBtn.setBorder(BorderFactory.createLineBorder(Color.red,1));
+		deactiveBtn.setBorder(BorderFactory.createLineBorder(Color.gray,1));
 	}
 }

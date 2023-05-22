@@ -221,7 +221,7 @@ public class FahrerDatenMaske extends JFrame {
 		tfAktivKz.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		tfAktivKz.setColumns(10);
 		tfAktivKz.setBounds(137, 162, 243, 20);
-		contentPane.add(tfAktivKz);
+//		contentPane.add(tfAktivKz);
 
 		tfFirmaNr = new JTextField();
 		tfFirmaNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -263,7 +263,7 @@ public class FahrerDatenMaske extends JFrame {
 		JLabel lblAktivKZ = new JLabel("Aktiv KZ");
 		lblAktivKZ.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblAktivKZ.setBounds(10, 162, 115, 14);
-		contentPane.add(lblAktivKZ);
+//		contentPane.add(lblAktivKZ);
 
 		JLabel lblFirmaNr = new JLabel("FirmaNr");
 		lblFirmaNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -408,7 +408,7 @@ public class FahrerDatenMaske extends JFrame {
 
 		wichtigTf(tfPersonalnummer);
 		wichtigTf(tfNachname);
-		wichtigTf(tfAktivKz);
+//		wichtigTf(tfAktivKz);
 		wichtigTf(tfFirmaNr);
 		wichtigTf(tfNLNr);
 		
@@ -421,7 +421,7 @@ public class FahrerDatenMaske extends JFrame {
 				
 				wichtigTf(tfPersonalnummer);
 				wichtigTf(tfNachname);
-				wichtigTf(tfAktivKz);
+//				wichtigTf(tfAktivKz);
 				wichtigTf(tfFirmaNr);
 				wichtigTf(tfNLNr);
 				
@@ -800,7 +800,7 @@ public class FahrerDatenMaske extends JFrame {
 					try {
 						emptyTf(tfPersonalnummer);
 						emptyTf(tfNachname);
-						emptyTf(tfAktivKz);
+//						emptyTf(tfAktivKz);
 						emptyTf(tfFirmaNr);
 						emptyTf(tfNLNr);
 

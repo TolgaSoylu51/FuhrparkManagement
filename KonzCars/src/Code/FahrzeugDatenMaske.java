@@ -71,17 +71,21 @@ public class FahrzeugDatenMaske extends JFrame {
 	int f_width, f_height;
 
 	private static ArrayList<String> arr = new ArrayList<String>();
-	private static ArrayList<String> arrFirmenname = new ArrayList<String>();
-	private static ArrayList<String> arrNLName = new ArrayList<String>();
+	private static ArrayList<String> arrFirma = new ArrayList<String>();
+	private static ArrayList<String> arrNL = new ArrayList<String>();
 	private static ArrayList<String> maxID_array = new ArrayList<String>();
 
 	boolean erweitern = false;
 
 	private static JTextField tfFIN;
-	private static JTextField tfFirmaNr;
-	private JComboBox<?> cBoxFirmenname;	
-	private static JTextField tfNLNr;
-	private JComboBox<?> cBoxNLName;
+//	private static JTextField tfFirmaNr;
+//	private JComboBox<?> cBoxFirmaNr;
+//	private JComboBox<?> cBoxFirmenname;
+	private JComboBox<?> cBoxFirma;
+//	private static JTextField tfNLNr;
+//	private JComboBox<?> cBoxNLNr;
+//	private JComboBox<?> cBoxNLName;
+	private JComboBox<?> cBoxNL;
 	private static JTextField tfFZG_Marke;
 	private static JTextField tfFZG_Bezeichnung;
 	private static JTextField tfamtl_Kennzeichen;
@@ -238,61 +242,41 @@ public class FahrzeugDatenMaske extends JFrame {
 		contentPane.add(tfFIN);
 		tfFIN.setColumns(10);
 
-		JLabel lblFirmaNr = new JLabel("FirmaNr");
-		lblFirmaNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblFirmaNr.setForeground(Color.BLACK);
-		lblFirmaNr.setBounds(10, 92, 64, 13);
-		contentPane.add(lblFirmaNr);
-
-		tfFirmaNr = new JTextField();
-		tfFirmaNr.setForeground(Color.BLACK);
-		tfFirmaNr.setBackground(Color.WHITE);
-		tfFirmaNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfFirmaNr.setBounds(64, 89, 40, 19);
-		contentPane.add(tfFirmaNr);
-		tfFirmaNr.setColumns(10);
+//		JLabel lblFirmaNr = new JLabel("FirmaNr");
+//		lblFirmaNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
+//		lblFirmaNr.setForeground(Color.BLACK);
+//		lblFirmaNr.setBounds(10, 92, 64, 13);
+//		contentPane.add(lblFirmaNr);
+		
+//		JLabel lblFirma = new JLabel("Firma");
+//		lblFirma.setFont(new Font("Tahoma", Font.PLAIN, 11));
+//		lblFirma.setForeground(Color.BLACK);
+//		lblFirma.setBounds(124, 92, 64, 13);
+//		contentPane.add(lblFirma);
 		
 		JLabel lblFirma = new JLabel("Firma");
 		lblFirma.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblFirma.setForeground(Color.BLACK);
-		lblFirma.setBounds(114, 92, 64, 13);
+		lblFirma.setBounds(10, 92, 64, 13);
 		contentPane.add(lblFirma);
 
-//		tfFirma = new JTextField();
-//		tfFirma.setForeground(Color.BLACK);
-//		tfFirma.setBackground(Color.WHITE);
-//		tfFirma.setFont(new Font("Tahoma", Font.PLAIN, 11));
-//		tfFirma.setBounds(154, 89, 158, 19);
-//		contentPane.add(tfFirma);
-//		tfFirma.setColumns(10);
-
-		JLabel lblNLNr = new JLabel("NLNr");
-		lblNLNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNLNr.setForeground(Color.BLACK);
-		lblNLNr.setBounds(10, 112, 64, 13);
-		contentPane.add(lblNLNr);
-
-		tfNLNr = new JTextField();
-		tfNLNr.setForeground(Color.BLACK);
-		tfNLNr.setBackground(Color.WHITE);
-		tfNLNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		tfNLNr.setColumns(10);
-		tfNLNr.setBounds(64, 109, 40, 19);
-		contentPane.add(tfNLNr);
+//		JLabel lblNLNr = new JLabel("NLNr");
+//		lblNLNr.setFont(new Font("Tahoma", Font.PLAIN, 11));
+//		lblNLNr.setForeground(Color.BLACK);
+//		lblNLNr.setBounds(10, 112, 64, 13);
+//		contentPane.add(lblNLNr);
+		
+//		JLabel lblNL = new JLabel("NL");
+//		lblNL.setFont(new Font("Tahoma", Font.PLAIN, 11));
+//		lblNL.setForeground(Color.BLACK);
+//		lblNL.setBounds(124, 112, 64, 13);
+//		contentPane.add(lblNL);
 		
 		JLabel lblNL = new JLabel("NL");
 		lblNL.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblNL.setForeground(Color.BLACK);
-		lblNL.setBounds(114, 112, 64, 13);
+		lblNL.setBounds(10, 112, 64, 13);
 		contentPane.add(lblNL);
-
-//		tfNL = new JTextField();
-//		tfNL.setForeground(Color.BLACK);
-//		tfNL.setBackground(Color.WHITE);
-//		tfNL.setFont(new Font("Tahoma", Font.PLAIN, 11));
-//		tfNL.setColumns(10);
-//		tfNL.setBounds(154, 109, 158, 19);
-//		contentPane.add(tfNL);
 
 		JLabel lblFZG_Marke = new JLabel("Marke");
 		lblFZG_Marke.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -834,32 +818,85 @@ public class FahrzeugDatenMaske extends JFrame {
 		comboBox.setBounds(92, 254, 220, 19);
 		contentPane.add(comboBox);
 		
-		//combobox Firmenname
-		fuelleArrFirmennameList(arrFirmenname);
-		String[] a1 = new String[arrFirmenname.size() + 1];
 		
+//		//combobox FirmaNr
+//		fuelleFirmaNr(arrFirmaNr);
+//		String[] a1 = new String[arrFirmaNr.size() + 1];
+//				
+//		a1[0] = "";
+//
+//		for (int i = 1; i < a1.length; i++) {
+//					a1[i] = arrFirmaNr.get(i - 1);
+//		}
+//		cBoxFirmaNr = new JComboBox<Object>(a1);
+//		cBoxFirmaNr.setBounds(64, 89, 50, 19);
+//		contentPane.add(cBoxFirmaNr);
+//		
+//		//combobox Firmenname
+//		fuelleFirmenname(arrFirmenname);
+//		String[] a2 = new String[arrFirmenname.size() + 1];
+//		
+//		a2[0] = "";
+//
+//		for (int i = 1; i < a2.length; i++) {
+//			a2[i] = arrFirmenname.get(i - 1);
+//		}
+//		cBoxFirmenname = new JComboBox<Object>(a2);
+//		cBoxFirmenname.setBounds(154, 89, 158, 19);
+//		contentPane.add(cBoxFirmenname);
+		
+		//combobox Firma
+		fuelleFirma(arrFirma);
+		String[] a1 = new String[arrFirma.size() + 1];
+				
 		a1[0] = "";
 
 		for (int i = 1; i < a1.length; i++) {
-			a1[i] = arrFirmenname.get(i - 1);
+					a1[i] = arrFirma.get(i - 1);
 		}
-		cBoxFirmenname = new JComboBox<Object>(a1);
-		cBoxFirmenname.setBounds(154, 89, 158, 19);
-		contentPane.add(cBoxFirmenname);
-				
-		//combobox Niederlassungsname
-		fuelleArrNLNameList(arrNLName);
-		String[] a2 = new String[arrNLName.size() + 1];
+		cBoxFirma = new JComboBox<Object>(a1);
+		cBoxFirma.setBounds(64, 89, 248, 19);
+		contentPane.add(cBoxFirma);
+		
+//		//combobox NLNr
+//		fuelleNLNr(arrNLNr);
+//		String[] a3 = new String[arrNLNr.size() + 1];
+//
+//		a3[0] = "";
+//
+//		for (int j = 1; j < a3.length; j++) {
+//			a3[j] = arrNLNr.get(j - 1);
+//		}
+//		cBoxNLNr = new JComboBox<Object>(a3);
+//		cBoxNLNr.setBounds(64, 109, 50, 19);
+//		contentPane.add(cBoxNLNr);
+//		
+//		//combobox Niederlassungsname
+//		fuelleNLName(arrNLName);
+//		String[] a4 = new String[arrNLName.size() + 1];
+//
+//		a4[0] = "";
+//
+//		for (int j = 1; j < a4.length; j++) {
+//			a4[j] = arrNLName.get(j - 1);
+//		}
+//		cBoxNLName = new JComboBox<Object>(a4);
+//		cBoxNLName.setBounds(154, 109, 158, 19);
+//		contentPane.add(cBoxNLName);
+
+		//combobox NLNr
+		fuelleNL(arrNL);
+		String[] a2 = new String[arrNL.size() + 1];
 
 		a2[0] = "";
 
 		for (int j = 1; j < a2.length; j++) {
-			a2[j] = arrNLName.get(j - 1);
+			a2[j] = arrNL.get(j - 1);
 		}
-		cBoxNLName = new JComboBox<Object>(a2);
-		cBoxNLName.setBounds(154, 109, 158, 19);
-		contentPane.add(cBoxNLName);
-
+		cBoxNL = new JComboBox<Object>(a2);
+		cBoxNL.setBounds(64, 109, 248, 19);
+		contentPane.add(cBoxNL);
+		
 		setAllFields(false);
 
 		JButton btnZurueck = new JButton("");
@@ -911,8 +948,6 @@ public class FahrzeugDatenMaske extends JFrame {
 		filter("");
 
 		wichtigTf(tfFIN);
-		wichtigTf(tfFirmaNr);
-		wichtigTf(tfNLNr);
 		wichtigTf(tfFZG_Marke);
 		wichtigTf(tfFZG_Typ);
 		wichtigTf(tfFZG_Bezeichnung);
@@ -932,8 +967,6 @@ public class FahrzeugDatenMaske extends JFrame {
 				setAllFields(true);
 				
 				wichtigTf(tfFIN);
-				wichtigTf(tfFirmaNr);
-				wichtigTf(tfNLNr);
 				wichtigTf(tfFZG_Marke);
 				wichtigTf(tfFZG_Typ);
 				wichtigTf(tfFZG_Bezeichnung);
@@ -946,8 +979,12 @@ public class FahrzeugDatenMaske extends JFrame {
 				wichtigTf(tfMotorleistung_KW_P_2);
 				wichtigTf(tfKostenstelle);
 				
-				cBoxFirmenname.setSelectedIndex(0);
-				cBoxNLName.setSelectedIndex(0);
+//				cBoxFirmaNr.setSelectedIndex(0);
+//				cBoxFirmenname.setSelectedIndex(0);
+				cBoxFirma.setSelectedIndex(0);
+//				cBoxNLNr.setSelectedIndex(0);
+//				cBoxNLName.setSelectedIndex(0);
+				cBoxNL.setSelectedIndex(0);
 				comboBox.setSelectedIndex(0);
 				
 				tfFahrer2.setText("");
@@ -1115,38 +1152,94 @@ public class FahrzeugDatenMaske extends JFrame {
 				if (model.getValueAt(i, 1) != null) {
 					tfFIN.setText(model.getValueAt(i, 1).toString());
 				}
+//				if (model.getValueAt(i, 2) != null) {
+//					String s1;
+//					String s2 = model.getValueAt(i, 2).toString();
+//					for (int j = 1; j < cBoxFirmaNr.getItemCount(); j++) {
+//						s1 = cBoxFirmaNr.getItemAt(j).toString();
+//						if (s1.equals(s2)) {
+//							cBoxFirmaNr.setSelectedIndex(j);
+//						}
+//					}
+//					if (model.getValueAt(i, 2).toString().equals("")) {
+//						cBoxFirmaNr.setSelectedIndex(0);
+//					}
+//				}
+//				if (model.getValueAt(i, 3) != null) {
+//					String s1;
+//					String s2 = model.getValueAt(i, 3).toString();
+//					for (int j = 1; j < cBoxFirmenname.getItemCount(); j++) {
+//						s1 = cBoxFirmenname.getItemAt(j).toString();
+//						if (s1.equals(s2)) {
+//							cBoxFirmenname.setSelectedIndex(j);
+//						}
+//					}
+//					if (model.getValueAt(i, 3).toString().equals("")) {
+//						cBoxFirmenname.setSelectedIndex(0);
+//					}
+//				}
+				
 				if (model.getValueAt(i, 2) != null) {
-					tfFirmaNr.setText(model.getValueAt(i, 2).toString());
-				}
-				if (model.getValueAt(i, 3) != null) {
+					String item[] = new String[1];
 					String s1;
-					String s2 = model.getValueAt(i, 3).toString();
-					for (int j = 1; j < cBoxFirmenname.getItemCount(); j++) {
-						s1 = cBoxFirmenname.getItemAt(j).toString();
-						if (s1.equals(s2)) {
-							cBoxFirmenname.setSelectedIndex(j);
+					String s2 = model.getValueAt(i, 2).toString();
+					for (int j = 1; j < cBoxFirma.getItemCount(); j++) {
+						s1 = cBoxFirma.getItemAt(j).toString();
+						StringTokenizer strings = new StringTokenizer(s1, ",");
+						item[0] = strings.nextElement().toString();
+						if (item[0].equals(s2)) {
+							cBoxFirma.setSelectedIndex(j);
 						}
 					}
-					if (model.getValueAt(i, 3).toString().equals("")) {
-						cBoxFirmenname.setSelectedIndex(0);
+					if (model.getValueAt(i, 2).toString().equals("")) {
+						cBoxFirma.setSelectedIndex(0);
 					}
 				}
+				
+//				if (model.getValueAt(i, 4) != null) {
+//					String s1;
+//					String s2 = model.getValueAt(i, 4).toString();
+//					for (int j = 1; j < cBoxNLNr.getItemCount(); j++) {
+//						s1 = cBoxNLNr.getItemAt(j).toString();
+//						if (s1.equals(s2)) {
+//							cBoxNLNr.setSelectedIndex(j);
+//						}
+//					}
+//					if (model.getValueAt(i, 4).toString().equals("")) {
+//						cBoxNLNr.setSelectedIndex(0);
+//					}
+//				}
+//				if (model.getValueAt(i, 5) != null) {
+//					String s1;
+//					String s2 = model.getValueAt(i, 5).toString();
+//					for (int j = 1; j < cBoxNLName.getItemCount(); j++) {
+//						s1 = cBoxNLName.getItemAt(j).toString();
+//						if (s1.equals(s2)) {
+//							cBoxNLName.setSelectedIndex(j);
+//						}
+//					}
+//					if (model.getValueAt(i, 5).toString().equals("")) {
+//						cBoxNLName.setSelectedIndex(0);
+//					}
+//				}
+				
 				if (model.getValueAt(i, 4) != null) {
-					tfNLNr.setText(model.getValueAt(i, 4).toString());
-				}
-				if (model.getValueAt(i, 5) != null) {
+					String item[] = new String[1];
 					String s1;
-					String s2 = model.getValueAt(i, 5).toString();
-					for (int j = 1; j < cBoxNLName.getItemCount(); j++) {
-						s1 = cBoxNLName.getItemAt(j).toString();
-						if (s1.equals(s2)) {
-							cBoxNLName.setSelectedIndex(j);
+					String s2 = model.getValueAt(i, 4).toString();
+					for (int j = 1; j < cBoxNL.getItemCount(); j++) {
+						s1 = cBoxNL.getItemAt(j).toString();
+						StringTokenizer strings = new StringTokenizer(s1, ",");
+						item[0] = strings.nextElement().toString();
+						if (item[0].equals(s2)) {
+							cBoxNL.setSelectedIndex(j);
 						}
 					}
-					if (model.getValueAt(i, 5).toString().equals("")) {
-						cBoxNLName.setSelectedIndex(0);
+					if (model.getValueAt(i, 4).toString().equals("")) {
+						cBoxNL.setSelectedIndex(0);
 					}
 				}
+				
 				if (model.getValueAt(i, 6) != null) {
 					tfFZG_Marke.setText(model.getValueAt(i, 6).toString());
 				}
@@ -1364,8 +1457,6 @@ public class FahrzeugDatenMaske extends JFrame {
 						try {
 
 							emptyTf(tfFIN);
-							emptyTf(tfFirmaNr);
-							emptyTf(tfNLNr);
 							emptyTf(tfFZG_Marke);
 							emptyTf(tfFZG_Typ);
 							emptyTf(tfFZG_Bezeichnung);
@@ -1392,13 +1483,29 @@ public class FahrzeugDatenMaske extends JFrame {
 							String selectedItem = object.toString();
 							String item[] = new String[1];
 							
-							Object object1 = cBoxFirmenname.getSelectedItem();
+							Object object1 = cBoxFirma.getSelectedItem();
 							String selectedItem1 = object1.toString();
-							String item1[] = new String[1];
+							String item1[] = new String[2];
 							
-							Object object2 = cBoxNLName.getSelectedItem();
+							Object object2 = cBoxNL.getSelectedItem();
 							String selectedItem2 = object2.toString();
-							String item2[] = new String[1];
+							String item2[] = new String[2];
+							
+//							Object object1 = cBoxFirmaNr.getSelectedItem();
+//							String selectedItem1 = object1.toString();
+//							String item1[] = new String[1];
+//							
+//							Object object2 = cBoxFirmenname.getSelectedItem();
+//							String selectedItem2 = object2.toString();
+//							String item2[] = new String[1];
+//							
+//							Object object3 = cBoxNLNr.getSelectedItem();
+//							String selectedItem3 = object3.toString();
+//							String item3[] = new String[1];
+//							
+//							Object object4 = cBoxNLName.getSelectedItem();
+//							String selectedItem4 = object4.toString();
+//							String item4[] = new String[1];
 							
 							if (!selectedItem.equals("") && !selectedItem.equals("Poolfahrzeug")) {
 								StringTokenizer strings = new StringTokenizer(selectedItem, ",");
@@ -1420,37 +1527,66 @@ public class FahrzeugDatenMaske extends JFrame {
 							
 							if (!selectedItem1.equals("")) {
 								StringTokenizer strings = new StringTokenizer(selectedItem1, ",");
-
+								
 								item1[0] = strings.nextElement().toString();
+								item1[1] = strings.nextElement().toString();
 							}
 							
 							if (!selectedItem2.equals("")) {
 								StringTokenizer strings = new StringTokenizer(selectedItem2, ",");
 
 								item2[0] = strings.nextElement().toString();
+								item2[1] = strings.nextElement().toString();
 							}
+							
+//							if (!selectedItem3.equals("")) {
+//								StringTokenizer strings = new StringTokenizer(selectedItem3, ",");
+//
+//								item3[0] = strings.nextElement().toString();
+//							}
+//							
+//							if (!selectedItem4.equals("")) {
+//								StringTokenizer strings = new StringTokenizer(selectedItem4, ",");
+//
+//								item4[0] = strings.nextElement().toString();
+//							}
 							
 							PreparedStatement pst = conn.prepareStatement(qry);
 
 							pst.setString(1, tfFIN.getText());
-							pst.setString(2, tfFirmaNr.getText());
+							
+							try {
+								if (selectedItem1.equals("")) {
+									pst.setString(2, "");
+								} else {
+									pst.setString(2, item1[0]);
+								}
+							} catch (Exception e2) {
+							}
 							
 							try {
 								if (selectedItem1.equals("")) {
 									pst.setString(3, "");
 								} else {
-									pst.setString(3, item1[0]);
+									pst.setString(3, item1[1]);
 								}
 							} catch (Exception e2) {
 							}
 							
-							pst.setString(4, tfNLNr.getText());
+							try {
+								if (selectedItem2.equals("")) {
+									pst.setString(4, "");
+								} else {
+									pst.setString(4, item2[0]);
+								}
+							} catch (Exception e2) {
+							}
 							
 							try {
 								if (selectedItem2.equals("")) {
 									pst.setString(5, "");
 								} else {
-									pst.setString(5, item2[0]);
+									pst.setString(5, item2[1]);
 								}
 							} catch (Exception e2) {
 							}
@@ -1627,8 +1763,6 @@ public class FahrzeugDatenMaske extends JFrame {
 					try {
 
 						emptyTf(tfFIN);
-						emptyTf(tfFirmaNr);
-						emptyTf(tfNLNr);
 						emptyTf(tfFZG_Marke);
 						emptyTf(tfFZG_Typ);
 						emptyTf(tfFZG_Bezeichnung);
@@ -1688,24 +1822,55 @@ public class FahrzeugDatenMaske extends JFrame {
 							pst5.executeUpdate();
 						}
 						
-						Object object1 = cBoxFirmenname.getSelectedItem();
+						Object object1 = cBoxFirma.getSelectedItem();
 						String selectedItem1 = object1.toString();
-						String item1[] = new String[1];
+						String item1[] = new String[2];
 						
-						Object object2 = cBoxNLName.getSelectedItem();
+						Object object2 = cBoxNL.getSelectedItem();
 						String selectedItem2 = object2.toString();
-						String item2[] = new String[1];
+						String item2[] = new String[2];
+						
+//						Object object1 = cBoxFirmaNr.getSelectedItem();
+//						String selectedItem1 = object1.toString();
+//						String item1[] = new String[1];
+//						
+//						Object object2 = cBoxFirmenname.getSelectedItem();
+//						String selectedItem2 = object2.toString();
+//						String item2[] = new String[1];
+//						
+//						Object object3 = cBoxNLNr.getSelectedItem();
+//						String selectedItem3 = object3.toString();
+//						String item3[] = new String[1];
+//						
+//						Object object4 = cBoxNLName.getSelectedItem();
+//						String selectedItem4 = object4.toString();
+//						String item4[] = new String[1];
 						
 						if (!selectedItem1.equals("")) {
 							StringTokenizer strings = new StringTokenizer(selectedItem1, ",");
-
+							
 							item1[0] = strings.nextElement().toString();
+							item1[1] = strings.nextElement().toString();
 						}
+						
 						if (!selectedItem2.equals("")) {
 							StringTokenizer strings = new StringTokenizer(selectedItem2, ",");
 
 							item2[0] = strings.nextElement().toString();
+							item2[1] = strings.nextElement().toString();
 						}
+						
+//						if (!selectedItem3.equals("")) {
+//							StringTokenizer strings = new StringTokenizer(selectedItem3, ",");
+//
+//							item3[0] = strings.nextElement().toString();
+//						}
+//						
+//						if (!selectedItem4.equals("")) {
+//							StringTokenizer strings = new StringTokenizer(selectedItem4, ",");
+//
+//							item4[0] = strings.nextElement().toString();
+//						}
 
 						String qry4 = "UPDATE Fahrer SET FahrzeugID = '' where FahrzeugID = " + id;
 
@@ -1720,24 +1885,42 @@ public class FahrzeugDatenMaske extends JFrame {
 						}
 
 						pst1.setString(1, tfFIN.getText());
-						pst1.setString(2, tfFirmaNr.getText());
+						try {
+							if (selectedItem1.equals("")) {
+								pst1.setString(2, "");
+							} else {
+								pst1.setString(2, item1[0]);
+							}
+						} catch (Exception e2) {
+						}
+						
 						try {
 							if (selectedItem1.equals("")) {
 								pst1.setString(3, "");
 							} else {
-								pst1.setString(3, item1[0]);
+								pst1.setString(3, item1[1]);
 							}
 						} catch (Exception e2) {
 						}
-						pst1.setString(4, tfNLNr.getText());
+						
+						try {
+							if (selectedItem2.equals("")) {
+								pst1.setString(4, "");
+							} else {
+								pst1.setString(4, item2[0]);
+							}
+						} catch (Exception e2) {
+						}
+						
 						try {
 							if (selectedItem2.equals("")) {
 								pst1.setString(5, "");
 							} else {
-								pst1.setString(5, item2[0]);
+								pst1.setString(5, item2[1]);
 							}
 						} catch (Exception e2) {
 						}
+						
 						pst1.setString(6, tfFZG_Marke.getText());
 						pst1.setString(7, tfFZG_Typ.getText());
 						pst1.setString(8, tfFZG_Bezeichnung.getText());
@@ -2081,10 +2264,12 @@ public class FahrzeugDatenMaske extends JFrame {
 
 	public void setAllFields(boolean wert) {
 		tfFIN.setEnabled(wert);
-		tfFirmaNr.setEnabled(wert);
-		cBoxFirmenname.setEnabled(wert);
-		tfNLNr.setEnabled(wert);
-		cBoxNLName.setEnabled(wert);
+//		cBoxFirmaNr.setEnabled(wert);
+//		cBoxFirmenname.setEnabled(wert);
+//		cBoxNLNr.setEnabled(wert);
+//		cBoxNLName.setEnabled(wert);
+		cBoxFirma.setEnabled(wert);
+		cBoxNL.setEnabled(wert);
 		tfFZG_Marke.setEnabled(wert);
 		tfFZG_Bezeichnung.setEnabled(wert);
 		tfamtl_Kennzeichen.setEnabled(wert);
@@ -2128,10 +2313,12 @@ public class FahrzeugDatenMaske extends JFrame {
 
 	public void clearAllFields() {
 		tfFIN.setText("");
-		tfFirmaNr.setText("");
-		cBoxFirmenname.setSelectedIndex(0);
-		tfNLNr.setText("");
-		cBoxNLName.setSelectedIndex(0);
+//		cBoxFirmaNr.setSelectedIndex(0);
+//		cBoxFirmenname.setSelectedIndex(0);
+//		cBoxNLNr.setSelectedIndex(0);
+//		cBoxNLName.setSelectedIndex(0);
+		cBoxFirma.setSelectedIndex(0);
+		cBoxNL.setSelectedIndex(0);
 		tfFZG_Marke.setText("");
 		tfFZG_Bezeichnung.setText("");
 		tfamtl_Kennzeichen.setText("");
@@ -2171,8 +2358,6 @@ public class FahrzeugDatenMaske extends JFrame {
 		chkbxPruefung2.setText("");
 		chkbxFahrerlaubnis.setText("");
 		wichtigTf(tfFIN);
-		wichtigTf(tfFirmaNr);
-		wichtigTf(tfNLNr);
 		wichtigTf(tfFZG_Marke);
 		wichtigTf(tfFZG_Typ);
 		wichtigTf(tfFZG_Bezeichnung);
@@ -2191,11 +2376,11 @@ public class FahrzeugDatenMaske extends JFrame {
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query1 = "Select * from Fahrer where AktivKZ <> 4";
+			String qry = "Select * from Fahrer where AktivKZ <> 4";
 			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(query1);
+			ResultSet rs = st.executeQuery(qry);
 			while (rs.next()) {
-				arr.add(rs.getString("ID") + ", " + rs.getString("Personalnummer") + ", " + rs.getString("Name")
+				arr.add(rs.getString("ID") + ",  " + rs.getString("Personalnummer") + "," + rs.getString("Name")
 						+ ", " + rs.getString("Vorname"));
 			}
 		}
@@ -2205,60 +2390,136 @@ public class FahrzeugDatenMaske extends JFrame {
 		}
 		return arrayList;
 	}
-
-	public static ArrayList<String> fuelleArrFirmennameList(ArrayList<String> arr1List) {
+	
+	public static ArrayList<String> fuelleFirma(ArrayList<String> arrList) {
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query1 = "Select FirmaBez from Firma";
+			String qry = "Select FirmaNr, FirmaBez from Firma order by FirmaNr";
 			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(query1);
+			ResultSet rs = st.executeQuery(qry);
 			while (rs.next()) {
-				arrFirmenname.add(rs.getString("FirmaBez"));
+				arrFirma.add(rs.getString("FirmaNr") + "," + rs.getString("FirmaBez"));
 			}
 		}
 
 		catch (Exception e1) {
 			JOptionPane.showMessageDialog(null, e1);
 		}
-		return arrFirmenname;
+		return arrFirma;
 	}
 	
-	public static ArrayList<String> fuelleArrNLNameList(ArrayList<String> arr2List) {
+	public static ArrayList<String> fuelleNL(ArrayList<String> arrList) {
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query1 = "Select Ort from Niederlassung";
+			String qry = "Select NL_Nr, Ort from Niederlassung order by NL_Nr";
 			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(query1);
+			ResultSet rs = st.executeQuery(qry);
 			while (rs.next()) {
-				arrNLName.add(rs.getString("Ort"));
+				arrNL.add(rs.getString("NL_Nr").replace("NL", "") + "," + rs.getString("Ort"));
 			}
 		}
 		
 		catch (Exception e1) {
 			JOptionPane.showMessageDialog(null, e1);
 		}
-		return arrNLName;
+		return arrNL;
 	}
 	
-	public static ArrayList<String> fuelleArrayMaxIDList(ArrayList<String> arrayList) {
+//	public static ArrayList<String> fuelleFirmaNr(ArrayList<String> arrList) {
+//		try {
+//			conn = DriverManager.getConnection(
+//					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
+//					"KonzCars", "KonzCars");
+//			String qry = "Select FirmaNr from Firma order by FirmaNr";
+//			Statement st = conn.createStatement();
+//			ResultSet rs = st.executeQuery(qry);
+//			while (rs.next()) {
+//				arrFirmaNr.add(rs.getString("FirmaNr"));
+//			}
+//		}
+//
+//		catch (Exception e1) {
+//			JOptionPane.showMessageDialog(null, e1);
+//		}
+//		return arrFirmaNr;
+//	}
+//	
+//	public static ArrayList<String> fuelleFirmenname(ArrayList<String> arrList) {
+//		try {
+//			conn = DriverManager.getConnection(
+//					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
+//					"KonzCars", "KonzCars");
+//			String qry = "Select FirmaBez from Firma order by FirmaNr";
+//			Statement st = conn.createStatement();
+//			ResultSet rs = st.executeQuery(qry);
+//			while (rs.next()) {
+//				arrFirmenname.add(rs.getString("FirmaBez"));
+//			}
+//		}
+//
+//		catch (Exception e1) {
+//			JOptionPane.showMessageDialog(null, e1);
+//		}
+//		return arrFirmenname;
+//	}
+//	
+//	public static ArrayList<String> fuelleNLNr(ArrayList<String> arrList) {
+//		try {
+//			conn = DriverManager.getConnection(
+//					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
+//					"KonzCars", "KonzCars");
+//			String qry = "Select NL_Nr from Niederlassung order by NL_Nr";
+//			Statement st = conn.createStatement();
+//			ResultSet rs = st.executeQuery(qry);
+//			while (rs.next()) {
+//				arrNLNr.add(rs.getString("NL_Nr").replace("NL", ""));
+//			}
+//		}
+//		
+//		catch (Exception e1) {
+//			JOptionPane.showMessageDialog(null, e1);
+//		}
+//		return arrNLNr;
+//	}
+//	
+//	public static ArrayList<String> fuelleNLName(ArrayList<String> arrList) {
+//		try {
+//			conn = DriverManager.getConnection(
+//					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
+//					"KonzCars", "KonzCars");
+//			String qry = "Select Ort from Niederlassung order by NL_Nr";
+//			Statement st = conn.createStatement();
+//			ResultSet rs = st.executeQuery(qry);
+//			while (rs.next()) {
+//				arrNLName.add(rs.getString("Ort"));
+//			}
+//		}
+//		
+//		catch (Exception e1) {
+//			JOptionPane.showMessageDialog(null, e1);
+//		}
+//		return arrNLName;
+//	}
+	
+	public static ArrayList<String> fuelleArrayMaxIDList(ArrayList<String> arrList) {
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:sqlserver://konzmannSQL:1433;databaseName=KonzCars;encrypt=true;trustServerCertificate=true;",
 					"KonzCars", "KonzCars");
-			String query = "Select * from Fuhrpark";
+			String qry = "Select * from Fuhrpark";
 			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(query);
+			ResultSet rs = st.executeQuery(qry);
 			while (rs.next()) {
 				maxID_array.add(rs.getString("ID"));
 			}
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(null, e1);
 		}
-		return arrayList;
+		return arrList;
 	}
 
 	public void export(JTable table, File file) {

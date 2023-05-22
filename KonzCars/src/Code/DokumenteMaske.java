@@ -100,6 +100,7 @@ public class DokumenteMaske extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public DokumenteMaske() {
 		setTitle("KFM Dokumente");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -410,7 +411,6 @@ public class DokumenteMaske extends JFrame {
 			public synchronized void drop(DropTargetDropEvent evt) {
 				try {
 					evt.acceptDrop(DnDConstants.ACTION_COPY);
-					@SuppressWarnings("unchecked")
 					List<File> droppedFiles = (List<File>) evt.getTransferable()
 							.getTransferData(DataFlavor.javaFileListFlavor);
 					for (File file : droppedFiles) {
@@ -562,6 +562,7 @@ public class DokumenteMaske extends JFrame {
 
 		endung = tfDokument.getText().substring(endungStart);
 
+		@SuppressWarnings("unused")
 		String tfZielpfadNeu;
 		
 		//tfZielpfadNeu = tfZielpfad.getText().replace('\', '/'');
